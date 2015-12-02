@@ -29,6 +29,7 @@ MAGIT=tmp/magit
 OBULLETS=tmp/org-bullets
 ORG=tmp/org-mode
 ORGACC=tmp/orgmode-accessories
+ORGJOURNAL=tmp/org-journal
 POPUP=tmp/popup-el
 WEATHER=weather-metno-20121023
 POLY=tmp/polymode
@@ -39,9 +40,9 @@ all : createdirs fetch emacs
 
 emacs : core addons
 
-core : createdirs auctex ess org dash execpath poly
+core : createdirs auctex ess org dash execpath poly git-modes magit
 
-addons : createdirs fuzzy popup auto-complete auto-lang other git-modes magit magit-svn org-bullets arduino
+addons : createdirs fuzzy popup auto-complete auto-lang other magit-svn org-bullets arduino org-journal
 
 ###############
 arduino :
@@ -146,6 +147,8 @@ fetch :
 	cd ${ORG} && git pull
 	if [ ! -d ${ORGACC} ]; then cd tmp && git clone https://github.com/chasberry/orgmode-accessories.git; fi
 	cd ${ORGACC} && git pull
+	if [ ! -d ${ORGJOURNAL} ]; then cd tmp && git clone https://github.com/bastibe/org-journal.git; fi
+	cd ${ORGJOURNAL} && git pull
 	if [ ! -d ${POPUP} ]; then cd tmp && git clone https://github.com/auto-complete/popup-el.git; fi
 	cd ${POPUP} && git pull
 	if [ ! -d ${ARDUINO} ]; then cd tmp && git clone https://github.com/bookest/arduino-mode.git; fi
@@ -199,6 +202,13 @@ org-bullets :
 	${EMACS} -Q -L ${OBULLETS} -batch -f batch-byte-compile ${OBULLETS}/org-bullets.el
 	if [ -e ${APPLISPDIR}/org/org-bullets.el ]; then rm ${APPLISPDIR}/org/org-bullets.el; fi
 	mv ${OBULLETS}/*.elc ${APPLISPDIR}/org
+	@echo ----- Done.
+
+org-journal :
+	@echo ----- Making org-journal...
+	${EMACS} -Q -L ${ORGJOURNAL} -batch -f batch-byte-compile ${ORGJOURNAL}/org-journal.el
+	if [ -e ${APPLISPDIR}/org/org-journal.el ]; then rm ${APPLISPDIR}/org/org-journal.el; fi
+	mv ${ORGJOURNAL}/*.elc ${APPLISPDIR}/org
 	@echo ----- Done.
 
 org :

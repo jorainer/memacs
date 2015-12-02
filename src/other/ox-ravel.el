@@ -1,4 +1,3 @@
-
 ;;; ox-ravel.el --- Sweave/knit/brew document maker for orgmode
 ;; Copyright (C) 2012  Charles C. Berry
 
@@ -225,6 +224,7 @@ plist holding contextual information."
 (org-export-define-derived-backend 'md-knitr 'md
   :translate-alist '((src-block . org-ravel-src-block)
                     (inline-src-block . org-ravel-inline-src-block))
+  :filters-alist '((:filter-latex-fragment . org-ravel-filter-latex-fragment))
   :menu-entry
   '(?m 4
       ((?r "As Rmd (Markdown) File" org-ravel-md-knitr-dispatch))))
@@ -262,6 +262,11 @@ plist holding contextual information."
        (org-export-to-file 'md-knitr 
                            outfile async subtreep visible-only 
                            body-only ext-plist))))
+
+(defun org-ravel-filter-latex-fragment (text back-end info)
+  (replace-regexp-in-string ",[\s-]*" "; @"
+                            (replace-regexp-in-string "\\\\cite{\\(.*\\)}" "[@\\1]" text))
+  )
 
 (org-export-define-derived-backend 'md-brew 'md
   :translate-alist '((src-block . org-ravel-src-block)

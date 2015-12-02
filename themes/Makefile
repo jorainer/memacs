@@ -44,7 +44,7 @@ emacs-leuven-theme :
 	@echo ----- installing emacs-leuven-theme...
 	if [ ! -d ${DESTDIR} ]; then mkdir ${DESTDIR}; fi
 	if [ ! -d tmp ]; then mkdir tmp; fi
-	if [ ! -d ${LEUVEN} ]; then cd tmp && git clone https://github.com/fniessen/emacs-leuven-theme; fi
+	if [ ! -d ${LEUVEN} ]; then cd tmp && git clone https://github.com/jotsetung/emacs-leuven-theme; fi
 	cd ${LEUVEN} && git pull
 #	${EMACS} -Q -L ${LEUVEN} -batch -f batch-byte-compile ${LEUVEN}/*.el
 #	mv ${LEUVEN}/*.elc ${DESTDIR}
@@ -99,7 +99,7 @@ solarized-emacs :
 #	dash it, I need dash!
 	if [ ! -d ${DESTDIR} ]; then mkdir ${DESTDIR}; fi
 	if [ ! -d tmp ]; then mkdir tmp; fi
-	if [ ! -d ${SOLARIZED} ]; then cd tmp && git clone https://github.com/bbatsov/solarized-emacs.git; fi
+	if [ ! -d ${SOLARIZED} ]; then cd tmp && git clone https://github.com/jotsetung/solarized-emacs.git; fi
 	cd ${SOLARIZED} && git pull
 	cp -p ${SOLARIZED}/*.el ${DESTDIR}
 #	${EMACS} -Q -L ${SOLARIZED} -batch -f batch-byte-compile ${SOLARIZED}/*.el
