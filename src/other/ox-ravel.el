@@ -374,8 +374,8 @@ contextual information.  Use default for parent backend except for R calls."
    (save-excursion
     (goto-char (point-min))
     (while (re-search-forward 
-            "^[         ]*#\\+headers?:[        ]*==<STRIP>==[ ]\\([^\n]*\\)$" 
-            nil t)
+	    "^[         ]*#\\+headers?:[        ]*==<STRIP>==[ ]\\([^\n]*\\)$" 
+	    nil t)
       (replace-match "\\1" nil nil))))
 
 (defadvice org-babel-exp-do-export  (around org-ravel-exp-do-export)

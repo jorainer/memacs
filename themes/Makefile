@@ -22,12 +22,13 @@ SOLARIZED=tmp/solarized-emacs
 ZENBURN=tmp/zenburn-emacs
 PROF=tmp/emacs-professional-theme
 MOE=tmp/moe-theme.el
+FLATUI=tmp/emacs-flatui-theme
 
-all : anti-zenburn emacs-leuven-theme noctilux-theme soft-morning-theme solarized-emacs zenburn-emacs emacs-professional moe-theme
+all : anti-zenburn emacs-leuven-theme noctilux-theme soft-morning-theme solarized-emacs zenburn-emacs emacs-professional moe-theme flatui
 
-goodones : anti-zenburn noctilux-theme solarized-emacs zenburn-emacs
+goodones : anti-zenburn noctilux-theme solarized-emacs zenburn-emacs flatui
 
-.PHONY : anti-zenburn clean emacs-leuven-theme noctilux-theme soft-morning-theme solarized-emacs zenburn-emacs
+.PHONY : anti-zenburn clean emacs-leuven-theme noctilux-theme soft-morning-theme solarized-emacs zenburn-emacs flatui
 
 anti-zenburn :
 	@echo ----- installing anti-zenburn-theme...
@@ -58,6 +59,15 @@ emacs-professional :
 	if [ ! -d ${PROF} ]; then cd tmp && git clone https://github.com/juanjux/emacs-professional-theme.git; fi
 	cd ${PROF} && git pull
 	cp -p ${PROF}/*.el ${DESTDIR}
+	@echo ----- Done.
+
+flatui :
+	@echo ----- installing flatui...
+	if [ ! -d ${DESTDIR} ]; then mkdir ${DESTDIR}; fi
+	if [ ! -d tmp]; then mkdir tmp; fi
+	if [ ! -d ${FLATUI} ]; then cd tmp && git clone https://github.com/MetroWind/emacs-flatui-theme.git; fi
+	cd ${FLATUI} && git pull
+	cp -p ${FLATUI}/*.el ${DESTDIR}
 	@echo ----- Done.
 
 moe-theme :
