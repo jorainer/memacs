@@ -23,12 +23,13 @@ ZENBURN=tmp/zenburn-emacs
 PROF=tmp/emacs-professional-theme
 MOE=tmp/moe-theme.el
 FLATUI=tmp/emacs-flatui-theme
+FLATJO=tmp/flatui-emacs
 
-all : anti-zenburn emacs-leuven-theme noctilux-theme soft-morning-theme solarized-emacs zenburn-emacs emacs-professional moe-theme flatui
+all : anti-zenburn emacs-leuven-theme noctilux-theme soft-morning-theme solarized-emacs zenburn-emacs emacs-professional moe-theme flatui flatui-emacs
 
-goodones : anti-zenburn noctilux-theme solarized-emacs zenburn-emacs flatui
+goodones : anti-zenburn noctilux-theme solarized-emacs zenburn-emacs flatui flatui-emacs
 
-.PHONY : anti-zenburn clean emacs-leuven-theme noctilux-theme soft-morning-theme solarized-emacs zenburn-emacs flatui
+.PHONY : anti-zenburn clean emacs-leuven-theme noctilux-theme soft-morning-theme solarized-emacs zenburn-emacs flatui flatui-emacs
 
 anti-zenburn :
 	@echo ----- installing anti-zenburn-theme...
@@ -62,12 +63,24 @@ emacs-professional :
 	@echo ----- Done.
 
 flatui :
-	@echo ----- installing flatui...
+	@echo ----- installing flatui-emacs...
 	if [ ! -d ${DESTDIR} ]; then mkdir ${DESTDIR}; fi
 	if [ ! -d tmp]; then mkdir tmp; fi
 	if [ ! -d ${FLATUI} ]; then cd tmp && git clone https://github.com/MetroWind/emacs-flatui-theme.git; fi
 	cd ${FLATUI} && git pull
 	cp -p ${FLATUI}/*.el ${DESTDIR}
+	@echo ----- Done.
+
+flatui-emacs :
+	@echo ----- installing flatui-emacs...
+#	dash it, I need dash!
+	if [ ! -d ${DESTDIR} ]; then mkdir ${DESTDIR}; fi
+	if [ ! -d tmp ]; then mkdir tmp; fi
+	if [ ! -d ${FLATJO} ]; then cd tmp && git clone https://github.com/jotsetung/flatui-emacs.git; fi
+	cd ${FLATJO} && git pull
+	cp -p ${FLATJO}/*.el ${DESTDIR}
+#	${EMACS} -Q -L ${FLATJO} -batch -f batch-byte-compile ${FLATJO}/*.el
+#	mv ${FLATJO}/*.elc ${DESTDIR}
 	@echo ----- Done.
 
 moe-theme :
