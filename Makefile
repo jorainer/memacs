@@ -32,6 +32,7 @@ ORGACC=tmp/orgmode-accessories
 ORGJOURNAL=tmp/org-journal
 POPUP=tmp/popup-el
 WEATHER=weather-metno-20121023
+WITHED=tmp/with-editor
 POLY=tmp/polymode
 
 all : createdirs fetch emacs
@@ -40,7 +41,7 @@ all : createdirs fetch emacs
 
 emacs : core addons
 
-core : createdirs auctex ess org dash execpath poly git-modes magit
+core : createdirs auctex ess org dash execpath poly git-modes with-editor magit
 
 addons : createdirs fuzzy popup auto-complete auto-lang other magit-svn org-bullets arduino org-journal
 
@@ -157,6 +158,8 @@ fetch :
 	cd ${POLY} && git pull
 	if [ ! -d ${JULIA} ]; then cd tmp && git clone https://github.com/JuliaLang/julia.git; fi
 	cd ${JULIA} && git pull
+	if [ ! -d ${WITHED} ]; then cd tmp && git clone https://github.com/magit/with-editor.git; fi
+	cd ${WITHED} && git pull
 #	?weather-metno?
 
 fuzzy:
@@ -179,8 +182,8 @@ git-modes:
 magit :
 	@echo ----- Making magit...
 	@echo - Note: if you get an error you might want to install git-modes first.
-#	@echo - Note: writing a config.mk file that includes dash...
-#	echo "LOAD_PATH = -L lisp -L ../../${DASH}" > ${MAGIT}/config.mk
+	## @echo - Note: writing a config.mk file that includes dash...
+	## echo "LOAD_PATH = -L lisp\nLOAD_PATH += -L ../dash.el\nLOAD_PATH += -L ../with-editor" > ${MAGIT}/config.mk
 	if [ ! -e tmp/dash ]; then ln -s dash.el tmp/dash; fi
 	${MAKE} EMACS=${EMACS} -C ${MAGIT} all
 	rm -df -R -v ${LISPDIR}/magit
@@ -255,6 +258,13 @@ popup:
 	@echo ----- Making popup...
 	${ELCC} -batch -f batch-byte-compile ${POPUP}/popup.el
 	mv ${POPUP}/*.elc ${LISPDIR}
+	@echo ----- Done.
+
+with-editor:
+	@echo ----- Making with-editor...
+#	${WITHED} -batch -f batch-byte-compile ${WITHED}/with-editor.el
+#	mv ${WITHED}/*.elc ${LISPDIR}
+	cp ${WITHED}/*.el ${LISPDIR}
 	@echo ----- Done.
 
 #### Below we have old stuff.
