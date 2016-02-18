@@ -34,6 +34,7 @@ POPUP=tmp/popup-el
 WEATHER=weather-metno-20121023
 WITHED=tmp/with-editor
 POLY=tmp/polymode
+MD=tmp/markdown-mode
 
 all : createdirs fetch emacs
 
@@ -41,7 +42,7 @@ all : createdirs fetch emacs
 
 emacs : core addons
 
-core : createdirs auctex ess org dash execpath poly git-modes with-editor magit
+core : createdirs auctex ess org dash execpath md poly git-modes with-editor magit
 
 addons : createdirs fuzzy popup auto-complete auto-lang other magit-svn org-bullets arduino org-journal
 
@@ -142,6 +143,8 @@ fetch :
 	cd ${MAGIT} && git pull
 	if [ ! -d ${MAGITSVN} ]; then cd tmp && git clone http://github.com/magit/magit-svn; fi
 	cd ${MAGITSVN} && git pull
+	if [ ! -d ${MD} ]; then cd tmp && git clone https://github.com/jrblevin/markdown-mode.git; fi
+	cd ${MD} && git pull
 	if [ ! -d ${OBULLETS} ]; then cd tmp && git clone https://github.com/sabof/org-bullets.git; fi
 	cd ${OBULLETS} && git pull
 	if [ ! -d ${ORG} ]; then cd tmp && git clone http://orgmode.org/org-mode.git; fi
@@ -182,8 +185,8 @@ git-modes:
 magit :
 	@echo ----- Making magit...
 	@echo - Note: if you get an error you might want to install git-modes first.
-	## @echo - Note: writing a config.mk file that includes dash...
-	## echo "LOAD_PATH = -L lisp\nLOAD_PATH += -L ../dash.el\nLOAD_PATH += -L ../with-editor" > ${MAGIT}/config.mk
+## @echo - Note: writing a config.mk file that includes dash...
+## echo "LOAD_PATH = -L lisp\nLOAD_PATH += -L ../dash.el\nLOAD_PATH += -L ../with-editor" > ${MAGIT}/config.mk
 	if [ ! -e tmp/dash ]; then ln -s dash.el tmp/dash; fi
 	${MAKE} EMACS=${EMACS} -C ${MAGIT} all
 	rm -df -R -v ${LISPDIR}/magit
@@ -198,6 +201,13 @@ magit-svn:
 #	${ELCC} -batch -f batch-byte-compile ${MAGITSVN}/magit-svn.el
 	cp -p ${MAGITSVN}/*.el ${LISPDIR}
 #	mv ${MAGITSVN}/*.elc ${LISPDIR}
+	@echo ----- Done.
+
+md:
+	@echo ----- Making markdown-mode...
+	${ELCC} -batch -f batch-byte-compile ${MD}/markdown-mode.el
+#	cp -p ${MD}/*.el ${LISPDIR}
+	mv ${MD}/*.elc ${LISPDIR}
 	@echo ----- Done.
 
 org-bullets :
