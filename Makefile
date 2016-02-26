@@ -1,6 +1,6 @@
 # Makefile to build libraries for plain vanilla emacs
 
-# Copyright (C) 2014 Johannes Rainer
+# Copyright (C) 2016 Johannes Rainer
 
 # Author: Johannes Rainer
 
@@ -42,9 +42,9 @@ all : createdirs fetch emacs
 
 emacs : core addons
 
-core : createdirs auctex ess org dash execpath md poly git-modes with-editor magit
+core : createdirs auctex ess org-async org dash execpath md poly git-modes with-editor magit
 
-addons : createdirs fuzzy popup auto-complete auto-lang other magit-svn org-bullets arduino org-journal
+addons : createdirs fuzzy popup auto-complete auto-lang other magit-svn org-bullets arduino ravel org-journal
 
 ###############
 arduino :
@@ -107,6 +107,7 @@ ess :
 	@echo ----- Making ESS...
 	if [ ! -d ${JULIA} ]; then echo "Need Julia! Call make fetch or make all first!" && exit 1; fi
 	rm -df -R -v ${LISPDIR}/ess
+	cd ${ESS} &&  make clean
 	cp ${JULIA}/contrib/julia-mode.el ${ESS}/lisp
 	${MAKE} EMACS=${EMACS} -C ${ESS} all
 	${MAKE} DESTDIR=${DESTDIR} LISPDIR=${LISPDIR}/ess \
@@ -213,28 +214,66 @@ md:
 org-bullets :
 	@echo ----- Making org-bullets...
 	${EMACS} -Q -L ${OBULLETS} -batch -f batch-byte-compile ${OBULLETS}/org-bullets.el
-	if [ -e ${APPLISPDIR}/org/org-bullets.el ]; then rm ${APPLISPDIR}/org/org-bullets.el; fi
-	mv ${OBULLETS}/*.elc ${APPLISPDIR}/org
+	# if [ -e ${APPLISPDIR}/org/org-bullets.el ]; then rm ${APPLISPDIR}/org/org-bullets.el; fi
+	# mv ${OBULLETS}/*.elc ${APPLISPDIR}/org
+	if [ -e ${LISPDIR}/org/org-bullets.el ]; then rm ${LISPDIR}/org/org-bullets.el; fi
+	mv ${OBULLETS}/*.elc ${LISPDIR}/org
 	@echo ----- Done.
 
 org-journal :
 	@echo ----- Making org-journal...
 	${EMACS} -Q -L ${ORGJOURNAL} -batch -f batch-byte-compile ${ORGJOURNAL}/org-journal.el
-	if [ -e ${APPLISPDIR}/org/org-journal.el ]; then rm ${APPLISPDIR}/org/org-journal.el; fi
-	mv ${ORGJOURNAL}/*.elc ${APPLISPDIR}/org
+	# if [ -e ${APPLISPDIR}/org/org-journal.el ]; then rm ${APPLISPDIR}/org/org-journal.el; fi
+	# mv ${ORGJOURNAL}/*.elc ${APPLISPDIR}/org
+	if [ -e ${LISPDIR}/org/org-journal.el ]; then rm ${LISPDIR}/org/org-journal.el; fi
+	mv ${ORGJOURNAL}/*.elc ${LISPDIR}/org
 	@echo ----- Done.
 
 org :
 	@echo ----- Making org...
 	@echo ----- WARNING! we are over-writing the existing org installation!
-	rm -df -R -v ${APPLISPDIR}/org/*
+	#Delete the original org-mode.
+	rm -df -R -v ${APPLISPDIR}/org*
+	if [ -d ${LISPDIR}/org ]; then rm -df -R ${LISPDIR}/org; fi
+	if [ ! -d ${LISPDIR}/org ]; then mkdir ${LISPDIR}/org; fi
+	cd ${ORG} && make cleanall
+	cd ${ORG} && git checkout ${org_release}
 	${MAKE} EMACS=${EMACS} -C ${ORG} all
-	${MAKE} EMACS=${EMACS} lispdir=${APPLISPDIR}/org \
-	        datadir=${APPETCDIR}/org infodir=${APPINFODIR} -C ${ORG} install
+#	${MAKE} EMACS=${EMACS} lispdir=${APPLISPDIR}/org \
+#	         datadir=${APPETCDIR}/org infodir=${APPINFODIR} -C ${ORG} install
+	${MAKE} EMACS=${EMACS} -no-site-file -no-init-file lispdir=${LISPDIR}/org \
+	        datadir=${APPETCDIR}/org infodir=${APPINFODIR} -C ${ORG} install-etc
+	${MAKE} EMACS=${EMACS} -no-site-file -no-init-file lispdir=${LISPDIR}/org \
+	        datadir=${APPETCDIR}/org infodir=${APPINFODIR} -C ${ORG} install-info
 #	if [ ! -d ${APPDOCDIR} ]; then mkdir ${APPDOCDIR}/org; fi
 #	cp -p ${ORG}/doc/*.pdf ${APPDOCDIR}/org/
-	cp -p -R ${ORG}/contrib/lisp/*.el ${APPLISPDIR}/org/
+	# cp -p -R ${ORG}/contrib/lisp/*.el ${APPLISPDIR}/org/
+	cp -p -R ${ORG}/lisp/*.el ${LISPDIR}/org/
+	cp -p -R ${ORG}/lisp/*.elc ${LISPDIR}/org/
+	cp -p -R ${ORG}/contrib/lisp/*.el ${LISPDIR}/org/
+	cd ${ORG} && make cleanall
+	cd ${ORG} && git checkout master
 	@echo ----- Done making org
+
+org-async :
+	@echo ----- Making org version 8.0
+	if [ -d ${LISPDIR}/org-async ]; then rm -df -R ${LISPDIR}/org-async; fi
+	if [ ! -d ${LISPDIR}/org-async ]; then mkdir ${LISPDIR}/org-async; fi
+# 	Check out old source code.
+	cd ${ORG} && make cleanall
+	cd ${ORG} && git checkout ${org_release_async}
+	cd ${ORG} && make cleanall
+	${MAKE} EMACS=${EMACS} -C ${ORG} all
+	${MAKE} EMACS=${EMACS} lispdir=${LISPDIR}/org-async \
+	        datadir=${APPETCDIR}/org infodir=${APPINFODIR} -C ${ORG} install-etc
+	${MAKE} EMACS=${EMACS} lispdir=${LISPDIR}/org-async \
+	        datadir=${APPETCDIR}/org infodir=${APPINFODIR} -C ${ORG} install-info
+	cp -p -R ${ORG}/lisp/*.el ${LISPDIR}/org-async/
+	cp -p -R ${ORG}/lisp/*.elc ${LISPDIR}/org-async/
+	cp -p -R ${ORG}/contrib/lisp/*.el ${LISPDIR}/org-async/
+	cd ${ORG} && make cleanall
+	cd ${ORG} && git checkout master
+	@echo ----- Done making org-async
 
 other :
 	@echo ----- compile all .el files...
@@ -247,8 +286,8 @@ other :
 	${ELCC} -batch -f batch-byte-compile src/other/import-env-from-shell.el
 #	${ELCC} -batch -f batch-byte-compile other/osx-itunes.el
 	${ELCC} -batch -f batch-byte-compile src/other/psvn.el
-	${ELCC} -batch -f batch-byte-compile src/other/ox-ravel.el
-	${ELCC} -batch -f batch-byte-compile src/other/markdown-mode.el
+#	${ELCC} -batch -f batch-byte-compile src/other/ox-ravel.el
+#	${ELCC} -batch -f batch-byte-compile src/other/markdown-mode.el
 	cp -p src/other/*.el ${LISPDIR}/
 	mv src/other/*.elc ${LISPDIR}/
 	@echo ----- Done.
@@ -292,7 +331,11 @@ weather-metno :
 ## the .el file and then copy the file.
 ravel :
 	@echo ----- Generating ox-ravel.el
-	cp -p ${RAVEL}/ox-ravel.el ${PREFIX}/site-lisp/
+#	emacs --batch --eval "(load-file (expand-file-name \"~/.emacs\"))" --visit ${ORGACC}/ox-ravel.org --execute org-babel-tangle
+#	emacs --batch --visit "${ORGACC}/ox-ravel.org" --execute "org-babel-tangle"
+#	${EMACS} --batch --execute "org-babel-tangle-file ${ORGACC}/ox-ravel.org"
+#	${EMACS} --batch --quick --eval "(load-file (expand-file-name \"~/.emacs-async-init.el\"))" --visit ${ORGACC}/ox-ravel.org --execute "org-babel-tangle"
+	cp -p ${ORGACC}/ox-ravel.el ${PREFIX}/site-lisp/
 	@echo ----- Done.
 
 

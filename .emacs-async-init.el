@@ -6,20 +6,33 @@
 ;;
 ;; Setting the font
 ;;
-;; These fonts have to be installed manually!
+;; These fonts have to be installed manually! (M-x describe-font)
 ;; the one below works nice on MacOS with retina display.
-(set-face-attribute 'default nil :font "-*-Inconsolata-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
+;; monofur.
+;(set-default-font "-*-monofur-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
+;(set-face-attribute 'default nil :font "-*-monofur-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
 ;; have to set the following two, in order to
-(set-face-attribute 'fixed-pitch nil :font "-*-Inconsolata-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
-(set-face-attribute 'variable-pitch nil :font "-*-Inconsolata-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
+;(set-face-attribute 'fixed-pitch nil :font "-*-monofur-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
+;(set-face-attribute 'variable-pitch nil :font "-*-monofur-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
 
-(set-default-font
-    "-apple-inconsolata-medium-r-normal--11-*-*-*-*-*-iso10646-1")
-;(add-to-list 'default-frame-alist '(font . "-apple-inconsolata-medium-r-normal--11-*-*-*-*-*-iso10646-1"))
+;; inconsolata.
+;(set-default-font "-*-Inconsolata-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
+;(set-face-attribute 'default nil :font "-*-Inconsolata-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
+;; have to set the following two, in order to
+;(set-face-attribute 'fixed-pitch nil :font "-*-Inconsolata-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
+;(set-face-attribute 'variable-pitch nil :font "-*-Inconsolata-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
+
+;; old stuff.
+;(set-default-font
+; "-apple-inconsolata-medium-r-normal--11-*-*-*-*-*-iso10646-1")
 ;; other examples.
-;(set-de fault-font
+;(set-default-font
+; "-*-HyperFont-normal-normal-normal-*-11-*-*-*-m-0-iso10646-1")
+;(set-default-font
+; "-*-Ubuntu Mono-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
+;(set-default-font
 ;    "-apple-Source_Code_Pro-medium-normal-normal-*-11-*-*-*-m-0-iso10646-1")
-;(add-to-list 'default-frame-alist '(font . "-apple-Source_Code_Pro-medium-normal-normal-*-11-*-*-*-m-0-iso10646-1"))
+;(add-to-list 'default-frame-alist '(font . "-apple-Source_Code_Pro-normal-normal-normal-*-10-*-*-*-m-0-iso10646-1"))
 ;(set-default-font
 ;    "-apple-Osaka-medium-normal-normal-*-12-*-*-*-m-0-iso10646-1")
 ;;
@@ -39,8 +52,8 @@
 (setq ns-right-alternate-modifier 'nil)   ;; right alt is alt
 (setq mouse-drag-copy-region nil)  ; stops selection with a mouse being immediately injected to the kill ring
 ;(mouse-wheel-mode t)			; activate mouse scrolling
-(global-font-lock-mode t)		; syntax highlighting
-(transient-mark-mode t)			; sane select (mark) mode
+(global-font-lock-mode nil)		; syntax highlighting
+(transient-mark-mode nil)			; sane select (mark) mode
 ;(delete-selection-mode t)		; entry deletes marked text
 ;(show-paren-mode t)			; match parentheses
 ;(add-hook 'text-mode-hook 'turn-on-auto-fill) ; wrap long lines in text mode
@@ -57,8 +70,17 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(tool-bar-mode nil)
- )
+ '(custom-safe-themes
+   (quote
+    ("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "23b47c2d54f337b30b4a14bdea6be888482a56f1bbe1ff74d9b2ea0e2c943446" "0c311fb22e6197daba9123f43da98f273d2bfaeeaeb653007ad1ee77f0003037" "dc2ae53baca6dabf168ddc038e3c5add1a34a1947087e778e9d14f0e2d4b89a2" default)))
+ '(magit-diff-use-overlays nil)
+ '(magit-use-overlays nil)
+ '(safe-local-variable-values
+   (quote
+    ((org-docco-doccoize-me . t)
+     (org-export-html-style-include-default)
+     (org-export-html-postamble))))
+ '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -72,25 +94,23 @@
 ;;
 ;; other settings
 ;;
-;; line wrapping and similar... might have to set them above
-;; in custom-set-variables if they are not doing what they should...
+;; line wrapping and similar...
 (setq-default word-wrap t)
-(show-paren-mode 1)				; match parenthesis
+(show-paren-mode 1)
 (setq-default show-paren-mode t)		; match parenthesis
 (setq-default tool-bar-mode nil)		; hide the button/menu bar
 (setq auto-fill-mode -1)
 ;;(setq-default fill-column 99999) ;; if everything else fails
 ;;(setq fill-column 99999)         ;; if everything else fails
 (remove-hook 'text-mode-hook 'turn-on-auto-fill)
-(remove-hook 'noweb-select-doc-mode-hook 'noweb-auto-fill-doc-mode)     ;; disable the auto-fill-mode in noweb files
-(remove-hook 'noweb-select-code-mode-hook 'noweb-auto-fill-code-mode)   ;; the same
 ;; show line numbers by default. use "M-x linum-mode" to toggle
-(global-linum-mode 1)
+(global-linum-mode nil)
 (setq make-backup-files nil)
 ;; other settings
-(add-hook 'text-mode-hook 'turn-on-visual-line-mode)  ;; visual line mode on only in text files.
+;;(add-hook 'text-mode-hook 'turn-on-visual-line-mode)  ;; visual line mode on only in text files.
 ;; disable debug on error
-(setq debug-on-error nil)
+(setq debug-on-error 1)
+;;
 ;; kill all other buffers, except the current one.
 (defun kill-other-buffers ()
   "Kill all other buffers."
@@ -104,51 +124,6 @@
 ;;
 ;;;;
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Spell checking
-;;
-;; use aspell instead of ispell:
-(setq-default ispell-program-name "aspell")  ;; or just symlink ispell to aspell...
-;; prevent spell check in code chunks:
-;; does not work... dammit
-;(add-to-list 'ispell-skip-region-alist '("^#+BEGIN" . "^#+END_SRC"))
-;(add-to-list 'ispell-skip-region-alist '("^<<.*>>=" . "^@"))
-;(add-to-list 'ispell-skip-region-alist '("Sexpr{" . "} "))
-;(add-to-list 'ispell-skip-region-alist '("^#\s" "$"))
-;(add-to-list 'ispell-skip-region-alist '("=" "="))
-;; skip code chunks in flyspell
-;(defun flyspell-eligible ()
-;  (let ((p (point)))
-;      (save-excursion
-;        (cond ((re-search-backward (ispell-begin-skip-region-regexp) nil t)
-;        	(ispell-skip-region (match-string-no-properties 0))
-;                (< (point) p))
-;                (t)))))
-;;
-; enable spell checking using flyspell for Tex, latex and org-mode,
-; disable for ess.
-(add-hook 'TeX-mode-hook
-	  (lambda()
-	    (flyspell-mode 1))
-	    )
-(add-hook 'latex-mode-hook
-	  (lambda()
-	    (flyspell-mode 1))
-	    )
-(add-hook 'org-mode-hook
-	  (lambda()
-	    (flyspell-mode 1))
-	    )
-(add-hook 'ess-mode-hook
-	  (lambda()
-	    (flyspell-mode 0))
-	    )
-(setq ispell-list-command "--list")
-;;
-;;;
-
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;; Themes:
@@ -158,7 +133,7 @@
 (add-to-list 'load-path "~/.emacs.d/themes/")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 ;(load-theme 'zenburn t)
-;(load-theme 'solarized-dark t)
+(load-theme 'solarized-dark t)
 ;(load-theme 'mccarthy t)
 ;; solarized customization
 ;; make the fringe stand out from the background
@@ -166,7 +141,7 @@
 ;; make the modeline high contrast
 ;(setq solarized-high-contrast-mode-line t)
 ;; load the solarized-light theme by default
-(load-theme 'solarized-light t)
+;(load-theme 'solarized-light t)
 ;;
 ;;;;;;;;;;;;;;;
 ;; transparency
@@ -201,67 +176,68 @@
 ;; loading additional environment variables.
 (exec-path-from-shell-copy-env "PERL5LIB")
 (exec-path-from-shell-copy-env "LC_ALL")    ; this somehow prevents segfauls of R parallel processing in Emacs
+(exec-path-from-shell-copy-env "LANG")    ; this somehow prevents segfauls of R parallel processing in Emacs
 (exec-path-from-shell-copy-env "SHELL")
 ;;
 ;;;;
 
 
+;; ;;;;;;;;;;;;;;;;;;;;;;;;
+;; ;;
+;; ;; AUCTex
+;; ;;
+;; ;; path where auctex has been installed...
+;; (add-to-list 'load-path "~/.emacs.d/site-lisp")
+;; (load "auctex.el" nil t t)
+;; (load "preview-latex.el" nil t t)
+;; ;; Turn on RefTeX for LaTeX documents. Put further RefTeX
+;; ;; customizations in your .emacs file.
+;; ;(add-hook 'LaTeX-mode-hook
+;; ;      (lambda ()
+;; ;	(turn-on-reftex)
+;; ;	(setq reftex-plug-into-AUCTeX t)))
+;; ;(add-hook 'TeX-mode-hook 'turn-on-reftex)
+;; (setq reftex-plug-into-AUCTeX t)
+;; (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+;; ;; Minimal OS X-friendly configuration of AUCTeX. Since there is no
+;; ;; DVI viewer for the platform, use pdftex/pdflatex by default for
+;; ;; compilation. Furthermore, use 'open' to view the resulting PDF.
+;; ;; Until Preview learns to refresh automatically on file updates, Skim
+;; ;; (http://skim-app.sourceforge.net) is a nice PDF viewer.
+;; (setq TeX-PDF-mode t)
+;;     (setq TeX-view-program-selection
+;;     '(((output-dvi style-pstricks)
+;;         "dvips and PDF Viewer")
+;;         (output-dvi "PDF Viewer")
+;;         (output-pdf "PDF Viewer")
+;;         (output-html "Safari")))
+;;         (setq TeX-view-program-list
+;;         '(("dvips and PDF Viewer" "%(o?)dvips %d -o && open %f")
+;;         ("PDF Viewer" "open %o")
+;;         ("Safari" "open %o")))
+;; ;; Add standard Sweave file extensions to the list of files recognized
+;; ;; by AUCTeX.
+;; (setq TeX-file-extensions
+;;       '("Rnw" "rnw" "Snw" "snw" "tex" "sty" "cls" "ltx" "texi" "texinfo" "dtx" "Rd"))
+;; ;; code folding:
+;; ;(add-hook 'TeX-mode-hook (lambda ()
+;; ;			   (Tex-fold-mode 1)))
+;; ;;
+;; ;;;;
+
 ;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
-;; AUCTex
+;; outline-minor-mode
 ;;
-;; path where auctex has been installed...
-(add-to-list 'load-path "~/.emacs.d/site-lisp")
-(load "auctex.el" nil t t)
-(load "preview-latex.el" nil t t)
-;; Turn on RefTeX for LaTeX documents. Put further RefTeX
-;; customizations in your .emacs file.
-;(add-hook 'LaTeX-mode-hook
-;      (lambda ()
-;	(turn-on-reftex)
-;	(setq reftex-plug-into-AUCTeX t)))
-;(add-hook 'TeX-mode-hook 'turn-on-reftex)
-(setq reftex-plug-into-AUCTeX t)
-(add-hook 'LaTeX-mode-hook 'turn-on-reftex)
-;; Minimal OS X-friendly configuration of AUCTeX. Since there is no
-;; DVI viewer for the platform, use pdftex/pdflatex by default for
-;; compilation. Furthermore, use 'open' to view the resulting PDF.
-;; Until Preview learns to refresh automatically on file updates, Skim
-;; (http://skim-app.sourceforge.net) is a nice PDF viewer.
-(setq TeX-PDF-mode t)
-    (setq TeX-view-program-selection
-    '(((output-dvi style-pstricks)
-        "dvips and PDF Viewer")
-        (output-dvi "PDF Viewer")
-        (output-pdf "PDF Viewer")
-        (output-html "Safari")))
-        (setq TeX-view-program-list
-        '(("dvips and PDF Viewer" "%(o?)dvips %d -o && open %f")
-        ("PDF Viewer" "open %o")
-        ("Safari" "open %o")))
-;; Add standard Sweave file extensions to the list of files recognized
-;; by AUCTeX.
-(setq TeX-file-extensions
-    '("Rnw" "rnw" "Snw" "snw" "tex" "sty" "cls" "ltx" "texi" "texinfo" "dtx" "Rd"))
-;; code folding:
-;(add-hook 'TeX-mode-hook (lambda ()
-;			   (Tex-fold-mode 1)))
-;;
-;;;;
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;; auto-complete
-;;
-(add-to-list 'load-path "~/.emacs.d/site-lisp/auto-complete" )
-(require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories "~/.emacs.d/site-lisp/auto-complete/ac-dict")
-(ac-config-default)
-;; set the delay to 1 second, so it's not always bugging
-(setq ac-delay 1)
-;(setq ac-auto-start nil)
-(ac-set-trigger-key "TAB")
+;(defun turn-on-outline-minor-mode()
+;  (outline-minor-mode 1))
+;(add-hook 'LaTeX-mode-hook 'turn-on-outline-minor-mode)
+;(add-hook 'LaTeX-mode-hook 'turn-on-outline-minor-mode)
+;(setq outline-minor-mode-prefix "C-c C-o")
+;; C-c C-o C-l hide section content
+;; C-c C-o C-n move to next section
+;; C-c C-o C-p previous section
+;; C-c C-o C-a show all
 ;;
 ;;;;
 
@@ -288,14 +264,12 @@
 (global-set-key [(control meta g)] 'toggle-ask-R)
 ;; Automagically delete trailing whitespace when saving R script
 ;; files. One can add other commands in the ess-mode-hook below.
-(add-hook 'ess-mode-hook
-      '(lambda()
-	(add-hook 'write-file-functions
-	(lambda ()
-	(ess-nuke-trailing-whitespace)))
-	(setq ess-nuke-trailing-whitespace-p t)))
-;; disable replacement of _ with <-
-(ess-toggle-underscore nil)
+;; (add-hook 'ess-mode-hook
+;;       '(lambda()
+;; 	(add-hook 'write-file-functions
+;; 	(lambda ()
+;; 	(ess-nuke-trailing-whitespace)))
+;; 	(setq ess-nuke-trailing-whitespace-p t)))
 ;;
 ;;;;
 
@@ -324,18 +298,21 @@
 ;; load a separately installed org
 ;; (add-to-list 'load-path "/Applications/Emacs.app/Contents/Resources/lisp/org")
 ;; Configuring org mode to know about R and set some reasonable default behavior
-(add-to-list 'load-path "~/.emacs.d/site-lisp/org")
+;; We're loading a different version of the org-mode, i.e. an older version.
+(add-to-list 'load-path "~/.emacs.d/site-lisp/org-async")
 (require 'ess-site)
-(require 'org-install)
+;(require 'org-install)
 (require 'ob-tangle)
 (require 'ob-latex)
 (require 'ob-R)
-(require 'ob-shell)
+;(require 'ob-shell)
+;(require 'ob-sh)
 (require 'ox-latex)
 (require 'ox-html)
+(require 'ox-beamer)
 (require 'ox-md)
-(require 'ox-bibtex)
-(require 'org-eval)
+;;(require 'ox-bibtex)
+;(require 'org-eval)
 ;(setq org-startup-indented t)  ;; automatic indentation and hiding of **
 ;; bullets for TODO items
 ;(require 'org-bullets)
@@ -346,8 +323,6 @@
 (define-key global-map "\C-ca" 'org-agenda)
 (setq org-log-done t)
 ;; scale images by default to 400px, otherwise (if there is an #+ATTR.* :width 200px to 200)
-;; set to nil in case no default scaling should be done.
-(setq org-image-actual-width '(400))
 ; load R and some other languages language...
 (org-babel-do-load-languages 'org-babel-load-languages '((R . t)
 							 (emacs-lisp . t)
@@ -372,8 +347,7 @@
 	    (find-lisp-find-files-if-exists "~/R-workspaces/2014" "\.org$")
 	    (find-lisp-find-files-if-exists "~/R-workspaces/2012" "\.org$")
 	    (find-lisp-find-files-if-exists "~/R-workspaces/2011" "\.org$")
-	    (find-lisp-find-files-if-exists "~/R-workspaces/EURAC" "\.org$")
-	    (find-lisp-find-files-if-exists "~/R-workspaces/2011/2011-03-15-Dex-vs-Prednisolone" "\.org$")
+	    (find-lisp-find-files-if-exists "/Volumes/EURACrypt/2014" "\.org$")
 	    (find-lisp-find-files-if-exists "~/R-workspaces/Collaborations" "\.org$")
 	    (find-lisp-find-files-if-exists "~/Documents/Unison/org-files" "\.org$")
 	    (find-lisp-find-files-if-exists "~/Documents/Unison/Documents/Papers-own" "\.org$")
@@ -387,7 +361,7 @@
 (setq org-todo-keyword-faces
 	'(("TODO" . (:foreground "DeepPink1" :weight bold :slant italic :underline t))
 	("WAIT" . (:foreground "CornflowerBlue" :slant italic :underline t))
-	("DONE" . (:foreground "forest green" :slant italic :underline t))
+	("DONE" . (:foreground "forest green" :slant italic :undeline t))
 	("CANCELED" . (:foreground "SeaGreen" :weight bold :slant italic :underline t))
 	("REDO" . (:foreground "DeepPink1" :weight bold :slant italic :underline t))
 	("VERIFY" . (:foreground "DarkOrange1" :weight bold :slant italic :underline t))
@@ -412,14 +386,16 @@
 	)
       )
 ;; additional latex packages we always want to be added for latex export.
-(add-to-list 'org-latex-default-packages-alist '("" "minted"))
+(add-to-list 'org-latex-packages-alist '("" "minted"))
+(add-to-list 'org-latex-packages-alist '("" "float"))
+(add-to-list 'org-latex-packages-alist '("" "xcolor"))
 ;; default skeleton for org files:
 (define-skeleton org-skeleton
     "Header info for a emacs-org file."
     "Title: "
     "#+TITLE:" str " \n"
     "#+AUTHOR: Johannes Rainer\n"
-    "#+email: johannes.rainer@i-med.ac.at\n"
+    "#+email: johannes.rainer@eurac.edu\n"
     "#+OPTIONS: ^:{}\n"
     "#+PROPERTY: exports code \n"
     "#+PROPERTY: session *R*\n"
@@ -432,26 +408,29 @@
     "#+LATEX_HEADER: \\usepackage[backend=bibtex,style=chem-rsc,hyperref=true]{biblatex}\n"
     "#+LATEX_HEADER: \\usepackage{parskip}\n"
     "#+LATEX_HEADER: \\usepackage{tabu}\n"
+    "#+LATEX_HEADER: \\usepackage{float}\n"
+    "#+LATEX_HEADER: \\usepackage{xcolor}\n"
     "#+LATEX_HEADER: \\setlength{\\textwidth}{17.0cm}\n"
     "#+LATEX_HEADER: \\setlength{\\hoffset}{-2.5cm}\n"
     "#+LATEX_HEADER: \\setlength{\\textheight}{22cm}\n"
     "#+LATEX_HEADER: \\setlength{\\voffset}{-1.5cm}\n"
     "#+LATEX_HEADER: \\addbibresource{~/Documents/Unison/bib/references.bib}\n"
-    "#+LATEX_HEADER: \\usepackage{verbatim}\n"
+    "# #+LATEX_HEADER: \\usepackage{verbatim}\n"
     "#+LATEX_HEADER: \\usepackage{inconsolata}\n"
     "#+LATEX_HEADER: \\definecolor{lightgrey}{HTML}{F0F0F0}\n"
     "#+LATEX_HEADER: \\definecolor{solarizedlightbg}{HTML}{FCF4DC}\n"
     "#+LATEX_HEADER: \\makeatletter\n"
-    "#+LATEX_HEADER: \\def\\verbatim@font{\\scriptsize\\ttfamily}\n"
+    "# #+LATEX_HEADER: \\def\\verbatim@font{\\scriptsize\\ttfamily}\n"
     "#+LATEX_HEADER: \\makeatother\n"
     "-----"
 )
 (global-set-key [C-S-f4] 'org-skeleton)
 ;(add-hook 'org-export-before-processing-hook 'org-export-process-apply-macros)
 ;; place captions below tables, not above
-(setq org-latex-table-caption-above nil)
+;;(setq org-latex-table-caption-above nil)
+(setq org-export-latex-table-caption-above nil)
 ;; these custom agenda views will be displayed in the org-mobile app
-(setq org-tag-alist '(("analysis" . ?n) ("collab" . ?c) ("EURAC" . ?E) ("facility" . ?f) ("paper" . ?a) ("private" . ?p) ("project" . ?P)  ("review" . ?r) ("seminar" . ?s) ("work" . ?w) ("@brixen" . ?b) ("@innsbruck" . ?i) ("@meran" . ?m) ("@office" . ?o) ))
+(setq org-tag-alist '(("analysis" . ?n) ("collab" . ?c) ("EURAC" . ?E) ("facility" . ?f) ("paper" . ?a) ("private" . ?p) ("project" . ?P)  ("review" . ?r) ("seminar" . ?s) ("Tanya" . ?t) ("work" . ?w) ("@brixen" . ?b) ("@innsbruck" . ?i) ("@meran" . ?m) ("@office" . ?o) ))
 (setq org-agenda-custom-commands
       '(("p" "Private TODOs"
 	 ((tags-todo "private-@innsbruck-@meran-@brixen-@office")
@@ -461,33 +440,19 @@
 	  (tags-todo "private+@office")
 	  ))
 	("w" "Work related TODOs"
-	 ((tags-todo "work-analysis-collab-paper-project-EURAC-facility")
+	 ((tags-todo "work-analysis-collab-paper-project-EURAC-facility-tanya")
 	 (tags-todo "work+analysis")
 	 (tags-todo "work+collab")
 	 (tags-todo "work+facility")
 	 (tags-todo "work+paper")
 	 (tags-todo "work+project")
+	 (tags-todo "work+tanya")
 	 (tags-todo "work+EURAC")
 	 ))
 ))
-;; org-export settings:
-;; allows to define a init file other than the default one, specifically
-;; useful if async export yields e.g. an error complaining that the font
-;; can not be found.
-;(setq org-export-async-init-file "/Users/jo/.emacs-async-init.el")
+;; try this for gplots evaluation
+(setq org-babel-use-quick-and-dirty-noweb-expansion t)
 ;;
-;;;;
-
-;;;;;;;;;;;;;;;;;;;;;;
-;; MobileOrg Settings:
-;;
-(setq org-mobile-directory "/scpx:jo@manny.i-med.ac.at:/var/www/jo/jorg/")
-;; set org-mobile-files ... by default all files in org-agenda-files.
-;(setq org-mobile-files (quote ("~/Documents/Unison/org-files/svn2git.org")))
-(setq org-directory "~/Documents/Unison/org-files")
-;(setq org-mobile-inbox-for-pull "~/Documents/Unison/org-files/mobileorg.org")
-(setq org-mobile-inbox-for-pull "~/Documents/Unison/org-files/from-mobile.org")
-;; finished with org stuff
 ;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;
@@ -495,7 +460,7 @@
 ;;
 (add-to-list 'load-path "~/.emacs.d/site-lisp/magit")
 (require 'magit)
-(require 'magit-svn)
+;(require 'magit-svn)
 ;; define the directories in which magit is looking for repos
 ;(setq magit-repo-dirs
 ;      (list "~/R-workspaces"
@@ -507,44 +472,6 @@
 ;;
 ;;;;
 
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;
-;; other stuff
-;;
-;; itunes control...
-(load "osx-itunes")
-;; frame commands: cool stuff to increase/decrease frames
-(load "frame-cmds")
-;; incrementally resizing frame
-(global-set-key [(control meta down)]          'enlarge-frame)
-(global-set-key [(control meta right)]         'enlarge-frame-horizontally)
-(global-set-key [(control meta up)]            'shrink-frame)
-(global-set-key [(control meta left)]          'shrink-frame-horizontally)
-;; positioning of frame
-(global-set-key [(control meta shift right)]   'move-frame-to-screen-right)    ; like `C-next'
-(global-set-key [(control meta shift left)]    'move-frame-to-screen-left)     ; like `C-prior'
-(global-set-key [(control meta shift up)]      'move-frame-to-screen-top)    ; like `C-next'
-(global-set-key [(control meta shift down)]    'move-frame-to-screen-bottom)     ; like `C-prior'
-;; maximize frame
-(global-set-key [(control meta +)]             'toggle-max-frame-vertically)
-(global-set-key [(control meta -)]             'toggle-max-frame-horizontally)
-;; tile frames
-(global-set-key [(control meta .)]             'tile-frames-horizontally)
-;;;; weather forecast from met.no
-;; see https://github.com/ruediger/weather-metno-el
-;; call "M-x weather-metno-forecast-location
-;; or add %%(org-weather-metno) to agenda files.
-;(load "weather-metno")
-;(load "org-weather-metno")
-;(load "weather-metno-mode-line")
-;(load "weather-metno-query")
-;(setq weather-metno-location-name "Innsbruck, Austria"
-;    weather-metno-location-latitude 47.2
-;    weather-metno-location-longitude 11.4)
-;(setq weather-metno-location-name "Meran, Italy"
-;    weather-metno-location-latitude 46.6
-;    weather-metno-location-longitude 11.1)
 ;;;;
 ;; the ox-ravel Sweave export module
 (require 'ox-ravel)
@@ -566,23 +493,7 @@
 (add-to-list 'vc-handled-backends 'SVN)
 (require 'psvn)
 (require 'framepop)
-(require 'import-env-from-shell)
-;;
-;;;;
-
-;;;;;;;;;;;;;;;;;;;;;;;;;
-;; auto-lang to automatically set the language for ispell.
-;;
-(require 'auto-lang)
-(defun fd-switch-dictionary()
-  (interactive)
-  (let* ((dic ispell-current-dictionary)
-    	 (change (if (string= dic "deutsch8") "english" "deutsch8")))
-    (ispell-change-dictionary change)
-    (message "Dictionary switched from %s to %s" dic change)
-    ))
-
-(global-set-key (kbd "<f8>")   'fd-switch-dictionary)
+;(require 'import-env-from-shell)
 ;;
 ;;;;
 
@@ -599,61 +510,10 @@
 ;;
 ;;;;
 
-;;;;;;;;;;;;;;
-;; Desktop save mode
-;;
-(setq desktop-path '("~/.emacs.d/"))
-(setq desktop-dirname "~/.emacs.d/")
-(setq desktop-base-file-name "jo-emacs-desktop")
-(setq desktop-restore-eager 2)
-(setq desktop-files-not-to-save   "^$") ;reload tramp paths
-;; remove desktop after it's been read
-(add-hook 'desktop-after-read-hook
-      '(lambda ()
-         ;; desktop-remove clears desktop-dirname
-         (setq desktop-dirname-tmp desktop-dirname)
-         (desktop-remove)
-         (setq desktop-dirname desktop-dirname-tmp)))
-;; check if there is a desktop file
-(defun saved-session ()
-  (file-exists-p (concat desktop-dirname "/" desktop-base-file-name)))
-;; use session-restore to restore the desktop manually
-(defun session-restore ()
-  "Restore a saved emacs session."
-  (interactive)
-  (if (saved-session)
-      (desktop-read)
-    (message "No desktop found.")))
-;; use session-save to save the desktop manually
-(defun session-save ()
-  "Save an emacs session."
-  (interactive)
-  (if (saved-session)
-      (if (y-or-n-p "Overwrite existing desktop? ")
-      (desktop-save-in-desktop-dir)
-    (message "Session not saved."))
-  (desktop-save-in-desktop-dir)))
-;; ask user whether to restore desktop at start-up
-(add-hook 'after-init-hook
-      '(lambda ()
-         (if (saved-session)
-         (if (y-or-n-p "Restore desktop? ")
-	    (session-restore)))))
-(desktop-save-mode 1)
-;;
-;;;;
-
 ;;;;;;;;;;;;;;;
 ;; perl
 ;; use cperl-mode instead of perl-mode for perl.
 (defalias 'perl-mode 'cperl-mode)
-;;
-;;;;
-
-;;;;;;;;;;;;;;;
-;; arduino
-(setq auto-mode-alist (cons '("\\.\\(pde\\|ino\\)$" . arduino-mode) auto-mode-alist))
-(autoload 'arduino-mode "arduino-mode" "Arduino editing mode." t)
 ;;
 ;;;;
 

@@ -20,6 +20,14 @@ APPINFODIR=${APPPREFIX}/info
 #APPDOCDIR=${APPPREFIX}/lisp/doc
 #APPINFODIR=${APPPREFIX}/lisp/info
 
-EMACS=emacs
+##EMACS=emacs
+EMACS=/Applications/Emacs.app/Contents/MacOS/Emacs
 ELCC=$(EMACS) -batch -q -no-site-file -no-init-file
 
+##Async org version
+## Define the release that should be checked out and used.
+## can also be master.
+## Notes on releases: 8.0 works nicely with org-export, but does not provide org-sbe (it's called sbe
+## 8.2.6 (04.2014)) contains org-sbe
+org_release_async=release_8.2.6
+org_release=release_8.3.2
