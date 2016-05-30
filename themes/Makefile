@@ -24,12 +24,15 @@ PROF=tmp/emacs-professional-theme
 MOE=tmp/moe-theme.el
 FLATUI=tmp/emacs-flatui-theme
 FLATJO=tmp/flatui-emacs
+MONOKAI=tmp/monokai-emacs
+TANGOTANGO=tmp/color-theme-tangotango
+TANGOPLUS=tmp/tango-plus-theme
 
-all : anti-zenburn emacs-leuven-theme noctilux-theme soft-morning-theme solarized-emacs zenburn-emacs emacs-professional moe-theme flatui flatui-emacs
+all : anti-zenburn emacs-leuven-theme noctilux-theme soft-morning-theme solarized-emacs zenburn-emacs emacs-professional moe-theme flatui flatui-emacs monokai tangotango tangoplus
 
-goodones : anti-zenburn noctilux-theme solarized-emacs zenburn-emacs flatui flatui-emacs
+goodones : anti-zenburn noctilux-theme solarized-emacs zenburn-emacs flatui flatui-emacs monokai
 
-.PHONY : anti-zenburn clean emacs-leuven-theme noctilux-theme soft-morning-theme solarized-emacs zenburn-emacs flatui flatui-emacs
+.PHONY : anti-zenburn clean emacs-leuven-theme noctilux-theme soft-morning-theme solarized-emacs zenburn-emacs flatui flatui-emacs monokai tangotango tangoplus
 
 anti-zenburn :
 	@echo ----- installing anti-zenburn-theme...
@@ -88,10 +91,18 @@ moe-theme :
 	if [ ! -d ${DESTDIR} ]; then mkdir ${DESTDIR}; fi
 	if [ ! -d tmp ]; then mkdir tmp; fi
 	if [ ! -d ${MOE} ]; then cd tmp && git clone https://github.com/kuanyui/moe-theme.el.git; fi
-	cd ${NOCTILUX} && git pull
+	cd ${MOE} && git pull
 	cp -p ${MOE}/*.el ${DESTDIR}
 	@echo ----- Done.
 
+monokai :
+	@echo ----- installing monokai...
+	if [ ! -d ${DESTDIR} ]; then mkdir ${DESTDIR}; fi
+	if [ ! -d tmp ]; then mkdir tmp; fi
+	if [ ! -d ${MONOKAI} ]; then cd tmp && git clone https://github.com/oneKelvinSmith/monokai-emacs.git; fi
+	cd ${MONOKAI} && git pull
+	cp -p ${MONOKAI}/*.el ${DESTDIR}
+	@echo ----- Done.
 
 noctilux-theme :
 	@echo ----- installing noctilux-theme...
@@ -127,6 +138,24 @@ solarized-emacs :
 	cp -p ${SOLARIZED}/*.el ${DESTDIR}
 #	${EMACS} -Q -L ${SOLARIZED} -batch -f batch-byte-compile ${SOLARIZED}/*.el
 #	mv ${SOLARIZED}/*.elc ${DESTDIR}
+	@echo ----- Done.
+
+tangoplus :
+	@echo ----- installing tangoplus...
+	if [ ! -d ${DESTDIR} ]; then mkdir ${DESTDIR}; fi
+	if [ ! -d tmp ]; then mkdir tmp; fi
+	if [ ! -d ${TANGOPLUS} ]; then cd tmp && git clone https://github.com/tmalsburg/tango-plus-theme.git; fi
+	cd ${TANGOPLUS} && git pull
+	cp -p ${TANGOPLUS}/*.el ${DESTDIR}
+	@echo ----- Done.
+
+tangotango :
+	@echo ----- installing tangotango...
+	if [ ! -d ${DESTDIR} ]; then mkdir ${DESTDIR}; fi
+	if [ ! -d tmp ]; then mkdir tmp; fi
+	if [ ! -d ${TANGOTANGO} ]; then cd tmp && git clone https://github.com/juba/color-theme-tangotango.git; fi
+	cd ${TANGOTANGO} && git pull
+	cp -p ${TANGOTANGO}/*.el ${DESTDIR}
 	@echo ----- Done.
 
 zenburn-emacs :

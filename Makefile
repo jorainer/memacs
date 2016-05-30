@@ -108,7 +108,7 @@ ess :
 	if [ ! -d ${JULIA} ]; then echo "Need Julia! Call make fetch or make all first!" && exit 1; fi
 	rm -df -R -v ${LISPDIR}/ess
 	cd ${ESS} &&  make clean
-	cp ${JULIA}/contrib/julia-mode.el ${ESS}/lisp
+	## cp ${JULIA}/contrib/julia-mode.el ${ESS}/lisp
 	${MAKE} EMACS=${EMACS} -C ${ESS} all
 	${MAKE} DESTDIR=${DESTDIR} LISPDIR=${LISPDIR}/ess \
 	        ETCDIR=${ETCDIR}/ess DOCDIR=${DOCDIR}/ess \
