@@ -27,12 +27,14 @@ FLATJO=tmp/flatui-emacs
 MONOKAI=tmp/monokai-emacs
 TANGOTANGO=tmp/color-theme-tangotango
 TANGOPLUS=tmp/tango-plus-theme
+GITHUB=tmp/color-theme-github
+##HIGHCONTRAST=tmp/replace-colorthemes
 
-all : anti-zenburn emacs-leuven-theme noctilux-theme soft-morning-theme solarized-emacs zenburn-emacs emacs-professional moe-theme flatui flatui-emacs monokai tangotango tangoplus
+all : anti-zenburn emacs-leuven-theme noctilux-theme soft-morning-theme solarized-emacs zenburn-emacs emacs-professional moe-theme flatui flatui-emacs monokai tangotango tangoplus github
 
 goodones : anti-zenburn noctilux-theme solarized-emacs zenburn-emacs flatui flatui-emacs monokai
 
-.PHONY : anti-zenburn clean emacs-leuven-theme noctilux-theme soft-morning-theme solarized-emacs zenburn-emacs flatui flatui-emacs monokai tangotango tangoplus
+.PHONY : anti-zenburn clean emacs-leuven-theme noctilux-theme soft-morning-theme solarized-emacs zenburn-emacs flatui flatui-emacs monokai tangotango tangoplus github
 
 anti-zenburn :
 	@echo ----- installing anti-zenburn-theme...
@@ -84,6 +86,15 @@ flatui-emacs :
 	cp -p ${FLATJO}/*.el ${DESTDIR}
 #	${EMACS} -Q -L ${FLATJO} -batch -f batch-byte-compile ${FLATJO}/*.el
 #	mv ${FLATJO}/*.elc ${DESTDIR}
+	@echo ----- Done.
+
+github :
+	@echo ----- installing github-emacs...
+	if [ ! -d ${DESTDIR} ]; then mkdir ${DESTDIR}; fi
+	if [ ! -d tmp]; then mkdir tmp; fi
+	if [ ! -d ${GITHUB} ]; then cd tmp && git clone https://github.com/dudleyf/color-theme-github.git; fi
+	cd ${GITHUB} && git pull
+	cp -p ${GITHUB}/*.el ${DESTDIR}
 	@echo ----- Done.
 
 moe-theme :

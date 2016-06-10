@@ -35,6 +35,9 @@ WEATHER=weather-metno-20121023
 WITHED=tmp/with-editor
 POLY=tmp/polymode
 MD=tmp/markdown-mode
+IOSLIDE=tmp/org-ioslide
+F=tmp/f.el
+S=tmp/s.el
 
 all : createdirs fetch emacs
 
@@ -44,7 +47,7 @@ emacs : core addons
 
 core : createdirs auctex ess org-async org dash execpath md poly git-modes with-editor magit
 
-addons : createdirs fuzzy popup auto-complete auto-lang other magit-svn org-bullets arduino ravel org-journal
+addons : createdirs fuzzy popup auto-complete auto-lang other magit-svn org-bullets arduino ravel org-journal s f ioslide
 
 ###############
 arduino :
@@ -108,7 +111,7 @@ ess :
 	if [ ! -d ${JULIA} ]; then echo "Need Julia! Call make fetch or make all first!" && exit 1; fi
 	rm -df -R -v ${LISPDIR}/ess
 	cd ${ESS} &&  make clean
-	## cp ${JULIA}/contrib/julia-mode.el ${ESS}/lisp
+# cp ${JULIA}/contrib/julia-mode.el ${ESS}/lisp
 	${MAKE} EMACS=${EMACS} -C ${ESS} all
 	${MAKE} DESTDIR=${DESTDIR} LISPDIR=${LISPDIR}/ess \
 	        ETCDIR=${ETCDIR}/ess DOCDIR=${DOCDIR}/ess \
@@ -119,6 +122,11 @@ execpath:
 	@echo ----- Making exec-path-from-shell
 	${EMACS} -Q -L ${EXECPATH} -batch -f batch-byte-compile ${EXECPATH}/*.el
 	mv ${EXECPATH}/*.elc ${LISPDIR}/
+	@echo ----- Done.
+
+f:
+	@echo ----- Making f
+	cp ${F}/f.el ${LISPDIR}
 	@echo ----- Done.
 
 fetch :
@@ -136,10 +144,14 @@ fetch :
 	cd ${ESS} && git pull
 	if [ ! -d ${EXECPATH} ]; then cd tmp && git clone https://github.com/purcell/exec-path-from-shell.git; fi
 	cd ${EXECPATH} && git pull
+	if [ ! -d ${F} ]; then cd tmp && git clone https://github.com/rejeep/f.el.git; fi
+	cd ${F} && git pull
 	if [ ! -d ${FUZZY} ]; then cd tmp && git clone https://github.com/auto-complete/fuzzy-el.git; fi
 	cd ${FUZZY} && git pull
 	if [ ! -d ${GITMODE} ]; then cd tmp && git clone https://github.com/magit/git-modes.git; fi
 	cd ${GITMODE} && git pull
+	if [ ! -d ${IOSLIDE} ]; then cd tmp && git clone https://github.com/coldnew/org-ioslide.git; fi
+	cd ${IOSLIDE} && git pull
 	if [ ! -d ${MAGIT} ]; then cd tmp && git clone http://github.com/magit/magit; fi
 	cd ${MAGIT} && git pull
 	if [ ! -d ${MAGITSVN} ]; then cd tmp && git clone http://github.com/magit/magit-svn; fi
@@ -162,6 +174,8 @@ fetch :
 	cd ${POLY} && git pull
 	if [ ! -d ${JULIA} ]; then cd tmp && git clone https://github.com/JuliaLang/julia.git; fi
 	cd ${JULIA} && git pull
+	if [ ! -d ${S} ]; then cd tmp && git clone https://github.com/magnars/s.el.git; fi
+	cd ${S} && git pull
 	if [ ! -d ${WITHED} ]; then cd tmp && git clone https://github.com/magit/with-editor.git; fi
 	cd ${WITHED} && git pull
 #	?weather-metno?
@@ -181,6 +195,12 @@ git-modes:
 	${ELCC} -batch -f batch-byte-compile ${GITMODE}/gitattributes-mode.el
 	cp -p ${GITMODE}/*.el ${LISPDIR}
 	mv ${GITMODE}/*.elc ${LISPDIR}
+	@echo ----- Done.
+
+ioslide:
+	@echo ----- Making ioslide...
+	if [ ! -d ${PREFIX}/site-lisp/org-ioslide ]; then mkdir ${PREFIX}/site-lisp/org-ioslide; fi
+	cp -r ${IOSLIDE}/* ${PREFIX}/site-lisp/org-ioslide
 	@echo ----- Done.
 
 magit :
@@ -307,6 +327,12 @@ popup:
 	@echo ----- Making popup...
 	${ELCC} -batch -f batch-byte-compile ${POPUP}/popup.el
 	mv ${POPUP}/*.elc ${LISPDIR}
+	@echo ----- Done.
+
+s:
+	@echo ----- Making s
+	${EMACS} -Q -L ${S} -batch -f batch-byte-compile ${S}/*.el
+	mv ${S}/*.elc ${LISPDIR}/
 	@echo ----- Done.
 
 with-editor:
