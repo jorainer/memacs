@@ -8,20 +8,8 @@
 ;;
 ;; These fonts have to be installed manually!
 ;; the one below works nice on MacOS with retina display.
+(set-default-font "-*-Inconsolata-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
 (set-face-attribute 'default nil :font "-*-Inconsolata-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
-;; have to set the following two, in order to
-(set-face-attribute 'fixed-pitch nil :font "-*-Inconsolata-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
-(set-face-attribute 'variable-pitch nil :font "-*-Inconsolata-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
-
-(set-default-font
-    "-apple-inconsolata-medium-r-normal--11-*-*-*-*-*-iso10646-1")
-;(add-to-list 'default-frame-alist '(font . "-apple-inconsolata-medium-r-normal--11-*-*-*-*-*-iso10646-1"))
-;; other examples.
-;(set-de fault-font
-;    "-apple-Source_Code_Pro-medium-normal-normal-*-11-*-*-*-m-0-iso10646-1")
-;(add-to-list 'default-frame-alist '(font . "-apple-Source_Code_Pro-medium-normal-normal-*-11-*-*-*-m-0-iso10646-1"))
-;(set-default-font
-;    "-apple-Osaka-medium-normal-normal-*-12-*-*-*-m-0-iso10646-1")
 ;;
 ;;;
 
@@ -72,25 +60,28 @@
 ;;
 ;; other settings
 ;;
-;; line wrapping and similar... might have to set them above
-;; in custom-set-variables if they are not doing what they should...
-(setq-default word-wrap t)
-(show-paren-mode 1)				; match parenthesis
+;; line wrapping and similar...
+;;(setq-default word-wrap t)
+;;(electric-indent-mode 1)
+(show-paren-mode 1)
 (setq-default show-paren-mode t)		; match parenthesis
 (setq-default tool-bar-mode nil)		; hide the button/menu bar
-(setq auto-fill-mode -1)
+;;(setq auto-fill-mode -1)
 ;;(setq-default fill-column 99999) ;; if everything else fails
 ;;(setq fill-column 99999)         ;; if everything else fails
-(remove-hook 'text-mode-hook 'turn-on-auto-fill)
-(remove-hook 'noweb-select-doc-mode-hook 'noweb-auto-fill-doc-mode)     ;; disable the auto-fill-mode in noweb files
-(remove-hook 'noweb-select-code-mode-hook 'noweb-auto-fill-code-mode)   ;; the same
+(add-hook 'text-mode-hook 'turn-on-auto-fill) ; wrap long lines in text mode
+(setq-default fill-column 80)
+;;(remove-hook 'text-mode-hook 'turn-on-auto-fill)
+;4(remove-hook 'noweb-select-doc-mode-hook 'noweb-auto-fill-doc-mode)     ;; disable the auto-fill-mode in noweb files
+;4(remove-hook 'noweb-select-code-mode-hook 'noweb-auto-fill-code-mode)   ;; the same
 ;; show line numbers by default. use "M-x linum-mode" to toggle
-(global-linum-mode 1)
+;;(global-linum-mode nil)
 (setq make-backup-files nil)
 ;; other settings
 (add-hook 'text-mode-hook 'turn-on-visual-line-mode)  ;; visual line mode on only in text files.
 ;; disable debug on error
 (setq debug-on-error nil)
+;;
 ;; kill all other buffers, except the current one.
 (defun kill-other-buffers ()
   "Kill all other buffers."
@@ -104,87 +95,32 @@
 ;;
 ;;;;
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Spell checking
-;;
-;; use aspell instead of ispell:
-(setq-default ispell-program-name "aspell")  ;; or just symlink ispell to aspell...
-;; prevent spell check in code chunks:
-;; does not work... dammit
-;(add-to-list 'ispell-skip-region-alist '("^#+BEGIN" . "^#+END_SRC"))
-;(add-to-list 'ispell-skip-region-alist '("^<<.*>>=" . "^@"))
-;(add-to-list 'ispell-skip-region-alist '("Sexpr{" . "} "))
-;(add-to-list 'ispell-skip-region-alist '("^#\s" "$"))
-;(add-to-list 'ispell-skip-region-alist '("=" "="))
-;; skip code chunks in flyspell
-;(defun flyspell-eligible ()
-;  (let ((p (point)))
-;      (save-excursion
-;        (cond ((re-search-backward (ispell-begin-skip-region-regexp) nil t)
-;        	(ispell-skip-region (match-string-no-properties 0))
-;                (< (point) p))
-;                (t)))))
-;;
-; enable spell checking using flyspell for Tex, latex and org-mode,
-; disable for ess.
-(add-hook 'TeX-mode-hook
-	  (lambda()
-	    (flyspell-mode 1))
-	    )
-(add-hook 'latex-mode-hook
-	  (lambda()
-	    (flyspell-mode 1))
-	    )
-(add-hook 'org-mode-hook
-	  (lambda()
-	    (flyspell-mode 1))
-	    )
-(add-hook 'ess-mode-hook
-	  (lambda()
-	    (flyspell-mode 0))
-	    )
-(setq ispell-list-command "--list")
-;;
-;;;
-
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;; Themes:
 ;;
+;; NOTE: install the themes using
+;; https://github.com/jotsetung/memacs.git , call "make all" in the "themes" subfolder.
 ;; Themes, load with "M-x load-theme"
 (add-to-list 'load-path "~/.emacs.d/site-lisp/")
 (add-to-list 'load-path "~/.emacs.d/themes/")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
-;(load-theme 'zenburn t)
-;(load-theme 'solarized-dark t)
-;(load-theme 'mccarthy t)
 ;; solarized customization
 ;; make the fringe stand out from the background
 ;(setq solarized-distinct-fringe-background t)
 ;; make the modeline high contrast
-;(setq solarized-high-contrast-mode-line t)
-;; load the solarized-light theme by default
-(load-theme 'solarized-light t)
+;;(setq solarized-high-contrast-mode-line t)
+(setq flatui-high-contrast-mode-line t)
+;; Use high contrast code block header background (or not)
+(setq flatui-high-contrast-code-block-header nil)
+(load-theme 'flatui-light t)
+;(load-theme 'solarized-dark t)
+;(setq solarized-scale-org-headlines t)
+;;(load-theme 'solarized-light t)
+;;(load-theme 'solarized-dark t)
+;;(load-theme 'FlatUI t)
 ;;
 ;;;;;;;;;;;;;;;
-;; transparency
-;;(set-frame-parameter (selected-frame) 'alpha '(<active> [<inactive>]))
-; (set-frame-parameter (selected-frame) 'alpha '(100 85))
-; (add-to-list 'default-frame-alist '(alpha 100 85))
-;(eval-when-compile (require 'cl))
-; (defun toggle-transparency ()
-;   (interactive)
-;   (if (/=
-;        (cadr (frame-parameter nil 'alpha))
-;        100)
-;       (set-frame-parameter nil 'alpha '(100 100))
-;     (set-frame-parameter nil 'alpha '(90 85))))
-; (global-set-key (kbd "C-c t") 'toggle-transparency)
-;;
-;;;;
-
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -194,13 +130,14 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;
 ;; from https://github.com/purcell/exec-path-from-shell.git
-;; Load environment variables from the shell
+;; Load environment variables from the shells
 (require 'exec-path-from-shell)
 (when (memq window-system '(mac ns))
   (exec-path-from-shell-initialize))
 ;; loading additional environment variables.
 (exec-path-from-shell-copy-env "PERL5LIB")
 (exec-path-from-shell-copy-env "LC_ALL")    ; this somehow prevents segfauls of R parallel processing in Emacs
+(exec-path-from-shell-copy-env "LANG")    ; this somehow prevents segfauls of R parallel processing in Emacs
 (exec-path-from-shell-copy-env "SHELL")
 ;;
 ;;;;
@@ -214,13 +151,6 @@
 (add-to-list 'load-path "~/.emacs.d/site-lisp")
 (load "auctex.el" nil t t)
 (load "preview-latex.el" nil t t)
-;; Turn on RefTeX for LaTeX documents. Put further RefTeX
-;; customizations in your .emacs file.
-;(add-hook 'LaTeX-mode-hook
-;      (lambda ()
-;	(turn-on-reftex)
-;	(setq reftex-plug-into-AUCTeX t)))
-;(add-hook 'TeX-mode-hook 'turn-on-reftex)
 (setq reftex-plug-into-AUCTeX t)
 (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
 ;; Minimal OS X-friendly configuration of AUCTeX. Since there is no
@@ -242,13 +172,25 @@
 ;; Add standard Sweave file extensions to the list of files recognized
 ;; by AUCTeX.
 (setq TeX-file-extensions
-    '("Rnw" "rnw" "Snw" "snw" "tex" "sty" "cls" "ltx" "texi" "texinfo" "dtx" "Rd"))
-;; code folding:
-;(add-hook 'TeX-mode-hook (lambda ()
-;			   (Tex-fold-mode 1)))
+      '("Rnw" "rnw" "Snw" "snw" "tex" "sty" "cls" "ltx" "texi" "texinfo" "dtx"))
 ;;
 ;;;;
 
+;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; outline-minor-mode
+;;
+;(defun turn-on-outline-minor-mode()
+;  (outline-minor-mode 1))
+;(add-hook 'LaTeX-mode-hook 'turn-on-outline-minor-mode)
+;(add-hook 'LaTeX-mode-hook 'turn-on-outline-minor-mode)
+;(setq outline-minor-mode-prefix "C-c C-o")
+;; C-c C-o C-l hide section content
+;; C-c C-o C-n move to next section
+;; C-c C-o C-p previous section
+;; C-c C-o C-a show all
+;;
+;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -257,11 +199,21 @@
 (add-to-list 'load-path "~/.emacs.d/site-lisp/auto-complete" )
 (require 'auto-complete-config)
 (add-to-list 'ac-dictionary-directories "~/.emacs.d/site-lisp/auto-complete/ac-dict")
+(setq ac-comphist-file "~/.emacs.d/site-lisp/auto-complete/ac-comphist.dat")
 (ac-config-default)
+;; start auto-completing after 4 characters or disable.
+(setq ac-auto-start nil)
+;; Show menu 0.8 seconds later
+(setq ac-auto-show-menu 0.8)
+;; disable auto show help.
+(setq ac-use-quick-help nil)
 ;; set the delay to 1 second, so it's not always bugging
 (setq ac-delay 1)
 ;(setq ac-auto-start nil)
 (ac-set-trigger-key "TAB")
+(define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
+;; start quick help with M-h
+(define-key ac-completing-map (kbd "M-h") 'ac-quick-help)
 ;;
 ;;;;
 
@@ -271,8 +223,14 @@
 ;; ESS
 ;;
 (add-to-list 'load-path "~/.emacs.d/site-lisp/ess")
-(require 'ess-site)
-(require 'ess-eldoc)
+;;(require 'ess-site)
+(load "ess-site.el")
+;;(require 'ess-eldoc)
+;; Uncomment below if we're getting problems doing an ediff on an R-file with magit.
+;;(add-to-list 'auto-mode-alist '("\\.R" . ess-mode))
+;;(require 'ess-custom)
+;; Somehow that sucker seems to be missing...
+;;(defvar ess-local-customize-alist nil "Buffer local settings for proper behaviour")
 (setq-default inferior-R-args "--no-save ")
 ;; automatically start R in the present directory. useful for async org export
 (setq ess-ask-for-ess-directory nil)
@@ -294,7 +252,7 @@
 	(lambda ()
 	(ess-nuke-trailing-whitespace)))
 	(setq ess-nuke-trailing-whitespace-p t)))
-;; disable replacement of _ with <-
+;; disable the replacing of undescore with assignment
 (ess-toggle-underscore nil)
 ;;
 ;;;;
@@ -306,10 +264,6 @@
 ;; tramp (transparent remote ...)
 (require 'tramp)
 (setq tramp-default-method "ssh")
-;(setq tramp-chunksize 500)
-;(eval-after-load 'tramp '(setenv "SHELL" "/bin/bash"))
-;(setq tramp-debug-buffer t)
-;(setq tramp-verbose 10)
 ;;
 ;;;;
 
@@ -326,35 +280,55 @@
 ;; Configuring org mode to know about R and set some reasonable default behavior
 (add-to-list 'load-path "~/.emacs.d/site-lisp/org")
 (require 'ess-site)
-(require 'org-install)
+;(require 'org-install)
 (require 'ob-tangle)
 (require 'ob-latex)
 (require 'ob-R)
 (require 'ob-shell)
-(require 'ox-latex)
+;(require 'ob-sh)
+;(require 'ox-latex)
 (require 'ox-html)
+(require 'ox-beamer)
 (require 'ox-md)
-(require 'ox-bibtex)
-(require 'org-eval)
+;;(require 'ox-bibtex)
+;2(require 'org-eval)
+;; enable fontify:
+;2(setq org-src-fontify-natively t)
 ;(setq org-startup-indented t)  ;; automatic indentation and hiding of **
 ;; bullets for TODO items
-;(require 'org-bullets)
+(require 'org-bullets)
+;; Override the bullets.
+(setq org-bullets-bullet-list '(
+				"◉"
+				"●"
+				"○"
+				"▶"
+				"◆"
+				"◇"
+				))
 ;(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 ;; set org-mode for all .org files.
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
 (setq org-log-done t)
+;; Hide the markup elements:
+(setq org-hide-emphasis-markers t)
 ;; scale images by default to 400px, otherwise (if there is an #+ATTR.* :width 200px to 200)
 ;; set to nil in case no default scaling should be done.
-(setq org-image-actual-width '(400))
-; load R and some other languages language...
+;2(setq org-image-actual-width '(400))
+;; globally disabling sub and superscripts...
+(setq org-export-with-sub-superscripts '{})
+(setq org-use-sub-superscripts '{})
+;; load R and some other languages language...
 (org-babel-do-load-languages 'org-babel-load-languages '((R . t)
 							 (emacs-lisp . t)
 							 (sqlite . t)
 							(latex . t)))
 ;; save the window set-up; forces the layout to be restore after agenda is closed.
 (setq org-agenda-window-setup 'current-window)
+;; treat lists like headers:
+(setq org-cycle-include-plain-lists 'integrate)
 ;; automatically add all org files as agenda files.
 ;; just add all folders you want to be screened.
 (load-library "find-lisp")
@@ -368,35 +342,32 @@
 
 (add-hook 'org-agenda-mode-hook (lambda ()
     (setq org-agenda-files
-    (append (find-lisp-find-files-if-exists "~/R-workspaces/2013" "\.org$")
-	    (find-lisp-find-files-if-exists "~/R-workspaces/2014" "\.org$")
-	    (find-lisp-find-files-if-exists "~/R-workspaces/2012" "\.org$")
-	    (find-lisp-find-files-if-exists "~/R-workspaces/2011" "\.org$")
-	    (find-lisp-find-files-if-exists "~/R-workspaces/EURAC" "\.org$")
-	    (find-lisp-find-files-if-exists "~/R-workspaces/2011/2011-03-15-Dex-vs-Prednisolone" "\.org$")
-	    (find-lisp-find-files-if-exists "~/R-workspaces/Collaborations" "\.org$")
-	    (find-lisp-find-files-if-exists "~/Documents/Unison/org-files" "\.org$")
-	    (find-lisp-find-files-if-exists "~/Documents/Unison/Documents/Papers-own" "\.org$")
-	    (find-lisp-find-files-if-exists "~/Documents/Unison/Documents/Reviews" "\.org$")
-	    (find-lisp-find-files-if-exists "~/Projects/git" "\.org$")
+	  (append
+	   (find-lisp-find-files-if-exists "~/R-workspaces/2012" "\.org$")
+	   (find-lisp-find-files-if-exists "~/Projects/git" "\.org$")
     ))
 ))
 ;; define custom TODO keywords.
 (setq org-todo-keywords
        '((sequence "TODO(t)" "WAIT(w@/!)" "VERIFY(v@)" "REDO(r@/!)" "|" "DONE(d!)" "CANCELED(c@)")))
 (setq org-todo-keyword-faces
-	'(("TODO" . (:foreground "DeepPink1" :weight bold :slant italic :underline t))
-	("WAIT" . (:foreground "CornflowerBlue" :slant italic :underline t))
-	("DONE" . (:foreground "forest green" :slant italic :underline t))
-	("CANCELED" . (:foreground "SeaGreen" :weight bold :slant italic :underline t))
-	("REDO" . (:foreground "DeepPink1" :weight bold :slant italic :underline t))
-	("VERIFY" . (:foreground "DarkOrange1" :weight bold :slant italic :underline t))
+;	'(("TODO" . (:foreground "DeepPink1" :weight bold :slant italic :underline t))
+	'(("TODO" . (:foreground "#f39c12" :weight bold :slant italic :underline t))
+	("WAIT" . (:foreground "#3498db" :slant italic :underline t))
+	("DONE" . (:foreground "#27ae60" :slant italic :undeline t))
+	("CANCELED" . (:foreground "#9b59b6" :weight bold :slant italic :underline t))
+	("REDO" . (:foreground "#e74c3c" :weight bold :slant italic :underline t))
+	("VERIFY" . (:foreground "#e74c3c" :weight bold :slant italic :underline t))
 	))
 ;; we don't want to always say "yes" please execute code...
 (setq org-confirm-babel-evaluate nil)
-;; define a org-to-latex template
-;(setq org-export-latex-listings t)
-;(setq org-export-latex-listings 'minted)
+
+(setq org-latex-listings 'minted)
+;(setq org-latex-custom-lang-environments
+;       '(
+;	(R "Rcode")
+;	))
+
 ;; show created images inline in the org buffer, just have to find a way to reduce their size...
 ;(add-hook 'org-babel-after-execute-hook 'org-display-inline-images)
 ;(add-hook 'org-mode-hook 'org-display-inline-images)
@@ -405,90 +376,158 @@
 (setq org-latex-listings 'minted
       org-latex-minted-options
       '(
-	;;	("frame" "lines")
+	;; ("frame" "lines")
 	("bgcolor" "lightgrey")
         ("fontsize" "\\scriptsize")
-	;;        ("linenos" "")
+	;; ("linenos=true")
+	;; ("linenos" "")
 	)
       )
 ;; additional latex packages we always want to be added for latex export.
-(add-to-list 'org-latex-default-packages-alist '("" "minted"))
+(add-to-list 'org-latex-packages-alist '("" "minted"))
+(add-to-list 'org-latex-packages-alist '("" "float"))
+(add-to-list 'org-latex-packages-alist '("" "xcolor"))
+
 ;; default skeleton for org files:
 (define-skeleton org-skeleton
-    "Header info for a emacs-org file."
-    "Title: "
-    "#+TITLE:" str " \n"
-    "#+AUTHOR: Johannes Rainer\n"
-    "#+email: johannes.rainer@i-med.ac.at\n"
-    "#+OPTIONS: ^:{}\n"
-    "#+PROPERTY: exports code \n"
-    "#+PROPERTY: session *R*\n"
-    "#+PROPERTY: noweb yes\n"
-    "#+PROPERTY: results output\n"
-    "#+PROPERTY: tangle yes\n"
-    "#+STARTUP: overview\n"
-    "#+INFOJS_OPT: view:t toc:t ltoc:t mouse:underline buttons:0 path:http://thomasf.github.io/solarized-css/org-info.min.js\n"
-    "#+HTML_HEAD: <link rel='stylesheet' type='text/css' href='http://thomasf.github.io/solarized-css/solarized-light.min.css' />\n"
-    "#+LATEX_HEADER: \\usepackage[backend=bibtex,style=chem-rsc,hyperref=true]{biblatex}\n"
-    "#+LATEX_HEADER: \\usepackage{parskip}\n"
-    "#+LATEX_HEADER: \\usepackage{tabu}\n"
-    "#+LATEX_HEADER: \\setlength{\\textwidth}{17.0cm}\n"
-    "#+LATEX_HEADER: \\setlength{\\hoffset}{-2.5cm}\n"
-    "#+LATEX_HEADER: \\setlength{\\textheight}{22cm}\n"
-    "#+LATEX_HEADER: \\setlength{\\voffset}{-1.5cm}\n"
-    "#+LATEX_HEADER: \\addbibresource{~/Documents/Unison/bib/references.bib}\n"
-    "#+LATEX_HEADER: \\usepackage{verbatim}\n"
-    "#+LATEX_HEADER: \\usepackage{inconsolata}\n"
-    "#+LATEX_HEADER: \\definecolor{lightgrey}{HTML}{F0F0F0}\n"
-    "#+LATEX_HEADER: \\definecolor{solarizedlightbg}{HTML}{FCF4DC}\n"
-    "#+LATEX_HEADER: \\makeatletter\n"
-    "#+LATEX_HEADER: \\def\\verbatim@font{\\scriptsize\\ttfamily}\n"
-    "#+LATEX_HEADER: \\makeatother\n"
-    "-----"
-)
+  "Header info for a emacs-org file."
+  "Title: "
+  "#+TITLE:" str " \n"
+  "#+AUTHOR: Johannes Rainer\n"
+  "#+email: johannes.rainer@eurac.edu\n"
+  "#+OPTIONS: ^:{}\n"
+  "#+PROPERTY: exports code \n"
+  "#+PROPERTY: session *R*\n"
+  "#+PROPERTY: noweb eval\n"
+  "#+PROPERTY: results output\n"
+  "#+PROPERTY: tangle yes\n"
+  "#+STARTUP: overview\n"
+  "#+INFOJS_OPT: view:t toc:t ltoc:t mouse:underline buttons:0 path:http://thomasf.github.io/solarized-css/org-info.min.js\n"
+  "#+HTML_HEAD: <link rel='stylesheet' type='text/css' href='http://thomasf.github.io/solarized-css/solarized-light.min.css' />\n"
+  "#+LATEX_HEADER: \\usepackage[backend=bibtex,style=nature,hyperref=true]{biblatex}\n"
+  "#+LATEX_HEADER: \\usepackage{parskip}\n"
+  "#+LATEX_HEADER: \\usepackage{tabu}\n"
+  "#+LATEX_HEADER: \\setlength{\\textwidth}{17.0cm}\n"
+  "#+LATEX_HEADER: \\setlength{\\hoffset}{-2.5cm}\n"
+  "#+LATEX_HEADER: \\setlength{\\textheight}{22cm}\n"
+  "#+LATEX_HEADER: \\setlength{\\voffset}{-1.5cm}\n"
+  "#+LATEX_HEADER: \\addbibresource{~/Documents/Unison/bib/references.bib}\n"
+  "# #+LATEX_HEADER: \\usepackage{verbatim}\n"
+  "#+LATEX_HEADER: \\usepackage{inconsolata}\n"
+  "#+LATEX_HEADER: \\definecolor{lightgrey}{HTML}{F0F0F0}\n"
+  "#+LATEX_HEADER: \\definecolor{solarizedlightbg}{HTML}{FCF4DC}\n"
+  "#+LATEX_HEADER: \\makeatletter\n"
+  "# #+LATEX_HEADER: \\def\\verbatim@font{\\scriptsize\\ttfamily}\n"
+  "#+LATEX_HEADER: \\makeatother\n"
+  "#+FILETAGS:\n"
+  "#+CATEGORY:\n"
+  "-----"
+  )
 (global-set-key [C-S-f4] 'org-skeleton)
+;; org-Rmd template
+(define-skeleton org-Rmd
+  "Header infor for org-Rmd files."
+  "Title: "
+  "#+TITLE:" str " \n"
+  "#+AUTHOR: Johannes Rainer\n"
+  "#+email: johannes.rainer@eurac.edu\n"
+  "#+OPTIONS: ^:{} toc:nil\n"
+  "#+PROPERTY: export code\n"
+  "#+PROPERTY: session *R*\n"
+  "#+FILETAGS:\n"
+  "#+CATEGORY:\n\n"
+  "#+BEGIN_HTML\n"
+  "---\n"
+  "title: \"" str "\" \n"
+  "author: \"Johannes Rainer\"\n"
+  "date: \n"
+  "graphics: yes\n"
+  "output:\n"
+  "  BiocStyle::html_document:\n"
+  "    toc_depth: 2\n"
+  "  BiocStyle::pdf_document:\n"
+  "    toc_depth: 2\n"
+  "---\n"
+  "#+END_HTML\n\n"
+  "#+BEGIN_SRC R :ravel echo=FALSE, results=\'asis\', message=FALSE\n"
+  "  BiocStyle::markdown()\n"
+  "#+END_SRC\n"
+  )
+(global-set-key [C-S-f5] 'org-Rmd)
 ;(add-hook 'org-export-before-processing-hook 'org-export-process-apply-macros)
 ;; place captions below tables, not above
-(setq org-latex-table-caption-above nil)
+(setq org-latex-caption-above nil)
+(setq org-export-latex-table-caption-above nil)
 ;; these custom agenda views will be displayed in the org-mobile app
-(setq org-tag-alist '(("analysis" . ?n) ("collab" . ?c) ("EURAC" . ?E) ("facility" . ?f) ("paper" . ?a) ("private" . ?p) ("project" . ?P)  ("review" . ?r) ("seminar" . ?s) ("work" . ?w) ("@brixen" . ?b) ("@innsbruck" . ?i) ("@meran" . ?m) ("@office" . ?o) ))
+(setq org-tag-alist '(("analysis" . ?n) ("ageing" . ?A) ("collab" . ?c) ("EURAC" . ?E)
+		      ("EURA-K" . ?K) ("noexport" . ?N) ("paper" . ?a) ("private" . ?p)
+		      ("project" . ?P) ("review" . ?r) ("work" . ?w) ))
 (setq org-agenda-custom-commands
       '(("p" "Private TODOs"
-	 ((tags-todo "private-@innsbruck-@meran-@brixen-@office")
-	  (tags-todo "private+@innsbruck")
-	  (tags-todo "private+@meran")
-	  (tags-todo "private+@brixen")
-	  (tags-todo "private+@office")
+	 ((tags-todo "private")
 	  ))
 	("w" "Work related TODOs"
-	 ((tags-todo "work-analysis-collab-paper-project-EURAC-facility")
-	 (tags-todo "work+analysis")
-	 (tags-todo "work+collab")
-	 (tags-todo "work+facility")
-	 (tags-todo "work+paper")
-	 (tags-todo "work+project")
-	 (tags-todo "work+EURAC")
-	 ))
-))
+	 (
+	  (tags-todo "work+analysis")
+	  (tags-todo "work+project")
+	  (tags-todo "work+paper")
+	  (tags-todo "work+collab")
+	  (tags-todo "work-analysis-project-paper-collab")
+	  ))
+	))
 ;; org-export settings:
 ;; allows to define a init file other than the default one, specifically
 ;; useful if async export yields e.g. an error complaining that the font
 ;; can not be found.
-;(setq org-export-async-init-file "/Users/jo/.emacs-async-init.el")
+(setq org-export-async-init-file "/Users/jo/.emacs-async-init.el")
+;; try this for gplots evaluation
+(setq org-babel-use-quick-and-dirty-noweb-expansion t)
+;; org-journal settings:
+;2(require 'org-journal)
+;2(setq org-journal-dir "/Users/jo/org-files/journal/")
+;2(global-set-key (kbd "C-c C-n") 'org-journal-new-entry)
 ;;
 ;;;;
 
-;;;;;;;;;;;;;;;;;;;;;;
-;; MobileOrg Settings:
+
+;;;;;;;;;;;;;;;;;;;;;;;;
+;; markdown
 ;;
-(setq org-mobile-directory "/scpx:jo@manny.i-med.ac.at:/var/www/jo/jorg/")
-;; set org-mobile-files ... by default all files in org-agenda-files.
-;(setq org-mobile-files (quote ("~/Documents/Unison/org-files/svn2git.org")))
-(setq org-directory "~/Documents/Unison/org-files")
-;(setq org-mobile-inbox-for-pull "~/Documents/Unison/org-files/mobileorg.org")
-(setq org-mobile-inbox-for-pull "~/Documents/Unison/org-files/from-mobile.org")
-;; finished with org stuff
-;;;;
+(autoload 'markdown-mode "markdown-mode"
+   "Major mode for editing Markdown files" t)
+(add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;
+;; polymode
+;;
+(add-to-list 'load-path "~/.emacs.d/site-lisp/polymode")
+(add-to-list 'load-path "~/.emacs.d/site-lisp/polymode/modes")
+;;(require 'poly-base)
+(require 'poly-R)
+(require 'poly-markdown)
+;;(require 'poly-org)
+
+;;(add-to-list 'auto-mode-alist '("\\.md" . poly-markdown-mode))
+
+;;;; ORG
+;;;(add-to-list 'auto-mode-alist '("\\.org" . poly-org-mode))
+
+
+;;;; R related modes
+(add-to-list 'auto-mode-alist '("\\.Rmd" . poly-markdown+r-mode))
+;;;(add-to-list 'auto-mode-alist '("\\.Rmd" . poly-markdown+r-mode))
+;;;(add-to-list 'auto-mode-alist '("\\.Rd" . poly-markdown+r-mode))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;
+;; markdown-preview
+;;
+;;(require 'websocket)
+;;(require 'markdown-preview)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Magit, git control
@@ -496,14 +535,8 @@
 (add-to-list 'load-path "~/.emacs.d/site-lisp/magit")
 (require 'magit)
 (require 'magit-svn)
-;; define the directories in which magit is looking for repos
-;(setq magit-repo-dirs
-;      (list "~/R-workspaces"
-;	    "~/Projects-synced"
-;	    "~/Projects"
-;	    "~/Documents/Unison/"
-;))
 (setq magit-repo-dirs-depth 4)
+(setq magit-last-seen-setup-instructions "1.4.0")
 ;;
 ;;;;
 
@@ -513,7 +546,7 @@
 ;; other stuff
 ;;
 ;; itunes control...
-(load "osx-itunes")
+;; (load "osx-itunes")
 ;; frame commands: cool stuff to increase/decrease frames
 (load "frame-cmds")
 ;; incrementally resizing frame
@@ -566,7 +599,7 @@
 (add-to-list 'vc-handled-backends 'SVN)
 (require 'psvn)
 (require 'framepop)
-(require 'import-env-from-shell)
+;(require 'import-env-from-shell)
 ;;
 ;;;;
 
@@ -586,62 +619,7 @@
 ;;
 ;;;;
 
-;;;;;;;;;;;;;;
-;; Melpa
-;;
-;(add-to-list 'package-archives
-;             '("melpa" . "http://melpa.milkbox.net/packages/") t)
-;(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-;                         ("marmalade" . "http://marmalade-repo.org/packages/")
-;                         ("melpa" . "http://melpa.milkbox.net/packages/")))
-(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-			("melpa" . "http://melpa.milkbox.net/packages/")))
-;;
-;;;;
 
-;;;;;;;;;;;;;;
-;; Desktop save mode
-;;
-(setq desktop-path '("~/.emacs.d/"))
-(setq desktop-dirname "~/.emacs.d/")
-(setq desktop-base-file-name "jo-emacs-desktop")
-(setq desktop-restore-eager 2)
-(setq desktop-files-not-to-save   "^$") ;reload tramp paths
-;; remove desktop after it's been read
-(add-hook 'desktop-after-read-hook
-      '(lambda ()
-         ;; desktop-remove clears desktop-dirname
-         (setq desktop-dirname-tmp desktop-dirname)
-         (desktop-remove)
-         (setq desktop-dirname desktop-dirname-tmp)))
-;; check if there is a desktop file
-(defun saved-session ()
-  (file-exists-p (concat desktop-dirname "/" desktop-base-file-name)))
-;; use session-restore to restore the desktop manually
-(defun session-restore ()
-  "Restore a saved emacs session."
-  (interactive)
-  (if (saved-session)
-      (desktop-read)
-    (message "No desktop found.")))
-;; use session-save to save the desktop manually
-(defun session-save ()
-  "Save an emacs session."
-  (interactive)
-  (if (saved-session)
-      (if (y-or-n-p "Overwrite existing desktop? ")
-      (desktop-save-in-desktop-dir)
-    (message "Session not saved."))
-  (desktop-save-in-desktop-dir)))
-;; ask user whether to restore desktop at start-up
-(add-hook 'after-init-hook
-      '(lambda ()
-         (if (saved-session)
-         (if (y-or-n-p "Restore desktop? ")
-	    (session-restore)))))
-(desktop-save-mode 1)
-;;
-;;;;
 
 ;;;;;;;;;;;;;;;
 ;; perl
@@ -657,3 +635,59 @@
 ;;
 ;;;;
 
+;;;;;;;;;;
+;; auto load file:
+(global-set-key (kbd "<f7>") (lambda() (interactive)(find-file "~/org-files/Weekly/2015-weekly.org")))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Spell checking
+;;
+;; use aspell instead of ispell:
+(setq-default ispell-program-name "aspell")  ;; or just symlink ispell to aspell...
+(add-hook 'TeX-mode-hook
+	  (lambda()
+	    (flyspell-mode 1))
+	    )
+(add-hook 'latex-mode-hook
+	  (lambda()
+	    (flyspell-mode 1))
+	    )
+(add-hook 'org-mode-hook
+	  (lambda()
+	    (flyspell-mode 1))
+	    )
+(add-hook 'ess-mode-hook
+	  (lambda()
+	    (flyspell-mode 0))
+	    )
+(setq ispell-list-command "--list")
+;;
+;;;
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; zoom-frame
+;;
+(require 'zoom-frm)
+(global-set-key (kbd "C-x C-+") 'zoom-in)
+(global-set-key (kbd "C-x C--") 'zoom-out)
+
+;;;;;;;;;;;;;;;;;;;;;;;;
+;; ioslides
+;;
+(add-to-list 'load-path "~/.emacs.d/site-lisp/org-ioslide")
+(require 'ox-ioslide)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;
+;; org-tree-slide
+;;
+(require 'org-tree-slide)
+(global-set-key (kbd "<f9>") 'org-tree-slide-mode)
+(global-set-key (kbd "S-<f9>") 'org-tree-slide-skip-done-toggle)
+
+;;;;;;;;;;;;;;;;;;;;;;;;
+;; epresent
+;;
+(require 'epresent)
+(global-set-key (kbd "<f6>") 'epresent-run)

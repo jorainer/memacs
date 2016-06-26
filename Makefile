@@ -38,6 +38,8 @@ MD=tmp/markdown-mode
 IOSLIDE=tmp/org-ioslide
 F=tmp/f.el
 S=tmp/s.el
+ORGTREESLIDE=tmp/org-tree-slide
+EPRESENT=tmp/epresent
 
 all : createdirs fetch emacs
 
@@ -47,7 +49,7 @@ emacs : core addons
 
 core : createdirs auctex ess org-async org dash execpath md poly git-modes with-editor magit
 
-addons : createdirs fuzzy popup auto-complete auto-lang other magit-svn org-bullets arduino ravel org-journal s f ioslide
+addons : createdirs fuzzy popup auto-complete auto-lang other magit-svn org-bullets arduino ravel org-journal s f ioslide org-tree-slide epresent
 
 ###############
 arduino :
@@ -118,6 +120,11 @@ ess :
 	        INFODIR=${INFODIR} SITELISP=${LISPDIR} -C ${ESS} install
 	@echo ----- Done making ESS
 
+epresent:
+	@echo ----- Making epresent
+	cp ${EPRESENT}/*.el ${LISPDIR}
+	@echo ----- Done.
+
 execpath:
 	@echo ----- Making exec-path-from-shell
 	${EMACS} -Q -L ${EXECPATH} -batch -f batch-byte-compile ${EXECPATH}/*.el
@@ -142,6 +149,8 @@ fetch :
 	cd ${DASH} && git pull
 	if [ ! -d ${ESS} ]; then cd tmp && git clone https://github.com/emacs-ess/ESS; fi
 	cd ${ESS} && git pull
+	if [ ! -d ${EPRESENT} ]; then cd tmp && git clone https://github.com/eschulte/epresent.git; fi
+	cd ${EPRESENT} && git pull
 	if [ ! -d ${EXECPATH} ]; then cd tmp && git clone https://github.com/purcell/exec-path-from-shell.git; fi
 	cd ${EXECPATH} && git pull
 	if [ ! -d ${F} ]; then cd tmp && git clone https://github.com/rejeep/f.el.git; fi
@@ -162,6 +171,8 @@ fetch :
 	cd ${OBULLETS} && git pull
 	if [ ! -d ${ORG} ]; then cd tmp && git clone http://orgmode.org/org-mode.git; fi
 	cd ${ORG} && git pull
+	if [ ! -d ${ORGTREESLIDE} ]; then cd tmp && git clone https://github.com/takaxp/org-tree-slide.git; fi
+	cd ${ORGTREESLIDE} && git pull
 	if [ ! -d ${ORGACC} ]; then cd tmp && git clone https://github.com/chasberry/orgmode-accessories.git; fi
 	cd ${ORGACC} && git pull
 	if [ ! -d ${ORGJOURNAL} ]; then cd tmp && git clone https://github.com/bastibe/org-journal.git; fi
@@ -229,6 +240,11 @@ md:
 	${ELCC} -batch -f batch-byte-compile ${MD}/markdown-mode.el
 #	cp -p ${MD}/*.el ${LISPDIR}
 	mv ${MD}/*.elc ${LISPDIR}
+	@echo ----- Done.
+
+org-tree-slide:
+	@echo ----- Making org-tree-slide...
+	cp -r ${ORGTREESLIDE}/*.el ${LISPDIR}
 	@echo ----- Done.
 
 org-bullets :
