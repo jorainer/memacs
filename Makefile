@@ -40,6 +40,7 @@ F=tmp/f.el
 S=tmp/s.el
 ORGTREESLIDE=tmp/org-tree-slide
 EPRESENT=tmp/epresent
+OS=tmp/org-sync
 
 all : createdirs fetch emacs
 
@@ -49,7 +50,7 @@ emacs : core addons
 
 core : createdirs auctex ess org-async org dash execpath md poly git-modes with-editor magit
 
-addons : createdirs fuzzy popup auto-complete auto-lang other magit-svn org-bullets arduino ravel org-journal s f ioslide org-tree-slide epresent
+addons : createdirs fuzzy popup auto-complete auto-lang other magit-svn org-bullets arduino ravel org-journal s f ioslide org-tree-slide epresent org-sync
 
 ###############
 arduino :
@@ -177,6 +178,8 @@ fetch :
 	cd ${ORGACC} && git pull
 	if [ ! -d ${ORGJOURNAL} ]; then cd tmp && git clone https://github.com/bastibe/org-journal.git; fi
 	cd ${ORGJOURNAL} && git pull
+	if [ ! -d ${OS} ]; then cd tmp && git clone https://github.com/arbox/org-sync.git; fi
+	cd ${OS} && git pull
 	if [ ! -d ${POPUP} ]; then cd tmp && git clone https://github.com/auto-complete/popup-el.git; fi
 	cd ${POPUP} && git pull
 	if [ ! -d ${ARDUINO} ]; then cd tmp && git clone https://github.com/bookest/arduino-mode.git; fi
@@ -310,6 +313,11 @@ org-async :
 	cd ${ORG} && make cleanall
 	cd ${ORG} && git checkout master
 	@echo ----- Done making org-async
+
+org-sync :
+	@echo ----- Making org-sync
+	cp ${OS}/*.el ${LISPDIR}/
+	@echo ----- Done.
 
 other :
 	@echo ----- compile all .el files...

@@ -691,3 +691,10 @@
 ;;
 (require 'epresent)
 (global-set-key (kbd "<f6>") 'epresent-run)
+
+;;;;;;;;;;;;;;;;;;;;;;;;
+;; org-sync
+;;
+;; Just loading github for now; could also do org-sync-bb and org-sync-redmine
+(mapc 'load
+      '("org-sync" "org-sync-github"))
