@@ -28,9 +28,11 @@ MONOKAI=tmp/monokai-emacs
 TANGOTANGO=tmp/color-theme-tangotango
 TANGOPLUS=tmp/tango-plus-theme
 GITHUB=tmp/color-theme-github
+ATOMONE=tmp/atom-one-dark-theme
+DRACULA=tmp/dracula-theme
 ##HIGHCONTRAST=tmp/replace-colorthemes
 
-all : anti-zenburn emacs-leuven-theme noctilux-theme soft-morning-theme solarized-emacs zenburn-emacs emacs-professional moe-theme flatui flatui-emacs monokai tangotango tangoplus github
+all : anti-zenburn emacs-leuven-theme noctilux-theme soft-morning-theme solarized-emacs zenburn-emacs emacs-professional moe-theme flatui flatui-emacs monokai tangotango tangoplus github atom-one-dark-theme
 
 goodones : anti-zenburn noctilux-theme solarized-emacs zenburn-emacs flatui flatui-emacs monokai
 
@@ -45,6 +47,24 @@ anti-zenburn :
 #	${EMACS} -Q -L ${AZ} -batch -f batch-byte-compile ${AZ}/*.el
 #	mv ${AZ}/*.elc ${DESTDIR}
 	cp -p ${AZ}/*.el ${DESTDIR}
+	@echo ----- Done.
+
+atom-one-dark-theme :
+	@echo ----- installing atom-one-dark-theme...
+	if [ ! -d ${DESTDIR} ]; then mkdir ${DESTDIR}; fi
+	if [ ! -d tmp ]; then mkdir tmp; fi
+	if [ ! -d ${ATOMONE} ]; then cd tmp && git clone https://github.com/jonathanchu/atom-one-dark-theme; fi
+	cd ${ATOMONE} && git pull
+	cp -p ${ATOMONE}/*.el ${DESTDIR}
+	@echo ----- Done.
+
+dracula-theme :
+	@echo ----- installing dracula-theme...
+	if [ ! -d ${DESTDIR} ]; then mkdir ${DESTDIR}; fi
+	if [ ! -d tmp ]; then mkdir tmp; fi
+	if [ ! -d ${DRACULA} ]; then cd tmp && git clone https://github.com/dracula/dracula-theme/; fi
+	cd ${DRACULA} && git pull
+	cp -p ${DRACULA}/*.el ${DESTDIR}
 	@echo ----- Done.
 
 emacs-leuven-theme :
