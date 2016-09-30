@@ -21,6 +21,7 @@ AUTOLANG=tmp/auto-lang
 DASH=tmp/dash.el
 ESS=tmp/ESS
 EXECPATH=tmp/exec-path-from-shell
+FCI=tmp/Fill-Column-Indicator
 FUZZY=tmp/fuzzy-el
 GITMODE=tmp/git-modes
 JULIA=tmp/julia
@@ -48,7 +49,7 @@ all : createdirs fetch emacs
 
 emacs : core addons
 
-core : createdirs auctex ess org-async org dash execpath md poly git-modes with-editor magit
+core : createdirs auctex ess org-async org dash execpath md poly git-modes with-editor magit fci
 
 addons : createdirs fuzzy popup auto-complete auto-lang other magit-svn org-bullets arduino ravel org-journal s f ioslide org-tree-slide epresent org-sync
 
@@ -120,6 +121,8 @@ ess :
 	${MAKE} DESTDIR=${DESTDIR} LISPDIR=${LISPDIR}/ess \
 	        ETCDIR=${ETCDIR}/ess DOCDIR=${DOCDIR}/ess \
 	        INFODIR=${INFODIR} SITELISP=${LISPDIR} -C ${ESS} install
+	cd ${ESS} && make clean
+	cd ${ESS} && git checkout master
 	@echo ----- Done making ESS
 
 epresent:
@@ -157,6 +160,8 @@ fetch :
 	cd ${EXECPATH} && git pull
 	if [ ! -d ${F} ]; then cd tmp && git clone https://github.com/rejeep/f.el.git; fi
 	cd ${F} && git pull
+	if [ ! -d ${FCI} ]; then cd tmp && git clone https://github.com/alpaker/Fill-Column-Indicator.git; fi
+	cd ${FCI} && git pull
 	if [ ! -d ${FUZZY} ]; then cd tmp && git clone https://github.com/auto-complete/fuzzy-el.git; fi
 	cd ${FUZZY} && git pull
 	if [ ! -d ${GITMODE} ]; then cd tmp && git clone https://github.com/magit/git-modes.git; fi
@@ -194,6 +199,12 @@ fetch :
 	if [ ! -d ${WITHED} ]; then cd tmp && git clone https://github.com/magit/with-editor.git; fi
 	cd ${WITHED} && git pull
 #	?weather-metno?
+
+fci:
+	@echo ----- Making Fill-Column-Indicator...
+	${ELCC} -batch -f batch-byte-compile ${FCI}/fill-column-indicator.el
+	mv ${FCI}/*.elc ${LISPDIR}
+	@echo ----- Done.
 
 fuzzy:
 	@echo ----- Making fuzzy...

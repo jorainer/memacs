@@ -31,6 +31,7 @@ ELCC=$(EMACS) -batch -q -no-site-file -no-init-file
 ## 8.2.6 (04.2014)) contains org-sbe
 org_release_async=release_8.3.4
 ## was release_8.3.2
-org_release=release_8.3.4
+#org_release=release_8.3.4
+org_release=release_8.3.6
 ##org_release=release_8.2.6
 ess_release=v16.04
