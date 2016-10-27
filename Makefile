@@ -18,30 +18,32 @@ AC=tmp/auto-complete
 ARDUINO=tmp/arduino-mode
 AUCTEX=src/auctex-11.87
 AUTOLANG=tmp/auto-lang
+ASYNC=tmp/emacs-async
 DASH=tmp/dash.el
 ESS=tmp/ESS
 EXECPATH=tmp/exec-path-from-shell
+EPRESENT=tmp/epresent
+F=tmp/f.el
 FCI=tmp/Fill-Column-Indicator
 FUZZY=tmp/fuzzy-el
 GITMODE=tmp/git-modes
+HELM=tmp/helm
+IOSLIDE=tmp/org-ioslide
 JULIA=tmp/julia
 MAGITSVN=tmp/magit-svn
 MAGIT=tmp/magit
+MD=tmp/markdown-mode
 OBULLETS=tmp/org-bullets
 ORG=tmp/org-mode
 ORGACC=tmp/orgmode-accessories
 ORGJOURNAL=tmp/org-journal
+ORGTREESLIDE=tmp/org-tree-slide
+OS=tmp/org-sync
+POLY=tmp/polymode
 POPUP=tmp/popup-el
+S=tmp/s.el
 WEATHER=weather-metno-20121023
 WITHED=tmp/with-editor
-POLY=tmp/polymode
-MD=tmp/markdown-mode
-IOSLIDE=tmp/org-ioslide
-F=tmp/f.el
-S=tmp/s.el
-ORGTREESLIDE=tmp/org-tree-slide
-EPRESENT=tmp/epresent
-OS=tmp/org-sync
 
 all : createdirs fetch emacs
 
@@ -51,7 +53,7 @@ emacs : core addons
 
 core : createdirs auctex ess org-async org dash execpath md poly git-modes with-editor magit fci
 
-addons : createdirs fuzzy popup auto-complete auto-lang other magit-svn org-bullets arduino ravel org-journal s f ioslide org-tree-slide epresent org-sync
+addons : createdirs fuzzy popup auto-complete auto-lang other magit-svn org-bullets arduino ravel org-journal s f ioslide org-tree-slide epresent org-sync async helm
 
 ###############
 arduino :
@@ -87,6 +89,11 @@ auto-complete : popup
 auto-lang :
 	@echo ----- making auto-lang
 	cp -p ${AUTOLANG}/*.el ${LISPDIR}
+	@echo ----- Done.
+
+async :
+	@echo ----- making async
+	cp -p ${ASYNC}/*.el ${LISPDIR}
 	@echo ----- Done.
 
 clean :
@@ -150,6 +157,8 @@ fetch :
 #	?auctex?
 	if [ ! -d ${AUTOLANG} ]; then cd tmp && git clone https://github.com/altruizine/auto-lang.git; fi
 	cd ${AUTOLANG} && git pull
+	if [ ! -d ${ASYNC} ]; then cd tmp && git clone https://github.com/jwiegley/emacs-async.git; fi
+	cd ${ASYNC} && git pull
 	if [ ! -d ${DASH} ]; then cd tmp && git clone https://github.com/magnars/dash.el.git; fi
 	cd ${DASH} && git pull
 	if [ ! -d ${ESS} ]; then cd tmp && git clone https://github.com/emacs-ess/ESS; fi
@@ -160,7 +169,7 @@ fetch :
 	cd ${EXECPATH} && git pull
 	if [ ! -d ${F} ]; then cd tmp && git clone https://github.com/rejeep/f.el.git; fi
 	cd ${F} && git pull
-	if [ ! -d ${FCI} ]; then cd tmp && git clone https://github.com/alpaker/Fill-Column-Indicator.git; fi
+	if [ ! -d ${FCI} ]; then cd tmp && git clone https://github.com/jotsetung/Fill-Column-Indicator.git; fi
 	cd ${FCI} && git pull
 	if [ ! -d ${FUZZY} ]; then cd tmp && git clone https://github.com/auto-complete/fuzzy-el.git; fi
 	cd ${FUZZY} && git pull
@@ -168,6 +177,8 @@ fetch :
 	cd ${GITMODE} && git pull
 	if [ ! -d ${IOSLIDE} ]; then cd tmp && git clone https://github.com/coldnew/org-ioslide.git; fi
 	cd ${IOSLIDE} && git pull
+	if [ ! -d ${HELM} ]; then cd tmp && git clone https://github.com/emacs-helm/helm.git; fi
+	cd ${HELM} && git pull
 	if [ ! -d ${MAGIT} ]; then cd tmp && git clone http://github.com/magit/magit; fi
 	cd ${MAGIT} && git pull
 	if [ ! -d ${MAGITSVN} ]; then cd tmp && git clone http://github.com/magit/magit-svn; fi
@@ -209,7 +220,8 @@ fci:
 fuzzy:
 	@echo ----- Making fuzzy...
 	${ELCC} -batch -f batch-byte-compile ${FUZZY}/fuzzy.el
-	mv ${FUZZY}/*.elc ${LISPDIR}
+	if [ ! -d ${LISPDIR}/helm ]; then mkdir ${LISPDIR}/helm; fi
+	mv ${FUZZY}/*.elc ${LISPDIR}/helm
 	@echo ----- Done.
 
 git-modes:
@@ -221,6 +233,15 @@ git-modes:
 	${ELCC} -batch -f batch-byte-compile ${GITMODE}/gitattributes-mode.el
 	cp -p ${GITMODE}/*.el ${LISPDIR}
 	mv ${GITMODE}/*.elc ${LISPDIR}
+	@echo ----- Done.
+
+helm:
+	@echo ----- Making helm...
+##	${MAKE} EMACS=${EMACS} -C ${HELM} all
+	rm -df -R -v ${LISPDIR}/helm
+	mkdir -p ${LISPDIR}/helm
+##	mv ${HELM}/*.elc ${LISPDIR}/helm
+	cp -p ${HELM}/*.el ${LISPDIR}/helm
 	@echo ----- Done.
 
 ioslide:

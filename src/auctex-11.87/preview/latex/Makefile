@@ -22,9 +22,9 @@
 # MA 02110-1301, USA.
 
 
-LATEX=/usr/texbin/latex
-PDFLATEX=/usr/texbin/pdflatex
-TEX=/usr/texbin/tex
+LATEX=/Library/TeX/texbin/latex
+PDFLATEX=/Library/TeX/texbin/pdflatex
+TEX=/Library/TeX/texbin/tex
 TEXHASH=:
 
 prefix=/usr/local$(null)
