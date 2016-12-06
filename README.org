@@ -37,9 +37,7 @@ memacs (short for my personal emacs; maybe in analogy to Depeche Mode's my perso
 
 ** Installation<<Installation>>
 
-Relatively straight forward, clone from git. However, since we're using a self certified ssl certificate it all gets a little bit more complicated. On MacOS it is sufficient to enter =https://manny.i-med.ac.at= in Safari (not any other browser!), add an exception and *permanently save the certificate*.
-On unix, call =echo | openssl s_client -connect manny.i-med.ac.at:443 2>&1 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > manny-cert.pem= save that certificate (=manny-cert.pem=) to some path (.e.g. /~./.certs/). Now we have to configure =git= to accept (actually find) this certificate: add the line =export GIT_SSL_CAPATH=/home/jo/.certs/= (replacing /jo/ with your user name) into your bash profile file.
-After that (make shure the =GIT_SSL_CAPATH= environment variable is set) we can clone the package: =git clone https://manny.i-med.ac.at/jo/memacs.git=.
+Relatively straight forward, clone from github.
 
 All required emacs extensions will also be fetched using =make fetch= (see Section [[Usage]] above).
 

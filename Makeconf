@@ -31,10 +31,13 @@ ELCC=$(EMACS) -batch -q -no-site-file -no-init-file
 ## 8.0 works nicely with org-export, but does not provide org-sbe (it's called sbe
 ## 9.0: many changes were included, thus old org files might have problems. Check http://orgmode.org/Changes.html.
 ## 8.2.6 (04.2014)) contains org-sbe
-org_release_async=release_9.0
+org_release_async=release_8.3.6
 ## was release_8.3.2, then 8.3.4
 #org_release=release_8.3.4
 #org_release=release_8.3.6
-org_release=release_9.0
-ess_release=v16.04
+org_release=release_9.0.1
+########
+## ESS
+ess_release=v16.10
+#ess_release=v16.04
 #ess_release=master

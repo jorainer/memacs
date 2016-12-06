@@ -30,11 +30,12 @@ TANGOPLUS=tmp/tango-plus-theme
 GITHUB=tmp/color-theme-github
 ATOMONE=tmp/atom-one-dark-theme
 DRACULA=tmp/dracula-theme
+GRUVBOX=tmp/gruvbox-emacs
 ##HIGHCONTRAST=tmp/replace-colorthemes
 
-all : anti-zenburn emacs-leuven-theme noctilux-theme soft-morning-theme solarized-emacs zenburn-emacs emacs-professional moe-theme flatui flatui-emacs monokai tangotango tangoplus github atom-one-dark-theme
+all : anti-zenburn emacs-leuven-theme noctilux-theme soft-morning-theme solarized-emacs zenburn-emacs emacs-professional moe-theme flatui flatui-emacs monokai tangotango tangoplus github atom-one-dark-theme gruvbox
 
-goodones : anti-zenburn noctilux-theme solarized-emacs zenburn-emacs flatui flatui-emacs monokai
+goodones : anti-zenburn noctilux-theme solarized-emacs zenburn-emacs flatui flatui-emacs monokai gruvbox
 
 .PHONY : anti-zenburn clean emacs-leuven-theme noctilux-theme soft-morning-theme solarized-emacs zenburn-emacs flatui flatui-emacs monokai tangotango tangoplus github
 
@@ -115,6 +116,15 @@ github :
 	if [ ! -d ${GITHUB} ]; then cd tmp && git clone https://github.com/dudleyf/color-theme-github.git; fi
 	cd ${GITHUB} && git pull
 	cp -p ${GITHUB}/*.el ${DESTDIR}
+	@echo ----- Done.
+
+gruvbox :
+	@echo ----- installing gruvbox...
+	if [ ! -d ${DESTDIR} ]; then mkdir ${DESTDIR}; fi
+	if [ ! -d tmp]; then mkdir tmp; fi
+	if [ ! -d ${GRUVBOX} ]; then cd tmp && git clone https://github.com/jotsetung/gruvbox-emacs; fi
+	cd ${GRUVBOX} && git pull
+	cp -p ${GRUVBOX}/*.el ${DESTDIR}
 	@echo ----- Done.
 
 moe-theme :

@@ -2,24 +2,24 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1. memacs</a>
+<li><a href="#org290cd8b">1. memacs</a>
 <ul>
-<li><a href="#sec-1-1">1.1. Installation</a>
+<li><a href="#org23a57cf">1.1. Installation</a>
 <ul>
-<li><a href="#sec-1-1-1">1.1.1. Requirements</a></li>
-<li><a href="#sec-1-1-2">1.1.2. Suggestions</a></li>
-<li><a href="#sec-1-1-3">1.1.3. Trouble shooting</a></li>
+<li><a href="#orgf24e78e">1.1.1. Requirements</a></li>
+<li><a href="#org883b9c9">1.1.2. Suggestions</a></li>
+<li><a href="#orgb42df49">1.1.3. Trouble shooting</a></li>
 </ul>
 </li>
-<li><a href="#sec-1-2">1.2. Usage</a>
+<li><a href="#org301a18b">1.2. Usage</a>
 <ul>
-<li><a href="#sec-1-2-1">1.2.1. Configuration</a></li>
+<li><a href="#orgff48290">1.2.1. Configuration</a></li>
 </ul>
 </li>
-<li><a href="#sec-1-3">1.3. Development</a>
+<li><a href="#org371598f">1.3. Development</a>
 <ul>
-<li><a href="#sec-1-3-1">1.3.1. Versions and change log</a></li>
-<li><a href="#sec-1-3-2">1.3.2. TODOs</a></li>
+<li><a href="#org540dffd">1.3.1. Versions and change log</a></li>
+<li><a href="#org67ef88d">1.3.2. <span class="todo TODO">TODO</span> s</a></li>
 </ul>
 </li>
 </ul>
@@ -27,24 +27,30 @@
 </ul>
 </div>
 </div>
-
 ---
 
-# memacs<a id="sec-1"></a>
+
+<a id="org290cd8b"></a>
+
+# memacs
 
 memacs (short for my personal emacs; maybe in analogy to Depeche Mode's my personal Jesus?) is a collection of `make` files and configuration templates to create an Emacs environment I found very useful to work with (in day-to-day use as well as for analyses based on `R` but also other programming/script languages).
 
-## Installation<a id="Installation"></a><a id="sec-1-1"></a>
 
-Relatively straight forward, clone from git. However, since we're using a self certified ssl certificate it all gets a little bit more complicated. On MacOS it is sufficient to enter `https://manny.i-med.ac.at` in Safari (not any other browser!), add an exception and **permanently save the certificate**.
-On unix, call `echo | openssl s_client -connect manny.i-med.ac.at:443 2>&1 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > manny-cert.pem` save that certificate (`manny-cert.pem`) to some path (.e.g. *~.*.certs/). Now we have to configure `git` to accept (actually find) this certificate: add the line `export GIT_SSL_CAPATH=/home/jo/.certs/` (replacing *jo* with your user name) into your bash profile file.
-After that (make shure the `GIT_SSL_CAPATH` environment variable is set) we can clone the package: `git clone https://manny.i-med.ac.at/jo/memacs.git`.
+<a id="org23a57cf"></a>
 
-All required emacs extensions will also be fetched using `make fetch` (see Section 1.2 above).
+## Installation<a id="org35d6d73"></a>
+
+Relatively straight forward, clone from github.
+
+All required emacs extensions will also be fetched using `make fetch` (see Section [1.2](#org3c2c664) above).
 
 In order to overwrite the `org-mode` package that is shipped with Emacs (and which is pretty outdated), you might need superuser rights (or make the `lisp/org` folder of the Emacs installation writable).
 
-### Requirements<a id="sec-1-1-1"></a>
+
+<a id="orgf24e78e"></a>
+
+### Requirements
 
 -   Emacs: Obviously (a recent) Emacs has to be installed.
     -   Mac OS X:
@@ -60,7 +66,10 @@ In order to overwrite the `org-mode` package that is shipped with Emacs (and whi
 
 -   The python based generic syntax highlighting tool `pygments` is suggested too (e.g. using `pip install pygments`) to enable syntax highlighting in exported `org-mode` files.
 
-### Suggestions<a id="sec-1-1-2"></a>
+
+<a id="org883b9c9"></a>
+
+### Suggestions
 
 A decent monospace font might be nice to have. Examples:
 
@@ -70,13 +79,19 @@ A decent monospace font might be nice to have. Examples:
 
 -   *Ubuntu Mono*: also from google web fonts.
 
-### Trouble shooting<a id="sec-1-1-3"></a>
+
+<a id="orgb42df49"></a>
+
+### Trouble shooting
 
 1.  Problems installing `auto-complete` or any of its dependencies.
 
     On some systems/network configurations it might not be possible to clone packages from github using `git://github.com` urls and thus `auto-complete` fails to fetch required packages. To fix this, got to the `tmp/auto-complete` folder and change all `git://` to `https://` in the `.gitmodules` file and `.git/config`. Also, you have to replace all `git://` by `https://` in `lib/popup/.gitmodules`. If the problem still persists some more of these urls might have to be replaced (if present also in `.git/modules/lib` and sub folders).
 
-## Usage<a id="Usage"></a><a id="sec-1-2"></a>
+
+<a id="org301a18b"></a>
+
+## Usage<a id="org3c2c664"></a>
 
 -   **Installation of themes**: themes will be installed to `<PREFIX>/themes`, by default to `~/.emacs.d/themes`. The `PREFIX` variable can be changed in the `Makeconf` file.
     -   `make all` to fetch/update all themes.
@@ -99,7 +114,10 @@ A decent monospace font might be nice to have. Examples:
     -   `magit`: installs `magit`, the *magic* git mode.
     -   `org-bullets`: installs `org-bullets`, that allow to replace the `*` from `org-mode` with special bullets.
 
-### Configuration<a id="sec-1-2-1"></a>
+
+<a id="orgff48290"></a>
+
+### Configuration
 
 Some basic configurations can be done in the `Makeconf` file, e.g. the `PREFIX` where all packages can be installed can be specified, or the `APPPREFIX`, which is on Mac by default `/Applications/Emacs.app/Contents/Resources`. This latter is required to remove/overwrite the `org-mode` that comes with Emacs.
 
@@ -107,6 +125,7 @@ The `.emacs` files are also thought as sort of template for the `~/.emacs` main 
 Most settings assume that the additional packages have been installed to `~/.emacs.d/site-lisp`, thus, if the default was not changed in the `Makeconf` file, not much has to been changed.
 
 Some important things, however, that might still be adapted are:
+
 -   In the `org-mode` section:
     -   the `org-agenda-files` which point to the `org` files that should be screened for TODO items,
     -   eventually custom TODO keywords `org-todo-keywords`,
@@ -114,17 +133,24 @@ Some important things, however, that might still be adapted are:
     -   custom agenda commands and custom tags (see `org-tag-alist` and `org-agenda-custom-commands`).
 
 Additional settings:
+
 -   Font.
 -   MobileOrg settings that would allow to synchronize agenda and `org` file with iOS or Android devices running the MobileOrg app.
 -   `org-export-async-init-file` allows to specify an emacs init file other than the default one. This is specifically useful when async export yields an error message complaining that the font can not be found.
 
-## Development<a id="sec-1-3"></a>
+
+<a id="org371598f"></a>
+
+## Development
 
 Please add your name here if you're contributing in whatever way.
 
 -   Johannes Rainer
 
-### Versions and change log<a id="sec-1-3-1"></a>
+
+<a id="org540dffd"></a>
+
+### Versions and change log
 
 -   v0.1.3:
     -   Added <https://github.com/purcell/exec-path-from-shell.git> that allows to copy environment variables. Thus, by copying `LC_ALL` some parallel computations do no longer cause a segfault in R started from within Emacs.
@@ -146,7 +172,10 @@ Please add your name here if you're contributing in whatever way.
 
 -   v0.0.1: initial version.
 
-### TODOs<a id="sec-1-3-2"></a>
+
+<a id="org67ef88d"></a>
+
+### s
 
 1.  DONE Write the main `Makefile` to install the packages.
 
@@ -158,6 +187,10 @@ Please add your name here if you're contributing in whatever way.
 
     Basically, drop it. Might be installed/setup later.
 
-3.  TODO Find a clever way to install/update the orgmode-accessories.
+3.  CANCELED Find a clever way to install/update the orgmode-accessories.
+
+    -   State "CANCELED"   from "TODO"       <span class="timestamp-wrapper"><span class="timestamp">[2015-05-18 Mon 14:25] </span></span>
+        That's not that important.
 
     To generate the `ox-ravel.el` file we have to first tangle the `ox-ravel.org`. For that we need, obviously, a running emacs with `org-mode` already installed&#x2026; pity.
+
