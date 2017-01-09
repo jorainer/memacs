@@ -41,6 +41,7 @@ ORGTREESLIDE=tmp/org-tree-slide
 OS=tmp/org-sync
 POLY=tmp/polymode
 POPUP=tmp/popup-el
+POWERLINE=tmp/powerline
 S=tmp/s.el
 WEATHER=weather-metno-20121023
 WITHED=tmp/with-editor
@@ -53,7 +54,7 @@ emacs : core addons
 
 core : createdirs auctex ess org-async org dash execpath md poly git-modes with-editor magit fci
 
-addons : createdirs fuzzy popup auto-complete auto-lang other magit-svn org-bullets arduino ravel org-journal s f ioslide org-tree-slide epresent org-sync async helm
+addons : createdirs fuzzy popup auto-complete auto-lang other magit-svn org-bullets arduino ravel org-journal s f ioslide org-tree-slide epresent org-sync async helm powerline
 
 ###############
 arduino :
@@ -199,6 +200,8 @@ fetch :
 	cd ${OS} && git pull
 	if [ ! -d ${POPUP} ]; then cd tmp && git clone https://github.com/auto-complete/popup-el.git; fi
 	cd ${POPUP} && git pull
+	if [ ! -d ${POWERLINE} ]; then cd tmp && git clone https://github.com/milkypostman/powerline.git; fi
+	cd ${POWERLINE} && git pull
 	if [ ! -d ${ARDUINO} ]; then cd tmp && git clone https://github.com/bookest/arduino-mode.git; fi
 	cd ${ARDUINO} && git pull
 	if [ ! -d ${POLY} ]; then cd tmp && git clone https://github.com/vspinu/polymode.git; fi
@@ -384,6 +387,11 @@ popup:
 	@echo ----- Making popup...
 	${ELCC} -batch -f batch-byte-compile ${POPUP}/popup.el
 	mv ${POPUP}/*.elc ${LISPDIR}
+	@echo ----- Done.
+
+powerline:
+	@echo ----- Making powerline...
+	cp ${POWERLINE}/*.el ${LISPDIR}
 	@echo ----- Done.
 
 s:
