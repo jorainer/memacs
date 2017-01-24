@@ -15,6 +15,7 @@ DOCDIR=${DESTDIR}/doc
 INFODIR=${DESTDIR}/info
 
 AC=tmp/auto-complete
+COMPMODE=tmp/company-mode
 ARDUINO=tmp/arduino-mode
 AUCTEX=src/auctex-11.87
 AUTOLANG=tmp/auto-lang
@@ -32,6 +33,7 @@ IOSLIDE=tmp/org-ioslide
 JULIA=tmp/julia
 MAGITSVN=tmp/magit-svn
 MAGIT=tmp/magit
+MAGITHUB=tmp/magithub
 MD=tmp/markdown-mode
 OBULLETS=tmp/org-bullets
 ORG=tmp/org-mode
@@ -54,7 +56,7 @@ emacs : core addons
 
 core : createdirs auctex ess org-async org dash execpath md poly git-modes with-editor magit fci
 
-addons : createdirs fuzzy popup auto-complete auto-lang other magit-svn org-bullets arduino ravel org-journal s f ioslide org-tree-slide epresent org-sync async helm powerline
+addons : createdirs fuzzy popup company-mode auto-lang other magit-svn org-bullets arduino ravel org-journal s f ioslide org-tree-slide epresent org-sync async helm powerline magithub
 
 ###############
 arduino :
@@ -100,6 +102,11 @@ async :
 clean :
 	@echo ----- Cleaning...
 	rm -Rf tmp/*
+	@echo ----- Done.
+
+company-mode :
+	@echo ----- making company mode
+	cp ${COMPMODE}/*.el ${LISPDIR}
 	@echo ----- Done.
 
 createdirs :
@@ -160,6 +167,8 @@ fetch :
 	cd ${AUTOLANG} && git pull
 	if [ ! -d ${ASYNC} ]; then cd tmp && git clone https://github.com/jwiegley/emacs-async.git; fi
 	cd ${ASYNC} && git pull
+	if [ ! -d ${COMPMODE} ]; then cd tmp && git clone https://github.com/company-mode/company-mode.git; fi
+	cd ${COMPMODE} && git pull
 	if [ ! -d ${DASH} ]; then cd tmp && git clone https://github.com/magnars/dash.el.git; fi
 	cd ${DASH} && git pull
 	if [ ! -d ${ESS} ]; then cd tmp && git clone https://github.com/emacs-ess/ESS; fi
@@ -186,6 +195,8 @@ fetch :
 	cd ${MAGITSVN} && git pull
 	if [ ! -d ${MD} ]; then cd tmp && git clone https://github.com/jrblevin/markdown-mode.git; fi
 	cd ${MD} && git pull
+	if [ ! -d ${MAGITHUB} ]; then cd tmp && git clone https://github.com/vermiculus/magithub.git; fi
+	cd ${MAGITHUB} && git pull
 	if [ ! -d ${OBULLETS} ]; then cd tmp && git clone https://github.com/sabof/org-bullets.git; fi
 	cd ${OBULLETS} && git pull
 	if [ ! -d ${ORG} ]; then cd tmp && git clone http://orgmode.org/org-mode.git; fi
@@ -272,6 +283,11 @@ magit-svn:
 #	${ELCC} -batch -f batch-byte-compile ${MAGITSVN}/magit-svn.el
 	cp -p ${MAGITSVN}/*.el ${LISPDIR}
 #	mv ${MAGITSVN}/*.elc ${LISPDIR}
+	@echo ----- Done.
+
+magithub:
+	@echo ----- Making magithub...
+	cp -p ${MAGITHUB}/*.el ${LISPDIR}
 	@echo ----- Done.
 
 md:
