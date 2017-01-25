@@ -29,6 +29,7 @@ FCI=tmp/Fill-Column-Indicator
 FUZZY=tmp/fuzzy-el
 GITMODE=tmp/git-modes
 HELM=tmp/helm
+HELMCOMP=tmp/helm-company
 IOSLIDE=tmp/org-ioslide
 JULIA=tmp/julia
 MAGITSVN=tmp/magit-svn
@@ -56,7 +57,7 @@ emacs : core addons
 
 core : createdirs auctex ess org-async org dash execpath md poly git-modes with-editor magit fci
 
-addons : createdirs fuzzy popup company-mode auto-lang other magit-svn org-bullets arduino ravel org-journal s f ioslide org-tree-slide epresent org-sync async helm powerline magithub
+addons : createdirs fuzzy popup company-mode helm-company auto-lang other magit-svn org-bullets arduino ravel org-journal s f ioslide org-tree-slide epresent org-sync async helm powerline magithub
 
 ###############
 arduino :
@@ -189,6 +190,8 @@ fetch :
 	cd ${IOSLIDE} && git pull
 	if [ ! -d ${HELM} ]; then cd tmp && git clone https://github.com/emacs-helm/helm.git; fi
 	cd ${HELM} && git pull
+	if [ ! -d ${HELMCOMP} ]; then cd tmp && git clone https://github.com/manuel-uberti/helm-company.git; fi
+	cd ${HELMCOMP} && git pull
 	if [ ! -d ${MAGIT} ]; then cd tmp && git clone http://github.com/magit/magit; fi
 	cd ${MAGIT} && git pull
 	if [ ! -d ${MAGITSVN} ]; then cd tmp && git clone http://github.com/magit/magit-svn; fi
@@ -256,6 +259,11 @@ helm:
 	mkdir -p ${LISPDIR}/helm
 ##	mv ${HELM}/*.elc ${LISPDIR}/helm
 	cp -p ${HELM}/*.el ${LISPDIR}/helm
+	@echo ----- Done.
+
+helm-company:
+	@echo ----- Making helm-company...
+	cp -p ${HELMCOMP}/*.el ${LISPDIR}
 	@echo ----- Done.
 
 ioslide:
