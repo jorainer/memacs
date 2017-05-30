@@ -31,13 +31,23 @@ GITHUB=tmp/color-theme-github
 ATOMONE=tmp/atom-one-dark-theme
 DRACULA=tmp/dracula-theme
 GRUVBOX=tmp/gruvbox-emacs
+AMPLE=tmp/ample-theme
 ##HIGHCONTRAST=tmp/replace-colorthemes
 
-all : anti-zenburn emacs-leuven-theme noctilux-theme soft-morning-theme solarized-emacs zenburn-emacs emacs-professional moe-theme flatui flatui-emacs monokai tangotango tangoplus github atom-one-dark-theme gruvbox
+all : anti-zenburn emacs-leuven-theme noctilux-theme soft-morning-theme solarized-emacs zenburn-emacs emacs-professional moe-theme flatui flatui-emacs monokai tangotango tangoplus github atom-one-dark-theme gruvbox ample
 
 goodones : anti-zenburn noctilux-theme solarized-emacs zenburn-emacs flatui flatui-emacs monokai gruvbox
 
 .PHONY : anti-zenburn clean emacs-leuven-theme noctilux-theme soft-morning-theme solarized-emacs zenburn-emacs flatui flatui-emacs monokai tangotango tangoplus github
+
+ample :
+	@echo ----- installing ample-theme...
+	if [ ! -d ${DESTDIR} ]; then mkdir ${DESTDIR}; fi
+	if [ ! -d tmp ]; then mkdir tmp; fi
+	if [ ! -d ${AMPLE} ]; then cd tmp && git clone https://github.com/jordonbiondo/ample-theme; fi
+	cd ${AMPLE} && git pull
+	cp -p ${AMPLE}/*.el ${DESTDIR}
+	@echo ----- Done.
 
 anti-zenburn :
 	@echo ----- installing anti-zenburn-theme...
