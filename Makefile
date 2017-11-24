@@ -15,6 +15,7 @@ DOCDIR=${DESTDIR}/doc
 INFODIR=${DESTDIR}/info
 
 AC=tmp/auto-complete
+AUTOTHEMER=tmp/autothemer
 COMPMODE=tmp/company-mode
 ARDUINO=tmp/arduino-mode
 AUCTEX=src/auctex-11.87
@@ -35,6 +36,7 @@ JULIA=tmp/julia
 MAGITSVN=tmp/magit-svn
 MAGIT=tmp/magit
 MAGITHUB=tmp/magithub
+MAGITPOPUP=tmp/magit-popup
 MD=tmp/markdown-mode
 OBULLETS=tmp/org-bullets
 ORG=tmp/org-mode
@@ -55,9 +57,9 @@ all : createdirs fetch emacs
 
 emacs : core addons
 
-core : createdirs auctex ess org-async org dash execpath md poly git-modes with-editor magit fci
+core : createdirs auctex ess org-async org dash execpath md poly git-modes magit-popup with-editor magit fci
 
-addons : createdirs fuzzy popup company-mode helm-company auto-lang other magit-svn org-bullets arduino ravel org-journal s f ioslide org-tree-slide epresent org-sync async helm powerline magithub
+addons : createdirs fuzzy popup company-mode helm-company auto-lang other magit-svn org-bullets arduino ravel org-journal s f ioslide org-tree-slide epresent org-sync async helm powerline autothemer
 
 ###############
 arduino :
@@ -93,6 +95,11 @@ auto-complete : popup
 auto-lang :
 	@echo ----- making auto-lang
 	cp -p ${AUTOLANG}/*.el ${LISPDIR}
+	@echo ----- Done.
+
+autothemer :
+	@echo ----- making autothemer
+	cp -p ${AUTOTHEMER}/*.el ${LISPDIR}
 	@echo ----- Done.
 
 async :
@@ -166,13 +173,15 @@ fetch :
 #	?auctex?
 	if [ ! -d ${AUTOLANG} ]; then cd tmp && git clone https://github.com/altruizine/auto-lang.git; fi
 	cd ${AUTOLANG} && git pull
+	if [ ! -d ${AUTOTHEMER} ]; then cd tmp && git clone https://github.com/sebastiansturm/autothemer.git; fi
+	cd ${AUTOTHEMER} && git pull
 	if [ ! -d ${ASYNC} ]; then cd tmp && git clone https://github.com/jwiegley/emacs-async.git; fi
 	cd ${ASYNC} && git pull
 	if [ ! -d ${COMPMODE} ]; then cd tmp && git clone https://github.com/company-mode/company-mode.git; fi
 	cd ${COMPMODE} && git pull
 	if [ ! -d ${DASH} ]; then cd tmp && git clone https://github.com/magnars/dash.el.git; fi
 	cd ${DASH} && git pull
-	if [ ! -d ${ESS} ]; then cd tmp && git clone https://github.com/emacs-ess/ESS; fi
+	if [ ! -d ${ESS} ]; then cd tmp && git clone --depth 300 https://github.com/emacs-ess/ESS; fi
 	cd ${ESS} && git pull
 	if [ ! -d ${EPRESENT} ]; then cd tmp && git clone https://github.com/eschulte/epresent.git; fi
 	cd ${EPRESENT} && git pull
@@ -194,6 +203,8 @@ fetch :
 	cd ${HELMCOMP} && git pull
 	if [ ! -d ${MAGIT} ]; then cd tmp && git clone http://github.com/magit/magit; fi
 	cd ${MAGIT} && git pull
+	if [ ! -d ${MAGITPOPUP} ]; then cd tmp && git clone https://github.com/magit/magit-popup.git; fi
+	cd ${MAGITPOPUP} && git pull
 	if [ ! -d ${MAGITSVN} ]; then cd tmp && git clone http://github.com/magit/magit-svn; fi
 	cd ${MAGITSVN} && git pull
 	if [ ! -d ${MD} ]; then cd tmp && git clone https://github.com/jrblevin/markdown-mode.git; fi
@@ -254,7 +265,7 @@ git-modes:
 
 helm:
 	@echo ----- Making helm...
-##	${MAKE} EMACS=${EMACS} -C ${HELM} all
+	${MAKE} EMACS=${EMACS} -C ${HELM} all
 	rm -df -R -v ${LISPDIR}/helm
 	mkdir -p ${LISPDIR}/helm
 ##	mv ${HELM}/*.elc ${LISPDIR}/helm
@@ -296,6 +307,11 @@ magit-svn:
 magithub:
 	@echo ----- Making magithub...
 	cp -p ${MAGITHUB}/*.el ${LISPDIR}
+	@echo ----- Done.
+
+magit-popup:
+	@echo ----- Making magit-popup...
+	cp -p ${MAGITPOPUP}/*.el ${LISPDIR}
 	@echo ----- Done.
 
 md:
