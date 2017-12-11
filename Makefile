@@ -29,6 +29,7 @@ F=tmp/f.el
 FCI=tmp/Fill-Column-Indicator
 FUZZY=tmp/fuzzy-el
 GITMODE=tmp/git-modes
+GHUB=tmp/ghub
 HELM=tmp/helm
 HELMCOMP=tmp/helm-company
 IOSLIDE=tmp/org-ioslide
@@ -57,7 +58,7 @@ all : createdirs fetch emacs
 
 emacs : core addons
 
-core : createdirs auctex ess org-async org dash execpath md poly git-modes magit-popup with-editor magit fci
+core : createdirs auctex ess org-async org dash execpath md poly git-modes magit-popup with-editor ghub magit fci
 
 addons : createdirs fuzzy popup company-mode helm-company auto-lang other magit-svn org-bullets arduino ravel org-journal s f ioslide org-tree-slide epresent org-sync async helm powerline autothemer
 
@@ -195,6 +196,8 @@ fetch :
 	cd ${FUZZY} && git pull
 	if [ ! -d ${GITMODE} ]; then cd tmp && git clone https://github.com/magit/git-modes.git; fi
 	cd ${GITMODE} && git pull
+	if [ ! -d ${GHUB} ]; then cd tmp && git clone https://github.com/magit/ghub; fi
+	cd ${GHUB} && git pull
 	if [ ! -d ${IOSLIDE} ]; then cd tmp && git clone https://github.com/coldnew/org-ioslide.git; fi
 	cd ${IOSLIDE} && git pull
 	if [ ! -d ${HELM} ]; then cd tmp && git clone https://github.com/emacs-helm/helm.git; fi
@@ -261,6 +264,11 @@ git-modes:
 	${ELCC} -batch -f batch-byte-compile ${GITMODE}/gitattributes-mode.el
 	cp -p ${GITMODE}/*.el ${LISPDIR}
 	mv ${GITMODE}/*.elc ${LISPDIR}
+	@echo ----- Done.
+
+ghub :
+	@echo ----- making ghub
+	cp -p ${GHUB}/*.el ${LISPDIR}
 	@echo ----- Done.
 
 helm:

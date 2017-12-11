@@ -157,7 +157,8 @@ If not a regular release, the date of the last change.")
 ;;; Code:
 
 
-;;;### (autoloads nil "bib-cite" "bib-cite.el" (21106 18145 0 0))
+;;;### (autoloads nil "bib-cite" "bib-cite.el" (22988 46897 133257
+;;;;;;  351000))
 ;;; Generated autoloads from bib-cite.el
 
 (autoload 'bib-cite-minor-mode "bib-cite" "\
