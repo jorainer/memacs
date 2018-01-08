@@ -216,7 +216,7 @@ fetch :
 	cd ${MAGITHUB} && git pull
 	if [ ! -d ${OBULLETS} ]; then cd tmp && git clone https://github.com/sabof/org-bullets.git; fi
 	cd ${OBULLETS} && git pull
-	if [ ! -d ${ORG} ]; then cd tmp && git clone http://orgmode.org/org-mode.git; fi
+	if [ ! -d ${ORG} ]; then cd tmp && git clone https://code.orgmode.org/bzg/org-mode.git; fi
 	cd ${ORG} && git pull
 	if [ ! -d ${ORGTREESLIDE} ]; then cd tmp && git clone https://github.com/takaxp/org-tree-slide.git; fi
 	cd ${ORGTREESLIDE} && git pull
