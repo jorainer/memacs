@@ -2,44 +2,23 @@
 
 # that's where we will install most of the packages (ess, etc)
 PREFIX=${HOME}/.emacs.d
-#PREFIX=~/tmp/.emacs.d
-# path where the installed emacs resides. that's to replace the org-mode shipped
-# with emacs (should reside in ${APPPREFIX/lisp}).
+
+# path where we're going to install stuff.
 #####
-# Mac example:
-APPPREFIX=/Applications/Emacs.app/Contents/Resources
+APPPREFIX=${HOME}/.emacs.d/
 APPLISPDIR=${APPPREFIX}/lisp
 APPETCDIR=${APPPREFIX}/etc
 APPDOCDIR=${APPPREFIX}/doc
 APPINFODIR=${APPPREFIX}/info
-#####
-# Unix example:
-#APPPREFIX=/home/jo/.emacs.d/
-#APPLISPDIR=${APPPREFIX}/site-lisp
-#APPETCDIR=${APPPREFIX}/etc
-#APPDOCDIR=${APPPREFIX}/doc
-#APPINFODIR=${APPPREFIX}/info
 
-##EMACS=emacs
-EMACS=/Applications/Emacs.app/Contents/MacOS/Emacs
-##EMACS=/usr/bin/emacs
-ELCC=$(EMACS) -batch -q -no-site-file -no-init-file
+EMACS=emacs
+ELCC=${EMACS} --batch -q --no-site-file --no-init-file
 
 ##Async org version
 ## Define the release that should be checked out and used.
 ## can also be master.
-## Notes on releases:
-## 8.0 works nicely with org-export, but does not provide org-sbe (it's called sbe
-## 9.0: many changes were included, thus old org files might have problems. Check http://orgmode.org/Changes.html.
-## 8.2.6 (04.2014)) contains org-sbe
 org_release_async=release_8.3.6
-## was release_8.3.2, then 8.3.4
-#org_release=release_8.3.4
-#org_release=release_8.3.6
 org_release=release_9.1.6
 ########
 ## ESS
-#ess_release=v16.10
 ess_release=v17.11
-#ess_release=v16.04
-#ess_release=master

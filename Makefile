@@ -65,8 +65,6 @@ addons : createdirs fuzzy popup company-mode helm-company auto-lang other magit-
 ###############
 arduino :
 	@echo ----- Making Arduino...
-#	${EMACS} -Q -L ${ARDUINO} -batch -f batch-byte-compile ${ARDUINO}/*.el
-#	mv ${ARDUINO}/*.elc ${LISPDIR}/
 	cp ${ARDUINO}/arduino-mode.el ${LISPDIR}/arduino-mode.el
 	@echo ----- Done.
 
@@ -82,15 +80,10 @@ auto-complete : popup
 	if [ ! -d ${LISPDIR}/auto-complete ]; then mkdir ${LISPDIR}/auto-complete; fi
 	cp ${POPUP}/popup.el ${AC}
 	make -C ${AC} byte-compile
-#	make -C ${AC} install ${LISPDIR}/auto-complete/
-#	${EMACS} -Q -L ${AC} -L ${AC}/lib/popup -L ${AC}/lib/fuzzy -batch -f batch-byte-compile ${AC}/auto-complete.el ${AC}/auto-complete-config.el
 	mv ${AC}/*.elc ${LISPDIR}/auto-complete
 	cp ${AC}/auto-complete-pkg.el ${LISPDIR}/auto-complete/auto-complete-pkg.el
 	if [ ! -d ${LISPDIR}/auto-complete/ac-dict ]; then mkdir ${LISPDIR}/auto-complete/ac-dict; fi
 	cp ${AC}/dict/* ${LISPDIR}/auto-complete/ac-dict/
-#	${EMACS} -Q -batch -f batch-byte-compile ${AC-GIT}/lib/fuzzy/fuzzy.el ${AC-GIT}/lib/popup/popup.el
-#	cp ${AC}/lib/fuzzy/fuzzy.el ${LISPDIR}/auto-complete/
-#	cp ${AC}/lib/popup/popup.el ${LISPDIR}/auto-complete/
 	@echo ----- Done.
 
 auto-lang :
@@ -244,24 +237,22 @@ fetch :
 
 fci:
 	@echo ----- Making Fill-Column-Indicator...
-	${ELCC} -batch -f batch-byte-compile ${FCI}/fill-column-indicator.el
+	${ELCC} -f batch-byte-compile ${FCI}/fill-column-indicator.el
 	mv ${FCI}/*.elc ${LISPDIR}
 	@echo ----- Done.
 
 fuzzy:
 	@echo ----- Making fuzzy...
-	${ELCC} -batch -f batch-byte-compile ${FUZZY}/fuzzy.el
+	${ELCC} -f batch-byte-compile ${FUZZY}/fuzzy.el
 	if [ ! -d ${LISPDIR}/helm ]; then mkdir ${LISPDIR}/helm; fi
 	mv ${FUZZY}/*.elc ${LISPDIR}/helm
 	@echo ----- Done.
 
 git-modes:
 	@echo ----- Making git-modes...
-#	${ELCC} -batch -f batch-byte-compile ${GITMODE}/git-commit-mode.el
-#	${ELCC} -batch -f batch-byte-compile ${GITMODE}/git-rebase-mode.el
-	${ELCC} -batch -f batch-byte-compile ${GITMODE}/gitconfig-mode.el
-	${ELCC} -batch -f batch-byte-compile ${GITMODE}/gitignore-mode.el
-	${ELCC} -batch -f batch-byte-compile ${GITMODE}/gitattributes-mode.el
+	${ELCC} -f batch-byte-compile ${GITMODE}/gitconfig-mode.el
+	${ELCC} -f batch-byte-compile ${GITMODE}/gitignore-mode.el
+	${ELCC} -f batch-byte-compile ${GITMODE}/gitattributes-mode.el
 	cp -p ${GITMODE}/*.el ${LISPDIR}
 	mv ${GITMODE}/*.elc ${LISPDIR}
 	@echo ----- Done.
@@ -294,8 +285,6 @@ ioslide:
 magit :
 	@echo ----- Making magit...
 	@echo - Note: if you get an error you might want to install git-modes first.
-## @echo - Note: writing a config.mk file that includes dash...
-## echo "LOAD_PATH = -L lisp\nLOAD_PATH += -L ../dash.el\nLOAD_PATH += -L ../with-editor" > ${MAGIT}/config.mk
 	if [ ! -e tmp/dash ]; then ln -s dash.el tmp/dash; fi
 	${MAKE} EMACS=${EMACS} -C ${MAGIT} all
 	rm -df -R -v ${LISPDIR}/magit
@@ -307,9 +296,7 @@ magit :
 
 magit-svn:
 	@echo ----- Making magit-svn...
-#	${ELCC} -batch -f batch-byte-compile ${MAGITSVN}/magit-svn.el
 	cp -p ${MAGITSVN}/*.el ${LISPDIR}
-#	mv ${MAGITSVN}/*.elc ${LISPDIR}
 	@echo ----- Done.
 
 magithub:
@@ -324,8 +311,7 @@ magit-popup:
 
 md:
 	@echo ----- Making markdown-mode...
-	${ELCC} -batch -f batch-byte-compile ${MD}/markdown-mode.el
-#	cp -p ${MD}/*.el ${LISPDIR}
+	${ELCC} -f batch-byte-compile ${MD}/markdown-mode.el
 	mv ${MD}/*.elc ${LISPDIR}
 	@echo ----- Done.
 
@@ -337,8 +323,6 @@ org-tree-slide:
 org-bullets :
 	@echo ----- Making org-bullets...
 	${EMACS} -Q -L ${OBULLETS} -batch -f batch-byte-compile ${OBULLETS}/org-bullets.el
-	# if [ -e ${APPLISPDIR}/org/org-bullets.el ]; then rm ${APPLISPDIR}/org/org-bullets.el; fi
-	# mv ${OBULLETS}/*.elc ${APPLISPDIR}/org
 	if [ -e ${LISPDIR}/org/org-bullets.el ]; then rm ${LISPDIR}/org/org-bullets.el; fi
 	mv ${OBULLETS}/*.elc ${LISPDIR}/org
 	@echo ----- Done.
@@ -346,8 +330,6 @@ org-bullets :
 org-journal :
 	@echo ----- Making org-journal...
 	${EMACS} -Q -L ${ORGJOURNAL} -batch -f batch-byte-compile ${ORGJOURNAL}/org-journal.el
-	# if [ -e ${APPLISPDIR}/org/org-journal.el ]; then rm ${APPLISPDIR}/org/org-journal.el; fi
-	# mv ${ORGJOURNAL}/*.elc ${APPLISPDIR}/org
 	if [ -e ${LISPDIR}/org/org-journal.el ]; then rm ${LISPDIR}/org/org-journal.el; fi
 	mv ${ORGJOURNAL}/*.elc ${LISPDIR}/org
 	@echo ----- Done.
@@ -355,22 +337,16 @@ org-journal :
 org :
 	@echo ----- Making org...
 	@echo ----- WARNING! we are over-writing the existing org installation!
-	#Delete the original org-mode.
 	rm -df -R -v ${APPLISPDIR}/org*
 	if [ -d ${LISPDIR}/org ]; then rm -df -R ${LISPDIR}/org; fi
 	if [ ! -d ${LISPDIR}/org ]; then mkdir ${LISPDIR}/org; fi
 	cd ${ORG} && make cleanall
 	cd ${ORG} && git checkout ${org_release}
 	${MAKE} EMACS=${EMACS} -C ${ORG} all
-#	${MAKE} EMACS=${EMACS} lispdir=${APPLISPDIR}/org \
-#	         datadir=${APPETCDIR}/org infodir=${APPINFODIR} -C ${ORG} install
 	${MAKE} EMACS=${EMACS} -no-site-file -no-init-file lispdir=${LISPDIR}/org \
 	        datadir=${APPETCDIR}/org infodir=${APPINFODIR} -C ${ORG} install-etc
 	${MAKE} EMACS=${EMACS} -no-site-file -no-init-file lispdir=${LISPDIR}/org \
 	        datadir=${APPETCDIR}/org infodir=${APPINFODIR} -C ${ORG} install-info
-#	if [ ! -d ${APPDOCDIR} ]; then mkdir ${APPDOCDIR}/org; fi
-#	cp -p ${ORG}/doc/*.pdf ${APPDOCDIR}/org/
-	# cp -p -R ${ORG}/contrib/lisp/*.el ${APPLISPDIR}/org/
 	cp -p -R ${ORG}/lisp/*.el ${LISPDIR}/org/
 	cp -p -R ${ORG}/lisp/*.elc ${LISPDIR}/org/
 	cp -p -R ${ORG}/contrib/lisp/*.el ${LISPDIR}/org/
@@ -406,14 +382,14 @@ org-sync :
 other :
 	@echo ----- compile all .el files...
 	if [ ! -d ${LISPDIR} ]; then mkdir ${LISPDIR}; fi
-	${ELCC} -batch -f batch-byte-compile src/other/ssh.el
-	${ELCC} -batch -f batch-byte-compile src/other/fixpath.el
-	${ELCC} -batch -f batch-byte-compile src/other/frame-fns.el
+	${ELCC} -f batch-byte-compile src/other/ssh.el
+	${ELCC} -f batch-byte-compile src/other/fixpath.el
+	${ELCC} -f batch-byte-compile src/other/frame-fns.el
 #	${ELCC} -batch -f batch-byte-compile other/frame-cmds.el
-	${ELCC} -batch -f batch-byte-compile src/other/framepop.el
-	${ELCC} -batch -f batch-byte-compile src/other/import-env-from-shell.el
+	${ELCC} -f batch-byte-compile src/other/framepop.el
+	${ELCC} -f batch-byte-compile src/other/import-env-from-shell.el
 #	${ELCC} -batch -f batch-byte-compile other/osx-itunes.el
-	${ELCC} -batch -f batch-byte-compile src/other/psvn.el
+	${ELCC} -f batch-byte-compile src/other/psvn.el
 #	${ELCC} -batch -f batch-byte-compile src/other/ox-ravel.el
 #	${ELCC} -batch -f batch-byte-compile src/other/markdown-mode.el
 	cp -p src/other/*.el ${LISPDIR}/
@@ -422,9 +398,6 @@ other :
 
 poly:
 	@echo ----- Making polymode...
-#	${EMACS} -Q -L ${POLY} -batch -f batch-byte-compile ${POLY}/*.el
-#	${EMACS} -Q -L ${POLY}/modes -batch -f batch-byte-compile ${POLY}/modes/*.el
-#	cp -p -R ${POLY}/ ${PREFIX}/site-lisp/polymode
 	if [ ! -d ${PREFIX}/site-lisp/polymode ]; then mkdir ${PREFIX}/site-lisp/polymode; fi
 	if [ ! -d ${PREFIX}/site-lisp/polymode/modes ]; then mkdir ${PREFIX}/site-lisp/polymode/modes; fi
 	cp ${POLY}/*.el ${PREFIX}/site-lisp/polymode
@@ -433,7 +406,7 @@ poly:
 
 popup:
 	@echo ----- Making popup...
-	${ELCC} -batch -f batch-byte-compile ${POPUP}/popup.el
+	${ELCC} -f batch-byte-compile ${POPUP}/popup.el
 	mv ${POPUP}/*.elc ${LISPDIR}
 	@echo ----- Done.
 
@@ -450,8 +423,6 @@ s:
 
 with-editor:
 	@echo ----- Making with-editor...
-#	${WITHED} -batch -f batch-byte-compile ${WITHED}/with-editor.el
-#	mv ${WITHED}/*.elc ${LISPDIR}
 	cp ${WITHED}/*.el ${LISPDIR}
 	@echo ----- Done.
 
@@ -460,7 +431,6 @@ with-editor:
 
 weather-metno :
 	@echo ----- Making weather-metno...
-#	${EMACS} -batch -f batch-byte-compile ${WEATHER}/*.el
 	if [ ! -d ${PREFIX}/site-lisp/weather-metno ]; then mkdir ${PREFIX}/site-lisp/weather-metno; fi
 	cp -p -R ${WEATHER}/ ${PREFIX}/site-lisp/weather-metno
 	@echo ----- Done.

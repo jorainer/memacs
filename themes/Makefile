@@ -24,6 +24,8 @@ PROF=tmp/emacs-professional-theme
 MOE=tmp/moe-theme.el
 FLATUI=tmp/emacs-flatui-theme
 FLATJO=tmp/flatui-emacs
+KAOLIN=tmp/emacs-kaolin-themes
+MATERIAL=tmp/emacs-material-theme
 MONOKAI=tmp/monokai-emacs
 TANGOTANGO=tmp/color-theme-tangotango
 TANGOPLUS=tmp/tango-plus-theme
@@ -32,11 +34,12 @@ ATOMONE=tmp/atom-one-dark-theme
 DRACULA=tmp/dracula-theme
 GRUVBOX=tmp/gruvbox-emacs
 AMPLE=tmp/ample-theme
+CREAMSODY=tmp/emacs-theme-creamsody
 ##HIGHCONTRAST=tmp/replace-colorthemes
 
-all : anti-zenburn emacs-leuven-theme noctilux-theme soft-morning-theme solarized-emacs zenburn-emacs emacs-professional moe-theme flatui flatui-emacs monokai tangotango tangoplus github atom-one-dark-theme gruvbox ample
+all : anti-zenburn emacs-leuven-theme noctilux-theme soft-morning-theme solarized-emacs zenburn-emacs emacs-professional moe-theme flatui flatui-emacs monokai tangotango tangoplus github atom-one-dark-theme gruvbox ample creamsody material kaolin
 
-goodones : anti-zenburn noctilux-theme solarized-emacs zenburn-emacs flatui flatui-emacs monokai gruvbox
+goodones : anti-zenburn noctilux-theme solarized-emacs zenburn-emacs flatui flatui-emacs monokai gruvbox kaolin
 
 .PHONY : anti-zenburn clean emacs-leuven-theme noctilux-theme soft-morning-theme solarized-emacs zenburn-emacs flatui flatui-emacs monokai tangotango tangoplus github
 
@@ -76,6 +79,15 @@ dracula-theme :
 	if [ ! -d ${DRACULA} ]; then cd tmp && git clone https://github.com/dracula/dracula-theme/; fi
 	cd ${DRACULA} && git pull
 	cp -p ${DRACULA}/*.el ${DESTDIR}
+	@echo ----- Done.
+
+creamsody :
+	@echo ----- installing creamsody...
+	if [ ! -d ${DESTDIR} ]; then mkdir ${DESTDIR}; fi
+	if [ ! -d tmp ]; then mkdir tmp; fi
+	if [ ! -d ${CREAMSODY} ]; then cd tmp && git clone https://github.com/emacsfodder/emacs-theme-creamsody.git; fi
+	cd ${CREAMSODY} && git pull
+	cp -p ${CREAMSODY}/*.el ${DESTDIR}
 	@echo ----- Done.
 
 emacs-leuven-theme :
@@ -135,6 +147,25 @@ gruvbox :
 	if [ ! -d ${GRUVBOX} ]; then cd tmp && git clone https://github.com/jotsetung/gruvbox-emacs; fi
 	cd ${GRUVBOX} && git pull
 	cp -p ${GRUVBOX}/*.el ${DESTDIR}
+	@echo ----- Done.
+
+kaolin :
+	@echo ----- installing kaolin...
+	if [ ! -d ${DESTDIR} ]; then mkdir ${DESTDIR}; fi
+	if [ ! -d tmp]; then mkdir tmp; fi
+	if [ ! -d ${KAOLIN} ]; then cd tmp && git clone https://github.com/ogdenwebb/emacs-kaolin-themes.git; fi
+	cd ${KAOLIN} && git pull
+	cp -p ${KAOLIN}/*.el ${DESTDIR}
+	cp -p ${KAOLIN}/themes/*.el ${DESTDIR}
+	@echo ----- Done.
+
+material :
+	@echo ----- installing material...
+	if [ ! -d ${DESTDIR} ]; then mkdir ${DESTDIR}; fi
+	if [ ! -d tmp ]; then mkdir tmp; fi
+	if [ ! -d ${MATERIAL} ]; then cd tmp && git clone https://github.com/cpaulik/emacs-material-theme.git; fi
+	cd ${MATERIAL} && git pull
+	cp -p ${MATERIAL}/*.el ${DESTDIR}
 	@echo ----- Done.
 
 moe-theme :
