@@ -440,10 +440,7 @@ weather-metno :
 ## the .el file and then copy the file.
 ravel :
 	@echo ----- Generating ox-ravel.el
-#	emacs --batch --eval "(load-file (expand-file-name \"~/.emacs\"))" --visit ${ORGACC}/ox-ravel.org --execute org-babel-tangle
-#	emacs --batch --visit "${ORGACC}/ox-ravel.org" --execute "org-babel-tangle"
-#	${EMACS} --batch --execute "org-babel-tangle-file ${ORGACC}/ox-ravel.org"
-#	${EMACS} --batch --quick --eval "(load-file (expand-file-name \"~/.emacs-async-init.el\"))" --visit ${ORGACC}/ox-ravel.org --execute "org-babel-tangle"
+	emacs --batch --visit ${ORGACC}/ox-ravel.org -f org-babel-tangle
 	cp -p ${ORGACC}/ox-ravel.el ${PREFIX}/site-lisp/
 	@echo ----- Done.
 
