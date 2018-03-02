@@ -195,7 +195,7 @@ fetch :
 	cd ${IOSLIDE} && git pull
 	if [ ! -d ${HELM} ]; then cd tmp && git clone https://github.com/emacs-helm/helm.git; fi
 	cd ${HELM} && git pull
-	if [ ! -d ${HELMCOMP} ]; then cd tmp && git clone https://github.com/manuel-uberti/helm-company.git; fi
+	if [ ! -d ${HELMCOMP} ]; then cd tmp && git clone https://github.com/Sodel-the-Vociferous/helm-company.git; fi
 	cd ${HELMCOMP} && git pull
 	if [ ! -d ${MAGIT} ]; then cd tmp && git clone http://github.com/magit/magit; fi
 	cd ${MAGIT} && git pull
