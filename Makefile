@@ -51,6 +51,7 @@ POWERLINE=tmp/powerline
 S=tmp/s.el
 WEATHER=weather-metno-20121023
 WITHED=tmp/with-editor
+ILIST=tmp/imenu-list
 
 all : createdirs fetch emacs
 
@@ -58,7 +59,7 @@ all : createdirs fetch emacs
 
 emacs : core addons
 
-core : createdirs auctex ess org-async org dash execpath md poly git-modes magit-popup with-editor ghub magit fci
+core : createdirs auctex ess org-async org dash execpath md poly git-modes magit-popup with-editor ghub magit fci ilist
 
 addons : createdirs fuzzy popup company-mode helm-company auto-lang other magit-svn org-bullets arduino ravel org-journal s f ioslide org-tree-slide epresent org-sync async helm powerline autothemer
 
@@ -191,6 +192,8 @@ fetch :
 	cd ${GITMODE} && git pull
 	if [ ! -d ${GHUB} ]; then cd tmp && git clone https://github.com/magit/ghub; fi
 	cd ${GHUB} && git pull
+	if [ ! -d ${ILIST} ]; then cd tmp && git clone https://github.com/bmag/imenu-list.git; fi
+	cd ${ILIST} && git pull
 	if [ ! -d ${IOSLIDE} ]; then cd tmp && git clone https://github.com/coldnew/org-ioslide.git; fi
 	cd ${IOSLIDE} && git pull
 	if [ ! -d ${HELM} ]; then cd tmp && git clone https://github.com/emacs-helm/helm.git; fi
@@ -274,6 +277,11 @@ helm:
 helm-company:
 	@echo ----- Making helm-company...
 	cp -p ${HELMCOMP}/*.el ${LISPDIR}
+	@echo ----- Done.
+
+ilist:
+	@echo ----- Making imenu-list...
+	cp -p ${ILIST}/*.el ${LISPDIR}
 	@echo ----- Done.
 
 ioslide:
