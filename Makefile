@@ -52,6 +52,7 @@ S=tmp/s.el
 WEATHER=weather-metno-20121023
 WITHED=tmp/with-editor
 ILIST=tmp/imenu-list
+MF=tmp/macbook-keyboard-fix.el
 
 all : createdirs fetch emacs
 
@@ -61,7 +62,7 @@ emacs : core addons
 
 core : createdirs auctex ess org-async org dash execpath md poly git-modes magit-popup with-editor ghub magit fci ilist
 
-addons : createdirs fuzzy popup company-mode helm-company auto-lang other magit-svn org-bullets arduino ravel org-journal s f ioslide org-tree-slide epresent org-sync async helm powerline autothemer
+addons : createdirs fuzzy popup company-mode helm-company auto-lang other magit-svn org-bullets arduino ravel org-journal s f ioslide org-tree-slide epresent org-sync async helm powerline autothemer macfix
 
 ###############
 arduino :
@@ -208,6 +209,8 @@ fetch :
 	cd ${MAGITSVN} && git pull
 	if [ ! -d ${MD} ]; then cd tmp && git clone https://github.com/jrblevin/markdown-mode.git; fi
 	cd ${MD} && git pull
+	if [ ! -d ${MF} ]; then cd tmp && git clone https://github.com/jotsetung/macbook-keyboard-fix.el; fi
+	cd ${MF} && git pull
 	if [ ! -d ${MAGITHUB} ]; then cd tmp && git clone https://github.com/vermiculus/magithub.git; fi
 	cd ${MAGITHUB} && git pull
 	if [ ! -d ${OBULLETS} ]; then cd tmp && git clone https://github.com/sabof/org-bullets.git; fi
@@ -321,6 +324,12 @@ md:
 	@echo ----- Making markdown-mode...
 	${ELCC} -f batch-byte-compile ${MD}/markdown-mode.el
 	mv ${MD}/*.elc ${LISPDIR}
+	@echo ----- Done.
+
+macfix:
+	@echo ----- Making macbook-keyboard-fix...
+	${ELCC} -f batch-byte-compile ${MF}/macbook-keyboard-fix.el
+	mv ${MF}/*.elc ${LISPDIR}
 	@echo ----- Done.
 
 org-tree-slide:
