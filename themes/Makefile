@@ -22,7 +22,7 @@ SOLARIZED=tmp/solarized-emacs
 ZENBURN=tmp/zenburn-emacs
 PROF=tmp/emacs-professional-theme
 MOE=tmp/moe-theme.el
-FLATUI=tmp/emacs-flatui-theme
+# FLATUI=tmp/emacs-flatui-theme
 FLATJO=tmp/flatui-emacs
 KAOLIN=tmp/emacs-kaolin-themes
 MATERIAL=tmp/emacs-material-theme
@@ -37,11 +37,11 @@ AMPLE=tmp/ample-theme
 CREAMSODY=tmp/emacs-theme-creamsody
 ##HIGHCONTRAST=tmp/replace-colorthemes
 
-all : anti-zenburn emacs-leuven-theme noctilux-theme soft-morning-theme solarized-emacs zenburn-emacs emacs-professional moe-theme flatui flatui-emacs monokai tangotango tangoplus github atom-one-dark-theme gruvbox ample creamsody material kaolin
+all : anti-zenburn emacs-leuven-theme noctilux-theme soft-morning-theme solarized-emacs zenburn-emacs emacs-professional moe-theme flatui-emacs monokai tangotango tangoplus github atom-one-dark-theme gruvbox ample creamsody material kaolin
 
-goodones : anti-zenburn noctilux-theme solarized-emacs zenburn-emacs flatui flatui-emacs monokai gruvbox kaolin
+goodones : anti-zenburn noctilux-theme solarized-emacs zenburn-emacs flatui-emacs monokai gruvbox kaolin
 
-.PHONY : anti-zenburn clean emacs-leuven-theme noctilux-theme soft-morning-theme solarized-emacs zenburn-emacs flatui flatui-emacs monokai tangotango tangoplus github
+.PHONY : anti-zenburn clean emacs-leuven-theme noctilux-theme soft-morning-theme solarized-emacs zenburn-emacs flatui-emacs monokai tangotango tangoplus github
 
 ample :
 	@echo ----- installing ample-theme...
@@ -110,14 +110,14 @@ emacs-professional :
 	cp -p ${PROF}/*.el ${DESTDIR}
 	@echo ----- Done.
 
-flatui :
-	@echo ----- installing flatui-emacs...
-	if [ ! -d ${DESTDIR} ]; then mkdir ${DESTDIR}; fi
-	if [ ! -d tmp]; then mkdir tmp; fi
-	if [ ! -d ${FLATUI} ]; then cd tmp && git clone https://github.com/MetroWind/emacs-flatui-theme.git; fi
-	cd ${FLATUI} && git pull
-	cp -p ${FLATUI}/*.el ${DESTDIR}
-	@echo ----- Done.
+# flatui :
+# 	@echo ----- installing flatui-emacs...
+# 	if [ ! -d ${DESTDIR} ]; then mkdir ${DESTDIR}; fi
+# 	if [ ! -d tmp]; then mkdir tmp; fi
+# 	if [ ! -d ${FLATUI} ]; then cd tmp && git clone https://github.com/MetroWind/emacs-flatui-theme.git; fi
+# 	cd ${FLATUI} && git pull
+# 	cp -p ${FLATUI}/*.el ${DESTDIR}
+# 	@echo ----- Done.
 
 flatui-emacs :
 	@echo ----- installing flatui-emacs...
