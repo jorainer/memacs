@@ -15,6 +15,7 @@ DOCDIR=${DESTDIR}/doc
 INFODIR=${DESTDIR}/info
 
 AC=tmp/auto-complete
+APIWRAP=tmp/apiwrap.el
 AUTOTHEMER=tmp/autothemer
 COMPMODE=tmp/company-mode
 ARDUINO=tmp/arduino-mode
@@ -30,8 +31,10 @@ FCI=tmp/Fill-Column-Indicator
 FUZZY=tmp/fuzzy-el
 GITMODE=tmp/git-modes
 GHUB=tmp/ghub
+GHUBPLUS=tmp/ghub-plus
 HELM=tmp/helm
 HELMCOMP=tmp/helm-company
+ILIST=tmp/imenu-list
 IOSLIDE=tmp/org-ioslide
 JULIA=tmp/julia
 MAGITSVN=tmp/magit-svn
@@ -39,6 +42,7 @@ MAGIT=tmp/magit
 MAGITHUB=tmp/magithub
 MAGITPOPUP=tmp/magit-popup
 MD=tmp/markdown-mode
+MF=tmp/macbook-keyboard-fix.el
 OBULLETS=tmp/org-bullets
 ORG=tmp/org-mode
 ORGACC=tmp/orgmode-accessories
@@ -46,13 +50,15 @@ ORGJOURNAL=tmp/org-journal
 ORGTREESLIDE=tmp/org-tree-slide
 OS=tmp/org-sync
 POLY=tmp/polymode
+POLYR=tmp/poly-R
+POLYMARK=tmp/poly-markdown
+POLYORG=tmp/poly-org
+POLYNW=tmp/poly-noweb
 POPUP=tmp/popup-el
 POWERLINE=tmp/powerline
 S=tmp/s.el
 WEATHER=weather-metno-20121023
 WITHED=tmp/with-editor
-ILIST=tmp/imenu-list
-MF=tmp/macbook-keyboard-fix.el
 
 all : createdirs fetch emacs
 
@@ -60,7 +66,7 @@ all : createdirs fetch emacs
 
 emacs : core addons
 
-core : createdirs auctex ess org-async org dash execpath md poly git-modes magit-popup with-editor ghub magit fci ilist
+core : createdirs auctex ess org-async org dash execpath md poly git-modes magit-popup with-editor ghub apiwrap ghub-plus magit magithub fci ilist
 
 addons : createdirs fuzzy popup company-mode helm-company auto-lang other magit-svn org-bullets arduino ravel org-journal s f ioslide org-tree-slide epresent org-sync async helm powerline autothemer macfix
 
@@ -68,6 +74,11 @@ addons : createdirs fuzzy popup company-mode helm-company auto-lang other magit-
 arduino :
 	@echo ----- Making Arduino...
 	cp ${ARDUINO}/arduino-mode.el ${LISPDIR}/arduino-mode.el
+	@echo ----- Done.
+
+apiwrap :
+	@echo ----- Making apiwrap...
+	cp ${APIWRAP}/apiwrap.el ${LISPDIR}/apiwrap.el
 	@echo ----- Done.
 
 auctex :
@@ -133,7 +144,7 @@ ess :
 	@echo ----- Making ESS...
 	if [ ! -d ${JULIA} ]; then echo "Need Julia! Call make fetch or make all first!" && exit 1; fi
 	rm -df -R -v ${LISPDIR}/ess
-	cd ${ESS} &&  make clean
+	cd ${ESS} && make clean
 	cd ${ESS} && git checkout ${ess_release}
 # cp ${JULIA}/contrib/julia-mode.el ${ESS}/lisp
 	${MAKE} EMACS=${EMACS} -C ${ESS} all
@@ -167,6 +178,8 @@ fetch :
 	cd ${AC} && git pull
 	cd ${AC} && git submodule update --init --recursive
 #	?auctex?
+	if [ ! -d ${APIWRAP} ]; then cd tmp && git clone https://github.com/vermiculus/apiwrap.el; fi
+	cd ${APIWRAP} && git pull
 	if [ ! -d ${AUTOLANG} ]; then cd tmp && git clone https://github.com/altruizine/auto-lang.git; fi
 	cd ${AUTOLANG} && git pull
 	if [ ! -d ${AUTOTHEMER} ]; then cd tmp && git clone https://github.com/sebastiansturm/autothemer.git; fi
@@ -178,7 +191,7 @@ fetch :
 	if [ ! -d ${DASH} ]; then cd tmp && git clone https://github.com/magnars/dash.el.git; fi
 	cd ${DASH} && git pull
 	if [ ! -d ${ESS} ]; then cd tmp && git clone --depth 300 https://github.com/emacs-ess/ESS; fi
-	cd ${ESS} && git pull
+	cd ${ESS} && git checkout master && git pull
 	if [ ! -d ${EPRESENT} ]; then cd tmp && git clone https://github.com/eschulte/epresent.git; fi
 	cd ${EPRESENT} && git pull
 	if [ ! -d ${EXECPATH} ]; then cd tmp && git clone https://github.com/purcell/exec-path-from-shell.git; fi
@@ -193,6 +206,8 @@ fetch :
 	cd ${GITMODE} && git pull
 	if [ ! -d ${GHUB} ]; then cd tmp && git clone https://github.com/magit/ghub; fi
 	cd ${GHUB} && git pull
+	if [ ! -d ${GHUBPLUS} ]; then cd tmp && git clone https://github.com/vermiculus/ghub-plus; fi
+	cd ${GHUBPLUS} && git pull
 	if [ ! -d ${ILIST} ]; then cd tmp && git clone https://github.com/bmag/imenu-list.git; fi
 	cd ${ILIST} && git pull
 	if [ ! -d ${IOSLIDE} ]; then cd tmp && git clone https://github.com/coldnew/org-ioslide.git; fi
@@ -208,7 +223,7 @@ fetch :
 	if [ ! -d ${MAGITSVN} ]; then cd tmp && git clone http://github.com/magit/magit-svn; fi
 	cd ${MAGITSVN} && git pull
 	if [ ! -d ${MD} ]; then cd tmp && git clone https://github.com/jrblevin/markdown-mode.git; fi
-	cd ${MD} && git pull
+	cd ${MD} && git checkout master && git pull
 	if [ ! -d ${MF} ]; then cd tmp && git clone https://github.com/jotsetung/macbook-keyboard-fix.el; fi
 	cd ${MF} && git pull
 	if [ ! -d ${MAGITHUB} ]; then cd tmp && git clone https://github.com/vermiculus/magithub.git; fi
@@ -216,7 +231,7 @@ fetch :
 	if [ ! -d ${OBULLETS} ]; then cd tmp && git clone https://github.com/sabof/org-bullets.git; fi
 	cd ${OBULLETS} && git pull
 	if [ ! -d ${ORG} ]; then cd tmp && git clone https://code.orgmode.org/bzg/org-mode.git; fi
-	cd ${ORG} && git pull
+	cd ${ORG} && git checkout master && git pull
 	if [ ! -d ${ORGTREESLIDE} ]; then cd tmp && git clone https://github.com/takaxp/org-tree-slide.git; fi
 	cd ${ORGTREESLIDE} && git pull
 	if [ ! -d ${ORGACC} ]; then cd tmp && git clone https://github.com/chasberry/orgmode-accessories.git; fi
@@ -231,8 +246,16 @@ fetch :
 	cd ${POWERLINE} && git pull
 	if [ ! -d ${ARDUINO} ]; then cd tmp && git clone https://github.com/bookest/arduino-mode.git; fi
 	cd ${ARDUINO} && git pull
-	if [ ! -d ${POLY} ]; then cd tmp && git clone https://github.com/vspinu/polymode.git; fi
+	if [ ! -d ${POLY} ]; then cd tmp && git clone https://github.com/polymode/polymode.git; fi
 	cd ${POLY} && git pull
+	if [ ! -d ${POLYR} ]; then cd tmp && git clone https://github.com/polymode/poly-R; fi
+	cd ${POLYR} && git pull
+	if [ ! -d ${POLYMARK} ]; then cd tmp && git clone https://github.com/polymode/poly-markdown; fi
+	cd ${POLYMARK} && git pull
+	if [ ! -d ${POLYORG} ]; then cd tmp && git clone https://github.com/polymode/poly-org; fi
+	cd ${POLYORG} && git pull
+	if [ ! -d ${POLYNW} ]; then cd tmp && git clone https://github.com/polymode/poly-noweb; fi
+	cd ${POLYNW} && git pull
 	if [ ! -d ${JULIA} ]; then cd tmp && git clone https://github.com/JuliaLang/julia.git; fi
 	cd ${JULIA} && git pull
 	if [ ! -d ${S} ]; then cd tmp && git clone https://github.com/magnars/s.el.git; fi
@@ -266,6 +289,11 @@ git-modes:
 ghub :
 	@echo ----- making ghub
 	cp -p ${GHUB}/*.el ${LISPDIR}
+	@echo ----- Done.
+
+ghub-plus :
+	@echo ----- making ghub-plus
+	cp -p ${GHUBPLUS}/*.el ${LISPDIR}
 	@echo ----- Done.
 
 helm:
@@ -322,6 +350,7 @@ magit-popup:
 
 md:
 	@echo ----- Making markdown-mode...
+	cd ${MD} && git checkout ${markdown_release}
 	${ELCC} -f batch-byte-compile ${MD}/markdown-mode.el
 	mv ${MD}/*.elc ${LISPDIR}
 	@echo ----- Done.
@@ -416,9 +445,15 @@ other :
 poly:
 	@echo ----- Making polymode...
 	if [ ! -d ${PREFIX}/site-lisp/polymode ]; then mkdir ${PREFIX}/site-lisp/polymode; fi
-	if [ ! -d ${PREFIX}/site-lisp/polymode/modes ]; then mkdir ${PREFIX}/site-lisp/polymode/modes; fi
+	if [ ! -d ${PREFIX}/site-lisp/poly-R ]; then mkdir ${PREFIX}/site-lisp/poly-R; fi
+	if [ ! -d ${PREFIX}/site-lisp/poly-markdown ]; then mkdir ${PREFIX}/site-lisp/poly-markdown; fi
+	if [ ! -d ${PREFIX}/site-lisp/poly-org ]; then mkdir ${PREFIX}/site-lisp/poly-org; fi
+	if [ ! -d ${PREFIX}/site-lisp/poly-noweb ]; then mkdir ${PREFIX}/site-lisp/poly-noweb; fi
 	cp ${POLY}/*.el ${PREFIX}/site-lisp/polymode
-	cp ${POLY}/modes/*.el ${PREFIX}/site-lisp/polymode/modes
+	cp ${POLYR}/*.el ${PREFIX}/site-lisp/poly-R
+	cp ${POLYMARK}/*.el ${PREFIX}/site-lisp/poly-markdown
+	cp ${POLYORG}/*.el ${PREFIX}/site-lisp/poly-org
+	cp ${POLYNW}/*.el ${PREFIX}/site-lisp/poly-noweb
 	@echo ----- Done.
 
 popup:

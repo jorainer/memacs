@@ -726,7 +726,11 @@
 ;; polymode
 ;;
 (setq load-path
-      (append '("~/.emacs.d/site-lisp/polymode/" "~/.emacs.d/site-lisp/polymode/modes")
+      (append '("~/.emacs.d/site-lisp/polymode/"
+		"~/.emacs.d/site-lisp/poly-R/"
+		"~/.emacs.d/site-lisp/poly-markdown/"
+		"~/.emacs.d/site-lisp/poly-org/"
+		"~/.emacs.d/site-lisp/poly-noweb/")
 	      load-path))
 ;;(require 'poly-base)
 (require 'poly-R)
