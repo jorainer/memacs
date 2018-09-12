@@ -32,6 +32,7 @@ FUZZY=tmp/fuzzy-el
 GITMODE=tmp/git-modes
 GHUB=tmp/ghub
 GHUBPLUS=tmp/ghub-plus
+GRAPHQL=tmp/graphql.el
 HELM=tmp/helm
 HELMCOMP=tmp/helm-company
 ILIST=tmp/imenu-list
@@ -57,6 +58,7 @@ POLYNW=tmp/poly-noweb
 POPUP=tmp/popup-el
 POWERLINE=tmp/powerline
 S=tmp/s.el
+TREEPY=tmp/treepy.el
 WEATHER=weather-metno-20121023
 WITHED=tmp/with-editor
 
@@ -66,7 +68,7 @@ all : createdirs fetch emacs
 
 emacs : core addons
 
-core : createdirs auctex ess org-async org dash execpath md poly git-modes magit-popup with-editor ghub apiwrap ghub-plus magit magithub fci ilist
+core : createdirs auctex ess org-async org dash execpath md poly treepy graphql git-modes with-editor ghub apiwrap ghub-plus magit-popup magit magithub fci ilist
 
 addons : createdirs fuzzy popup company-mode helm-company auto-lang other magit-svn org-bullets arduino ravel org-journal s f ioslide org-tree-slide epresent org-sync async helm powerline autothemer macfix
 
@@ -208,6 +210,8 @@ fetch :
 	cd ${GHUB} && git pull
 	if [ ! -d ${GHUBPLUS} ]; then cd tmp && git clone https://github.com/vermiculus/ghub-plus; fi
 	cd ${GHUBPLUS} && git pull
+	if [ ! -d ${GRAPHQL} ]; then cd tmp && git clone https://github.com/vermiculus/graphql.el; fi
+	cd ${GRAPHQL} && git pull
 	if [ ! -d ${ILIST} ]; then cd tmp && git clone https://github.com/bmag/imenu-list.git; fi
 	cd ${ILIST} && git pull
 	if [ ! -d ${IOSLIDE} ]; then cd tmp && git clone https://github.com/coldnew/org-ioslide.git; fi
@@ -260,6 +264,8 @@ fetch :
 	cd ${JULIA} && git pull
 	if [ ! -d ${S} ]; then cd tmp && git clone https://github.com/magnars/s.el.git; fi
 	cd ${S} && git pull
+	if [ ! -d ${TREEPY} ]; then cd tmp && git clone https://github.com/volrath/treepy.el; fi
+	cd ${TREEPY} && git pull
 	if [ ! -d ${WITHED} ]; then cd tmp && git clone https://github.com/magit/with-editor.git; fi
 	cd ${WITHED} && git pull
 #	?weather-metno?
@@ -296,6 +302,11 @@ ghub-plus :
 	cp -p ${GHUBPLUS}/*.el ${LISPDIR}
 	@echo ----- Done.
 
+graphql :
+	@echo ----- making graphql
+	cp -p ${GRAPHQL}/*.el ${LISPDIR}
+	@echo ----- Done.
+
 helm:
 	@echo ----- Making helm...
 	${MAKE} EMACS=${EMACS} -C ${HELM} all
@@ -325,6 +336,8 @@ magit :
 	@echo ----- Making magit...
 	@echo - Note: if you get an error you might want to install git-modes first.
 	if [ ! -e tmp/dash ]; then ln -s dash.el tmp/dash; fi
+	if [ ! -e tmp/graphql ]; then ln -s graphql.el tmp/graphql; fi
+	if [ ! -e tmp/treepy ]; then ln -s treepy.el tmp/treepy; fi
 	${MAKE} EMACS=${EMACS} -C ${MAGIT} all
 	rm -df -R -v ${LISPDIR}/magit
 	mkdir -p ${LISPDIR}/magit
@@ -471,6 +484,11 @@ s:
 	@echo ----- Making s
 	${EMACS} -Q -L ${S} -batch -f batch-byte-compile ${S}/*.el
 	mv ${S}/*.elc ${LISPDIR}/
+	@echo ----- Done.
+
+treepy:
+	@echo ----- Making treepy...
+	cp ${TREEPY}/*.el ${LISPDIR}
 	@echo ----- Done.
 
 with-editor:

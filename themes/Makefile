@@ -85,7 +85,7 @@ creamsody :
 	@echo ----- installing creamsody...
 	if [ ! -d ${DESTDIR} ]; then mkdir ${DESTDIR}; fi
 	if [ ! -d tmp ]; then mkdir tmp; fi
-	if [ ! -d ${CREAMSODY} ]; then cd tmp && git clone https://github.com/emacsfodder/emacs-theme-creamsody.git; fi
+	if [ ! -d ${CREAMSODY} ]; then cd tmp && git clone https://github.com/jotsetung/emacs-theme-creamsody.git; fi
 	cd ${CREAMSODY} && git pull
 	cp -p ${CREAMSODY}/*.el ${DESTDIR}
 	@echo ----- Done.
