@@ -8,12 +8,6 @@
 ;; You may delete these explanatory comments.
 (package-initialize)
 
-;; Defining outline mode here.
-;;; Local Variables:
-;;; outline-regexp: ";;;\\*+\\|\\`"
-;;; End:
-;;; eval: (outline-minor-mode 1)
-
 ;;; * Font
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -54,16 +48,6 @@
 ;;(set-default-font "-*-SF Mono-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
 ;;(set-face-attribute 'default nil :font "-*-SF Mono-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
 
-;; Fantasque Sans Mono (https://github.com/belluzj/fantasque-sans)
-;; (add-to-list 'default-frame-alist '(font . "Fantasque Sans Mono-13"))
-;; (set-face-attribute 'default t :font "Fantasque Sans Mono-13")
-;; Set the pitch if e.g. TODO should have the same size than the header.
-;;(set-default-font "-*-Fantasque Sans Mono-normal-normal-normal-*-13-*-*-*-m-0-iso10646-1")
-;;(set-face-attribute 'default nil :font "-*-Fantasque Sans Mono-normal-normal-normal-*-13-*-*-*-m-0-iso10646-1")
-;; (set-face-attribute 'default nil :font "Fantasque Sans Mono")
-;; have to set the following two, in order to
-;;(set-face-attribute 'fixed-pitch nil :font "Fantasque Sans Mono")
-;;(set-face-attribute 'variable-pitch nil :font "Fantasque Sans Mono")
 ;;
 ;;;
 
@@ -76,18 +60,43 @@
 (setenv "PATH"
 	(concat ":~/bin:/usr/local/bin:/usr/bin:/bin"
 	(getenv "PATH"))
-   )
+	)
+
+;; This is from https://gist.github.com/railwaycat/3498096
+;; Keybonds
+(global-set-key [(hyper a)] 'mark-whole-buffer)
+(global-set-key [(hyper v)] 'yank)
+(global-set-key [(hyper c)] 'kill-ring-save)
+(global-set-key [(hyper s)] 'save-buffer)
+(global-set-key [(hyper l)] 'goto-line)
+(global-set-key [(hyper w)]
+                (lambda () (interactive) (delete-window)))
+(global-set-key [(hyper z)] 'undo)
+
+;; mac switch meta key
+(defun mac-switch-meta nil 
+  "switch meta between Option and Command"
+  (interactive)
+  (if (eq mac-option-modifier nil)
+      (progn
+	(setq mac-option-modifier 'meta)
+	(setq mac-command-modifier 'hyper)
+	)
+    (progn 
+      (setq mac-option-modifier nil)
+      (setq mac-command-modifier 'meta)
+      )
+    )
+  )
+(mac-switch-meta)
+(mac-switch-meta)
+
 ;; in order to be able to write {} and []
-(setq default-input-method "MacOSX")
-(setq ns-alternate-modifier 'meta)        ;; left alt is meta
-(setq ns-right-alternate-modifier 'nil)   ;; right alt is alt
-;(setq mouse-drag-copy-region nil)  ; stops selection with a mouse being immediately injected to the kill ring
-;(mouse-wheel-mode t)			; activate mouse scrolling
+;; (setq default-input-method "MacOSX")
+;; (setq ns-alternate-modifier 'meta)        ;; left alt is meta
+;; (setq ns-right-alternate-modifier 'nil)   ;; right alt is alt
 (global-font-lock-mode t)		; syntax highlighting
-;(setq font-lock-global-modes '(not ESS))
 (transient-mark-mode t)			; sane select (mark) mode
-;(delete-selection-mode t)		; entry deletes marked text
-;(show-paren-mode t)			; match parentheses
 ;;
 ;;;;
 
@@ -101,12 +110,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   (quote
-    ("ed317c0a3387be628a48c4bbdb316b4fa645a414838149069210b66dd521733f" "da0468f37373855e845e7ebfd7cdc334e0ea92de4dcf6695a4eefd1dc884410d" "c924950f6b5b92a064c5ad7063bb34fd3facead47cd0d761a31e7e76252996f7" "d793919bc252952ebea0cdfaa2241b8a5e83f581123f7752f1c68554a2c867fd" "34af76ab5d1369a18a77174c3b8a450820900211d92106aa846a7853f8c16440" "5eb44a5d38e3c273d8a10bb03fac0ad4533debd39819b8a7a2ba283a52cf4527" "86446384ca324dd3154d71fe97894dfb5d046913ae43aa4ffabd8228794f0fa1" "449c37535e8713dd431496870595f998c5c1b8075319843b7336707749ffef1d" "283ec00760b8fedc4add974c22846dda6235d5fbce59c9446940686bf0ebe5b4" "c0dd134ecd6ede6508c30f7d4ac92334229531df62284fc6572f65b4d0cde43f" "da74e98149367c52e54949a324d80cad17807083fb88c6af318330a91fbccd90" "aa085c92f21f5aef333a4e26980331d0b5f2bae7c4053558a90ed7229f165139" "2e635a764137174fc9fedb7cf700848ce7fea482cc26f9b87b09272d499860da" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "5f8018b6f2e39e6de7d38fc5677d47e68aedbb18efe3660aa8043bc8784fb5af" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "2acad40240f9de1d74378f49c74d8ff03d0499bdbced4b1a79692e9cb298d3f9" default)))
- '(magit-diff-use-overlays nil)
- '(magit-use-overlays nil)
- '(tool-bar-mode nil))
+)
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -193,32 +197,6 @@
 ;; path where auctex has been installed...
 (add-to-list 'load-path "~/.emacs.d/site-lisp")
 (load "auctex.el" nil t t)
-;; (load "preview-latex.el" nil t t)
-;; Turn on RefTeX for LaTeX documents. Put further RefTeX
-;; customizations in your .emacs file.
-;(add-hook 'LaTeX-mode-hook
-;      (lambda ()
-;	(turn-on-reftex)
-;	(setq reftex-plug-into-AUCTeX t)))
-;(add-hook 'TeX-mode-hook 'turn-on-reftex)
-;; (setq reftex-plug-into-AUCTeX t)
-;; (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
-;; Minimal OS X-friendly configuration of AUCTeX. Since there is no
-;; DVI viewer for the platform, use pdftex/pdflatex by default for
-;; compilation. Furthermore, use 'open' to view the resulting PDF.
-;; Until Preview learns to refresh automatically on file updates, Skim
-;; (http://skim-app.sourceforge.net) is a nice PDF viewer.
-;; (setq TeX-PDF-mode t)
-;;     (setq TeX-view-program-selection
-;;     '(((output-dvi style-pstricks)
-;;         "dvips and PDF Viewer")
-;;         (output-dvi "PDF Viewer")
-;;         (output-pdf "PDF Viewer")
-;;         (output-html "Safari")))
-;;         (setq TeX-view-program-list
-;;         '(("dvips and PDF Viewer" "%(o?)dvips %d -o && open %f")
-;;         ("PDF Viewer" "open %o")
-;;         ("Safari" "open %o")))
 ;; Add standard Sweave file extensions to the list of files recognized
 ;; by AUCTeX.
 (setq TeX-file-extensions
@@ -226,49 +204,6 @@
 ;; code folding:
 ;(add-hook 'TeX-mode-hook (lambda ()
 ;			   (Tex-fold-mode 1)))
-;;
-;;;;
-
-;;; * outline-mode
-;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;; outline-minor-mode
-;;
-;(defun turn-on-outline-minor-mode()
-;  (outline-minor-mode 1))
-;(add-hook 'LaTeX-mode-hook 'turn-on-outline-minor-mode)
-;(add-hook 'LaTeX-mode-hook 'turn-on-outline-minor-mode)
-;; (setq outline-minor-mode-prefix "C-c C-o")
-;; C-c C-o C-l hide section content
-;; C-c C-o C-n move to next section
-;; C-c C-o C-p previous section
-;; C-c C-o C-a show all
-;;
-;;;;
-
-;;; * auto-complete
-;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;; auto-complete
-;;
-;; (add-to-list 'load-path "~/.emacs.d/site-lisp/auto-complete" )
-;; (require 'auto-complete-config)
-;; (add-to-list 'ac-dictionary-directories "~/.emacs.d/site-lisp/auto-complete/ac-dict")
-;; (setq ac-comphist-file "~/.emacs.d/site-lisp/auto-complete/ac-comphist.dat")
-;; (ac-config-default)
-;; ;; start auto-completing after 4 characters or disable.
-;; (setq ac-auto-start nil)
-;; ;; Show menu 0.8 seconds later
-;; (setq ac-auto-show-menu 0.8)
-;; ;; disable auto show help.
-;; (setq ac-use-quick-help nil)
-;; ;; set the delay to 1 second, so it's not always bugging
-;; (setq ac-delay 1)
-;; ;(setq ac-auto-start nil)
-;; (ac-set-trigger-key "TAB")
-;; (define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
-;; ;; start quick help with M-h
-;; (define-key ac-completing-map (kbd "M-h") 'ac-quick-help)
 ;;
 ;;;;
 
@@ -294,11 +229,6 @@
 ;; (define-key company-active-map (kbd "<backtab>") 'company-select-previous)
 ;;
 (require 'company-capf)
-;; put company-capf and company-files at the beginning of the list
-;; (setq company-backends
-;;       '(company-files company-capf company-nxml company-css company-cmake company-semantic company-clang company-xcode company-eclim))
-;; (setq-default company-backends
-;;               '(company-files company-capf company-nxml company-css company-cmake company-semantic company-clang company-xcode company-eclim))
 ;; put company-capf and company-files at the beginning of the list
 (setq company-backends
       '(company-files company-capf company-gtags company-ispell company-nxml company-css company-cmake company-semantic))
@@ -359,9 +289,6 @@
 ;; Uncomment below if we're getting problems doing an ediff on an R-file with magit. merge conflict
 ;; (add-to-list 'auto-mode-alist '("\\.R" . ess-mode))
 ;; (add-to-list 'auto-mode-alist '("NAMESPACE" . ess-mode))
-;;(require 'ess-custom)
-;; Somehow that sucker seems to be missing...
-;;(defvar ess-local-customize-alist nil "Buffer local settings for proper behaviour")
 (setq-default inferior-R-args "--no-save ")
 ;; automatically start R in the present directory. useful for async org export
 (setq ess-ask-for-ess-directory nil)
@@ -372,17 +299,6 @@
       (if (eq ess-ask-for-ess-directory nil)
             (setq ess-ask-for-ess-directory t)
                 (setq ess-ask-for-ess-directory nil)))
-;; This will set Ctrl-g to toggle but you can set it to anything
-;; you want.
-;; (global-set-key [(control meta g)] 'toggle-ask-R)
-;; Automagically delete trailing whitespace when saving R script
-;; files. One can add other commands in the ess-mode-hook below.
-;; (add-hook 'ess-mode-hook
-;;       '(lambda()
-;; 	(add-hook 'write-file-functions
-;; 	(lambda ()
-;; 	(ess-nuke-trailing-whitespace)))
-;; 	(setq ess-nuke-trailing-whitespace-p t)))
 ;; disable the replacing of undescore with assignment
 (ess-toggle-underscore nil)
 ;;
@@ -448,9 +364,7 @@
 (require 'ox-beamer)
 (require 'ox-md)
 ;;(require 'ox-bibtex)
-;2(require 'org-eval)
 ;; enable fontify:
-;2(setq org-src-fontify-natively t)
 ;(setq org-startup-indented t)  ;; automatic indentation and hiding of **
 ;; bullets for TODO items
 (require 'org-bullets)
@@ -463,21 +377,13 @@
 				"◆"
 				"◇"
 				))
-;(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 ;; set org-mode for all .org files.
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
 (setq org-log-done t)
-;; ;; Disable the strike through:
-;; (setq org-emphasis-alist (quote (("*" bold)
-;; 				 ("/" italic)
-;; 				 ("_" underline)
-;; 				 ("=" org-code verbatim)
-;; 				 ("~" org-verbatim verbatim))))
 ;; Hide the markup elements:
 (setq org-hide-emphasis-markers t)
-;; set to nil in case no default scaling should be done.
 ;; globally disabling sub and superscripts...
 (setq org-export-with-sub-superscripts '{})
 (setq org-use-sub-superscripts '{})
@@ -523,7 +429,6 @@
 (setq org-todo-keywords
        '((sequence "TODO(t)" "WAIT(w@/!)" "VERIFY(v@)" "REDO(r@/!)" "|" "DONE(d!)" "CANCELED(c@)")))
 (setq org-todo-keyword-faces
-;	'(("TODO" . (:foreground "DeepPink1" :weight bold :slant italic :underline t))
 	'(("TODO" . (:foreground "#f39c12" :weight bold :slant italic :underline t))
 	("WAIT" . (:foreground "#3498db" :slant italic :underline t))
 	("DONE" . (:foreground "#27ae60" :slant italic :undeline t))
@@ -533,15 +438,7 @@
 	))
 ;; we don't want to always say "yes" please execute code...
 (setq org-confirm-babel-evaluate nil)
-;; define a org-to-latex template
-;;(setq org-export-latex-listings t)
-;;(setq org-export-latex-listings 'minted)
-
 (setq org-latex-listings 'minted)
-;(setq org-latex-custom-lang-environments
-;       '(
-;	(R "Rcode")
-;	))
 
 ;; modify the pdf process. (idea: call latexmk -C %f afterwards?)
 (setq org-latex-pdf-process (quote ("latexmk -pdflatex='pdflatex --shell-escape' -latex='latex --shell-escape' -gg -f -cd -pdf %f")))
@@ -560,73 +457,6 @@
 (add-to-list 'org-latex-packages-alist '("" "float"))
 (add-to-list 'org-latex-packages-alist '("" "xcolor"))
 
-;; default skeleton for org files:
-(define-skeleton org-skeleton
-  "Header info for a emacs-org file."
-  "Title: "
-  "#+TITLE:" str " \n"
-  "#+AUTHOR: Johannes Rainer\n"
-  "#+email: johannes.rainer@eurac.edu\n"
-  "#+OPTIONS: ^:{}\n"
-  "#+PROPERTY: exports code \n"
-  "#+PROPERTY: session *R*\n"
-  "#+PROPERTY: noweb eval\n"
-  "#+PROPERTY: results output\n"
-  "#+PROPERTY: tangle yes\n"
-  "#+STARTUP: overview\n"
-  "#+INFOJS_OPT: view:t toc:t ltoc:t mouse:underline buttons:0 path:http://thomasf.github.io/solarized-css/org-info.min.js\n"
-  "#+HTML_HEAD: <link rel='stylesheet' type='text/css' href='http://thomasf.github.io/solarized-css/solarized-light.min.css' />\n"
-  "#+LATEX_HEADER: \\usepackage[backend=bibtex,style=nature,hyperref=true]{biblatex}\n"
-  "#+LATEX_HEADER: \\usepackage{parskip}\n"
-  "#+LATEX_HEADER: \\usepackage{tabu}\n"
-  "#+LATEX_HEADER: \\setlength{\\textwidth}{17.0cm}\n"
-  "#+LATEX_HEADER: \\setlength{\\hoffset}{-2.5cm}\n"
-  "#+LATEX_HEADER: \\setlength{\\textheight}{22cm}\n"
-  "#+LATEX_HEADER: \\setlength{\\voffset}{-1.5cm}\n"
-  "#+LATEX_HEADER: \\addbibresource{~/Documents/Unison/bib/references.bib}\n"
-  "# #+LATEX_HEADER: \\usepackage{verbatim}\n"
-  "#+LATEX_HEADER: \\usepackage{inconsolata}\n"
-  "#+LATEX_HEADER: \\definecolor{lightgrey}{HTML}{F0F0F0}\n"
-  "#+LATEX_HEADER: \\definecolor{solarizedlightbg}{HTML}{FCF4DC}\n"
-  "#+LATEX_HEADER: \\makeatletter\n"
-  "# #+LATEX_HEADER: \\def\\verbatim@font{\\scriptsize\\ttfamily}\n"
-  "#+LATEX_HEADER: \\makeatother\n"
-  "#+FILETAGS:\n"
-  "#+CATEGORY:\n"
-  "-----"
-  )
-(global-set-key [C-S-f4] 'org-skeleton)
-;; org-Rmd template
-(define-skeleton org-Rmd
-  "Header infor for org-Rmd files."
-  "Title: "
-  "#+TITLE:" str " \n"
-  "#+AUTHOR: Johannes Rainer\n"
-  "#+email: johannes.rainer@eurac.edu\n"
-  "#+OPTIONS: ^:{} toc:nil\n"
-  "#+PROPERTY: export code\n"
-  "#+PROPERTY: session *R*\n"
-  "#+FILETAGS:\n"
-  "#+CATEGORY:\n\n"
-  "#+BEGIN_HTML\n"
-  "---\n"
-  "title: \"" str "\" \n"
-  "author: \"Johannes Rainer\"\n"
-  "date: \n"
-  "graphics: yes\n"
-  "output:\n"
-  "  BiocStyle::html_document:\n"
-  "    toc_depth: 2\n"
-  "  BiocStyle::pdf_document:\n"
-  "    toc_depth: 2\n"
-  "---\n"
-  "#+END_HTML\n\n"
-  "#+BEGIN_SRC R :ravel echo=FALSE, results=\'asis\', message=FALSE\n"
-  "  BiocStyle::markdown()\n"
-  "#+END_SRC\n"
-  )
-(global-set-key [C-S-f5] 'org-Rmd)
-;(add-hook 'org-export-before-processing-hook 'org-export-process-apply-macros)
 ;; place captions below tables, not above
 (setq org-latex-caption-above nil)
 (setq org-export-latex-table-caption-above nil)
@@ -654,11 +484,6 @@
 (setq org-export-async-init-file "/Users/jo/.emacs-async-init.el")
 ;; try this for gplots evaluation
 (setq org-babel-use-quick-and-dirty-noweb-expansion t)
-;; org-journal settings:
-;2(require 'org-journal)
-;2(setq org-journal-dir "/Users/jo/org-files/journal/")
-;2(global-set-key (kbd "C-c C-n") 'org-journal-new-entry)
-;;
 ;; For update to orgmode 9.0
 (defun org-repair-export-blocks ()
   "Repair export blocks and INCLUDE keywords in current buffer."
@@ -747,21 +572,9 @@
 ;3(add-to-list 'auto-mode-alist '("\\.Snw" . poly-noweb+r-mode))
 ;3(add-to-list 'auto-mode-alist '("\\.Rnw" . poly-noweb+r-mode))
 (add-to-list 'auto-mode-alist '("\\.Rmd" . poly-markdown+r-mode))
-;3(add-to-list 'auto-mode-alist '("\\.rapport" . poly-rapport-mode))
-;3(add-to-list 'auto-mode-alist '("\\.Rhtml" . poly-html+r-mode))
-;3(add-to-list 'auto-mode-alist '("\\.Rbrew" . poly-brew+r-mode))
 ;3(add-to-list 'auto-mode-alist '("\\.Rcpp" . poly-r+c++-mode))
 ;3(add-to-list 'auto-mode-alist '("\\.cppR" . poly-c++r-mode))
 ;3(provide 'polymode-configuration)
-;;;(add-to-list 'auto-mode-alist '("\\.Rmd" . poly-markdown+r-mode))
-;;;(add-to-list 'auto-mode-alist '("\\.Rd" . poly-markdown+r-mode))
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;
-;; markdown-preview
-;;
-;;(require 'websocket)
-;;(require 'markdown-preview)
 
 ;;; * magit
 ;;;;;;;;;;;;;;;;;;;;;;;;
@@ -770,15 +583,7 @@
 (add-to-list 'load-path "~/.emacs.d/site-lisp/magit")
 (require 'magit)
 (require 'magit-svn)
-;; define the directories in which magit is looking for repos
-;(setq magit-repo-dirs
-;      (list "~/R-workspaces"
-;	    "~/Projects-synced"
-;	    "~/Projects"
-;	    "~/Documents/Unison/"
-;))
 (setq magit-repo-dirs-depth 4)
-;; (setq magit-last-seen-setup-instructions "1.4.0")
 ;;
 ;;;;
 
@@ -831,21 +636,6 @@
 ;; use aspell instead of ispell:
 (setq-default ispell-program-name "aspell")  ;; or just symlink ispell to aspell...
 ;; prevent spell check in code chunks:
-;; does not work... dammit
-;(add-to-list 'ispell-skip-region-alist '("^#+BEGIN" . "^#+END_SRC"))
-;(add-to-list 'ispell-skip-region-alist '("^<<.*>>=" . "^@"))
-;(add-to-list 'ispell-skip-region-alist '("Sexpr{" . "} "))
-;(add-to-list 'ispell-skip-region-alist '("^#\s" "$"))
-;(add-to-list 'ispell-skip-region-alist '("=" "="))
-;; skip code chunks in flyspell
-;(defun flyspell-eligible ()
-;  (let ((p (point)))
-;      (save-excursion
-;        (cond ((re-search-backward (ispell-begin-skip-region-regexp) nil t)
-;        	(ispell-skip-region (match-string-no-properties 0))
-;                (< (point) p))
-;                (t)))))
-;;
 ; enable spell checking using flyspell for Tex, latex and org-mode,
 ; disable for ess.
 (add-hook 'TeX-mode-hook
@@ -925,7 +715,7 @@
 (setq tags-table-list
       '("~/Projects/git/"))
 
-;; ;;; ** Fill-Column-Indicator
+;;; ** Fill-Column-Indicator
 ;; Disable this vertical line for e.g. presentations.
 (require 'fill-column-indicator)
 (setq-default fci-rule-column 80)
@@ -991,14 +781,16 @@
 (show-paren-mode 1)
 (setq-default show-paren-mode t)		; match parenthesis
 (setq-default tool-bar-mode nil)		; hide the button/menu bar
-;;(setq auto-fill-mode -1)
-;;(setq-default fill-column 99999) ;; if everything else fails
-;;(setq fill-column 99999)         ;; if everything else fails
 (add-hook 'text-mode-hook 'turn-on-auto-fill) ; wrap long lines in text mode
 (setq-default fill-column 80)
+;; Prevent line breaks in markdown code ``` definition.
+(defun markdown-line-is-code-block-p ()
+  "Return whether the current line is a code block."
+  (save-excursion
+    (move-beginning-of-line 1)
+    (and (looking-at-p markdown-regex-gfm-code-block-open))))
+(add-hook 'fill-nobreak-predicate #'markdown-line-is-code-block-p)
 ;;(remove-hook 'text-mode-hook 'turn-on-auto-fill)
-;4(remove-hook 'noweb-select-doc-mode-hook 'noweb-auto-fill-doc-mode)     ;; disable the auto-fill-mode in noweb files
-;4(remove-hook 'noweb-select-code-mode-hook 'noweb-auto-fill-code-mode)   ;; the same
 ;; show line numbers by default. use "M-x linum-mode" to toggle
 ;;(global-linum-mode nil)
 (setq make-backup-files nil)
@@ -1027,6 +819,9 @@
 (exec-path-from-shell-copy-env "LC_ALL")    ; this somehow prevents segfauls of R parallel processing in Emacs
 (exec-path-from-shell-copy-env "LANG")    ; this somehow prevents segfauls of R parallel processing in Emacs
 (exec-path-from-shell-copy-env "SHELL")
+(exec-path-from-shell-copy-env "MYSQL_HOST")
+(exec-path-from-shell-copy-env "MYSQL_USER")
+(exec-path-from-shell-copy-env "MYSQL_PASS")
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;
 ;; other stuff
