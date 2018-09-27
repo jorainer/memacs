@@ -2,11 +2,7 @@
 ;; We're adding our own set of of extensions and are in addition
 ;; overwriting the org-mode that comes with Emacs.
 
-;; Added by Package.el.  This must come before configurations of
-;; installed packages.  Don't delete this line.  If you don't want it,
-;; just comment it out by adding a semicolon to the start of the line.
-;; You may delete these explanatory comments.
-(package-initialize)
+;;(package-initialize)
 
 ;;; * Font
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -15,12 +11,6 @@
 ;;
 ;; These fonts have to be installed manually! (M-x describe-font)
 ;; the one below works nice on MacOS with retina display.
-;; monofur.
-;(set-default-font "-*-monofur-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
-;(set-face-attribute 'default nil :font "-*-monofur-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
-;; have to set the following two, in order to
-;(set-face-attribute 'fixed-pitch nil :font "-*-monofur-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
-;(set-face-attribute 'variable-pitch nil :font "-*-monofur-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
 
 ;; Hack
 ;; (set-default-font "-*-Hack-normal-normal-normal-*-10-*-*-*-m-0-iso10646-1")
@@ -30,24 +20,38 @@
 ;; (set-face-attribute 'variable-pitch nil :font "-*-Hack-normal-normal-normal-*-10-*-*-*-m-0-iso10646-1")
 
 ;; inconsolata.
-;; (set-default-font "Inconsolata")
-;; (add-to-list 'default-frame-alist '(font . "Inconsolata-13"))
-;; (set-face-attribute 'default t :font "Inconsolata-13")
+;; (set-default-font "Inconsolata-dz for Powerline")
+;; (add-to-list 'default-frame-alist '(font . "Inconsolata-dz for Powerline-13"))
+;; (set-face-attribute 'default t :font "Inconsolata-dz for Powerline-13")
 ;; (set-default-font "-*-Inconsolata-normal-normal-normal-*-13-*-*-*-m-0-iso10646-1")
 ;; (set-face-attribute 'default nil :font "-*-Inconsolata-normal-normal-normal-*-13-*-*-*-m-0-iso10646-1")
-;(set-face-attribute 'default nil :font "-*-Inconsolata-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
+;; (set-face-attribute 'default nil :font "-*-Inconsolata-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
 ;; have to set the following two, in order to
 ;;(set-face-attribute 'fixed-pitch nil :font "-*-Inconsolata-normal-normal-normal-*-11-*-*-*-m-0-iso10646-1")
 ;;(set-face-attribute 'variable-pitch nil :font "-*-Inconsolata-normal-normal-normal-*-11-*-*-*-m-0-iso10646-1")
 
+;; Source Code Pro
+;; (set-default-font "Source Code Pro for Powerline")
+;; (add-to-list 'default-frame-alist '(font . "Source Code Pro for Powerline-12"))
+;; (set-face-attribute 'default t :font "Source Code Pro for Powerline-12")
 
 ;; Apple SF font
-(set-default-font "SF Mono")
-(add-to-list 'default-frame-alist '(font . "SF Mono-12"))
-(set-face-attribute 'default t :font "SF Mono-12")
+;; (set-default-font "SF Mono")
+;; (add-to-list 'default-frame-alist '(font . "SF Mono-14"))
+;; (set-face-attribute 'default t :font "SF Mono-14")
 ;;(set-default-font "-*-SF Mono-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
 ;;(set-face-attribute 'default nil :font "-*-SF Mono-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
 
+;; Fantasque Sans Mono (https://github.com/belluzj/fantasque-sans)
+;; (add-to-list 'default-frame-alist '(font . "Fantasque Sans Mono-13"))
+;; (set-face-attribute 'default t :font "Fantasque Sans Mono-13")
+;; Set the pitch if e.g. TODO should have the same size than the header.
+;;(set-default-font "-*-Fantasque Sans Mono-normal-normal-normal-*-13-*-*-*-m-0-iso10646-1")
+;;(set-face-attribute 'default nil :font "-*-Fantasque Sans Mono-normal-normal-normal-*-13-*-*-*-m-0-iso10646-1")
+;; (set-face-attribute 'default nil :font "Fantasque Sans Mono")
+;; have to set the following two, in order to
+;;(set-face-attribute 'fixed-pitch nil :font "Fantasque Sans Mono")
+;;(set-face-attribute 'variable-pitch nil :font "Fantasque Sans Mono")
 ;;
 ;;;
 
@@ -93,10 +97,16 @@
 
 ;; in order to be able to write {} and []
 ;; (setq default-input-method "MacOSX")
+
 ;; (setq ns-alternate-modifier 'meta)        ;; left alt is meta
 ;; (setq ns-right-alternate-modifier 'nil)   ;; right alt is alt
+;(setq mouse-drag-copy-region nil)  ; stops selection with a mouse being immediately injected to the kill ring
+;(mouse-wheel-mode t)			; activate mouse scrolling
 (global-font-lock-mode t)		; syntax highlighting
+;(setq font-lock-global-modes '(not ESS))
 (transient-mark-mode t)			; sane select (mark) mode
+;(delete-selection-mode t)		; entry deletes marked text
+;(show-paren-mode t)			; match parentheses
 ;;
 ;;;;
 
@@ -110,7 +120,12 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
-)
+ '(custom-safe-themes
+   (quote
+    ("7f407534aa429959f17e4d48a57c7b7c50a5c888e76cd13acae3907076d5ca72" "36ca8f60565af20ef4f30783aa16a26d96c02df7b4e54e9900a5138fb33808da" "781fdddfda7b27fbdc9a67c502496db0c34e48ea49d0cece3612c6cba0d89451" "809cd3e553d4a7150794c7cc7ddaf6b74f835aa0b21786b8ddfe35f837761013" "ed317c0a3387be628a48c4bbdb316b4fa645a414838149069210b66dd521733f" "da0468f37373855e845e7ebfd7cdc334e0ea92de4dcf6695a4eefd1dc884410d" "c924950f6b5b92a064c5ad7063bb34fd3facead47cd0d761a31e7e76252996f7" "d793919bc252952ebea0cdfaa2241b8a5e83f581123f7752f1c68554a2c867fd" "34af76ab5d1369a18a77174c3b8a450820900211d92106aa846a7853f8c16440" "5eb44a5d38e3c273d8a10bb03fac0ad4533debd39819b8a7a2ba283a52cf4527" "86446384ca324dd3154d71fe97894dfb5d046913ae43aa4ffabd8228794f0fa1" "449c37535e8713dd431496870595f998c5c1b8075319843b7336707749ffef1d" "283ec00760b8fedc4add974c22846dda6235d5fbce59c9446940686bf0ebe5b4" "c0dd134ecd6ede6508c30f7d4ac92334229531df62284fc6572f65b4d0cde43f" "da74e98149367c52e54949a324d80cad17807083fb88c6af318330a91fbccd90" "aa085c92f21f5aef333a4e26980331d0b5f2bae7c4053558a90ed7229f165139" "2e635a764137174fc9fedb7cf700848ce7fea482cc26f9b87b09272d499860da" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "5f8018b6f2e39e6de7d38fc5677d47e68aedbb18efe3660aa8043bc8784fb5af" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "2acad40240f9de1d74378f49c74d8ff03d0499bdbced4b1a79692e9cb298d3f9" default)))
+ '(magit-diff-use-overlays nil)
+ '(magit-use-overlays nil)
+ '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -140,45 +155,40 @@
 ;;
 ;; flatui:
 ;; (setq flatui-high-contrast-mode-line t)
-;; (setq flatui-use-variable-pitch nil)
+;; (setq flatui-high-contrast-mode-line nil)
+;; ;; (setq flatui-use-variable-pitch nil)
 ;; (setq flatui-scale-org-headlines t)
 ;; (setq flatui-height-plus-1 1.07)
 ;; (setq flatui-height-plus-2 1.12)
 ;; (setq flatui-height-plus-3 1.16)
 ;; (setq flatui-height-plus-4 1.22)
+;; presentation mode:
+;; (setq flatui-height-plus-1 1.12)
+;; (setq flatui-height-plus-2 1.16)
+;; (setq flatui-height-plus-3 1.22)
+;; (setq flatui-height-plus-4 1.30)
 ;; ;; Use high contrast code block header background (or not)
-;; (setq flatui-high-contrast-code-block-header t)
-;; ;; ;; (load-theme 'flatui-light t)
+;; (setq flatui-high-contrast-code-block-header t)  ;; not for presentation
+;; (load-theme 'flatui-light t)
 ;; (load-theme 'flatui-dark t)
 ;;
 ;; gruvbox
 ;;(setq gruvbox-high-contrast-mode-line t)
-;;(setq gruvbox-high-contrast-code-block-header t)
+;; (setq gruvbox-high-contrast-code-block-header t)
 ;;(setq gruvbox-use-variable-pitch nil)
-;;(setq gruvbox-scale-org-headlines t)
-;;(setq gruvbox-height-plus-1 1.07)
-;;(setq gruvbox-height-plus-2 1.12)
-;;(setq gruvbox-height-plus-3 1.16)
-;;(setq gruvbox-height-plus-4 1.22)
-;;(load-theme 'gruvbox-dark t)
+;; (setq gruvbox-scale-org-headlines t)
+;; (setq gruvbox-height-plus-1 1.07)
+;; (setq gruvbox-height-plus-2 1.12)
+;; (setq gruvbox-height-plus-3 1.16)
+;; (setq gruvbox-height-plus-4 1.22)
+;; (load-theme 'gruvbox-dark t)
+;;
+;; atom-one-dark
+;; (load-theme 'atom-one-dark t)
 ;;
 ;; creamsody
 (load-theme 'creamsody t)
 (creamsody-modeline-four)
-;;;;;;;;;;;;;;;
-;; transparency
-;;(set-frame-parameter (selected-frame) 'alpha '(<active> [<inactive>]))
-; (set-frame-parameter (selected-frame) 'alpha '(100 85))
-; (add-to-list 'default-frame-alist '(alpha 100 85))
-;(eval-when-compile (require 'cl))
-; (defun toggle-transparency ()
-;   (interactive)
-;   (if (/=
-;        (cadr (frame-parameter nil 'alpha))
-;        100)
-;       (set-frame-parameter nil 'alpha '(100 100))
-;     (set-frame-parameter nil 'alpha '(90 85))))
-; (global-set-key (kbd "C-c t") 'toggle-transparency)
 ;;
 ;;;;
 
@@ -201,9 +211,6 @@
 ;; by AUCTeX.
 (setq TeX-file-extensions
       '("Rnw" "rnw" "Snw" "snw" "tex" "sty" "cls" "ltx" "texi" "texinfo" "dtx"))
-;; code folding:
-;(add-hook 'TeX-mode-hook (lambda ()
-;			   (Tex-fold-mode 1)))
 ;;
 ;;;;
 
@@ -229,6 +236,11 @@
 ;; (define-key company-active-map (kbd "<backtab>") 'company-select-previous)
 ;;
 (require 'company-capf)
+;; put company-capf and company-files at the beginning of the list
+;; (setq company-backends
+;;       '(company-files company-capf company-nxml company-css company-cmake company-semantic company-clang company-xcode company-eclim))
+;; (setq-default company-backends
+;;               '(company-files company-capf company-nxml company-css company-cmake company-semantic company-clang company-xcode company-eclim))
 ;; put company-capf and company-files at the beginning of the list
 (setq company-backends
       '(company-files company-capf company-gtags company-ispell company-nxml company-css company-cmake company-semantic))
@@ -283,12 +295,15 @@
 ;; (load "ess-site")
 (require 'ess-site)
 (add-to-list 'auto-mode-alist '("\\.R$" . R-mode))
-(setq eldoc-echo-area-use-multiline-p t)
+;;? (setq eldoc-echo-area-use-multiline-p t)
 ;; Don't use a R history file.
 (setq ess-history-file nil)
 ;; Uncomment below if we're getting problems doing an ediff on an R-file with magit. merge conflict
-;; (add-to-list 'auto-mode-alist '("\\.R" . ess-mode))
-;; (add-to-list 'auto-mode-alist '("NAMESPACE" . ess-mode))
+;;(add-to-list 'auto-mode-alist '("\\.R" . ess-mode))
+(add-to-list 'auto-mode-alist '("NAMESPACE" . ess-mode))
+;;(require 'ess-custom)
+;; Somehow that sucker seems to be missing...
+;;(defvar ess-local-customize-alist nil "Buffer local settings for proper behaviour")
 (setq-default inferior-R-args "--no-save ")
 ;; automatically start R in the present directory. useful for async org export
 (setq ess-ask-for-ess-directory nil)
@@ -299,7 +314,6 @@
       (if (eq ess-ask-for-ess-directory nil)
             (setq ess-ask-for-ess-directory t)
                 (setq ess-ask-for-ess-directory nil)))
-;; disable the replacing of undescore with assignment
 (ess-toggle-underscore nil)
 ;;
 ;; Code indenting etc.
@@ -364,7 +378,9 @@
 (require 'ox-beamer)
 (require 'ox-md)
 ;;(require 'ox-bibtex)
+;2(require 'org-eval)
 ;; enable fontify:
+;2(setq org-src-fontify-natively t)
 ;(setq org-startup-indented t)  ;; automatic indentation and hiding of **
 ;; bullets for TODO items
 (require 'org-bullets)
@@ -377,13 +393,21 @@
 				"◆"
 				"◇"
 				))
+;(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 ;; set org-mode for all .org files.
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
 (setq org-log-done t)
+;; ;; Disable the strike through:
+;; (setq org-emphasis-alist (quote (("*" bold)
+;; 				 ("/" italic)
+;; 				 ("_" underline)
+;; 				 ("=" org-code verbatim)
+;; 				 ("~" org-verbatim verbatim))))
 ;; Hide the markup elements:
 (setq org-hide-emphasis-markers t)
+;; set to nil in case no default scaling should be done.
 ;; globally disabling sub and superscripts...
 (setq org-export-with-sub-superscripts '{})
 (setq org-use-sub-superscripts '{})
@@ -429,6 +453,7 @@
 (setq org-todo-keywords
        '((sequence "TODO(t)" "WAIT(w@/!)" "VERIFY(v@)" "REDO(r@/!)" "|" "DONE(d!)" "CANCELED(c@)")))
 (setq org-todo-keyword-faces
+;	'(("TODO" . (:foreground "DeepPink1" :weight bold :slant italic :underline t))
 	'(("TODO" . (:foreground "#f39c12" :weight bold :slant italic :underline t))
 	("WAIT" . (:foreground "#3498db" :slant italic :underline t))
 	("DONE" . (:foreground "#27ae60" :slant italic :undeline t))
@@ -438,7 +463,15 @@
 	))
 ;; we don't want to always say "yes" please execute code...
 (setq org-confirm-babel-evaluate nil)
+;; define a org-to-latex template
+;;(setq org-export-latex-listings t)
+;;(setq org-export-latex-listings 'minted)
+
 (setq org-latex-listings 'minted)
+;(setq org-latex-custom-lang-environments
+;       '(
+;	(R "Rcode")
+;	))
 
 ;; modify the pdf process. (idea: call latexmk -C %f afterwards?)
 (setq org-latex-pdf-process (quote ("latexmk -pdflatex='pdflatex --shell-escape' -latex='latex --shell-escape' -gg -f -cd -pdf %f")))
@@ -484,6 +517,11 @@
 (setq org-export-async-init-file "/Users/jo/.emacs-async-init.el")
 ;; try this for gplots evaluation
 (setq org-babel-use-quick-and-dirty-noweb-expansion t)
+;; org-journal settings:
+;2(require 'org-journal)
+;2(setq org-journal-dir "/Users/jo/org-files/journal/")
+;2(global-set-key (kbd "C-c C-n") 'org-journal-new-entry)
+;;
 ;; For update to orgmode 9.0
 (defun org-repair-export-blocks ()
   "Repair export blocks and INCLUDE keywords in current buffer."
@@ -521,30 +559,19 @@
 ;;
 ;;;;
 
-;;; * mobile-org
-;;;;;;;;;;;;;;;;;;;;;;
-;; MobileOrg Settings:
-;;
-;2(setq org-mobile-directory "/scpx:jo@manny.i-med.ac.at:/var/www/html/jorg/jorg/")
-;; set org-mobile-files ... by default all files in org-agenda-files.
-;(setq org-mobile-files (quote ("~/Documents/Unison/org-files/svn2git.org")))
-;2(setq org-directory "~/Documents/Unison/org-files")
-;(setq org-mobile-inbox-for-pull "~/Documents/Unison/org-files/mobileorg.org")
-;2(setq org-mobile-inbox-for-pull "~/Documents/Unison/org-files/from-mobile.org")
-;; finished with org stuff
-;;;;
-
 ;;; * markdown
 ;;;;;;;;;;;;;;;;;;;;;;;;
 ;; markdown
 ;;
 (autoload 'markdown-mode "markdown-mode"
    "Major mode for editing Markdown files" t)
-;; (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
-;; (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
-(autoload 'gfm-mode "markdown-mode"
-   "Major mode for editing GitHub Flavored Markdown files" t)
-(add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+(setq markdown-header-scaling t)
+(setq markdown-hide-markup nil)
+;;(autoload 'gfm-mode "markdown-mode"
+;;   "Major mode for editing GitHub Flavored Markdown files" t)
+;;(add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
 
 ;;; * polymode
 ;;;;;;;;;;;;;;;;;;;;;;;;
@@ -554,27 +581,16 @@
       (append '("~/.emacs.d/site-lisp/polymode/"
 		"~/.emacs.d/site-lisp/poly-R/"
 		"~/.emacs.d/site-lisp/poly-markdown/"
-		"~/.emacs.d/site-lisp/poly-org/"
 		"~/.emacs.d/site-lisp/poly-noweb/")
 	      load-path))
 ;;(require 'poly-base)
 (require 'poly-R)
 (require 'poly-markdown)
-;;(require 'poly-noweb)
+;; (require 'poly-noweb)
+;;(require 'poly-C)
+;; (require 'poly-slim)
+;; (require 'poly-erb)
 ;;(require 'poly-org)
-
-(add-to-list 'auto-mode-alist '("\\.md" . poly-markdown-mode))
-
-;;;; ORG
-;;;(add-to-list 'auto-mode-alist '("\\.org" . poly-org-mode))
-
-;;;; R related modes
-;3(add-to-list 'auto-mode-alist '("\\.Snw" . poly-noweb+r-mode))
-;3(add-to-list 'auto-mode-alist '("\\.Rnw" . poly-noweb+r-mode))
-(add-to-list 'auto-mode-alist '("\\.Rmd" . poly-markdown+r-mode))
-;3(add-to-list 'auto-mode-alist '("\\.Rcpp" . poly-r+c++-mode))
-;3(add-to-list 'auto-mode-alist '("\\.cppR" . poly-c++r-mode))
-;3(provide 'polymode-configuration)
 
 ;;; * magit
 ;;;;;;;;;;;;;;;;;;;;;;;;
@@ -582,7 +598,7 @@
 ;;
 (add-to-list 'load-path "~/.emacs.d/site-lisp/magit")
 (require 'magit)
-(require 'magit-svn)
+;; (require 'magit-svn)
 (setq magit-repo-dirs-depth 4)
 ;;
 ;;;;
@@ -591,8 +607,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Magit + github
 ;;
-;; (require 'magithub)
-;; (setq magithub-feature-autoinject t)
+(require 'magithub)
+(setq magithub-feature-autoinject t)
 ;;
 ;;;;
 
@@ -613,29 +629,12 @@
 ;;
 ;;;;
 
-
-;;; * Melpa
-;;;;;;;;;;;;;;
-;; Melpa
-;;
-;(add-to-list 'package-archives
-;             '("melpa" . "http://melpa.milkbox.net/packages/") t)
-;(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-;                         ("marmalade" . "http://marmalade-repo.org/packages/")
-;                         ("melpa" . "http://melpa.milkbox.net/packages/")))
-;; (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-;; 			("melpa" . "http://melpa.milkbox.net/packages/")))
-;;
-;;;;
-
-
 ;;; * Spell checking
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Spell checking
 ;;
 ;; use aspell instead of ispell:
 (setq-default ispell-program-name "aspell")  ;; or just symlink ispell to aspell...
-;; prevent spell check in code chunks:
 ; enable spell checking using flyspell for Tex, latex and org-mode,
 ; disable for ess.
 (add-hook 'TeX-mode-hook
@@ -650,10 +649,14 @@
 	  (lambda()
 	    (flyspell-mode 1))
 	    )
+(add-hook 'markdown-mode-hook
+	  (lambda()
+	    (flyspell-mode 1))
+	    )
 (add-hook 'ess-mode-hook
 	  (lambda()
 	    (flyspell-mode 0))
-	    )
+	  )
 (setq ispell-list-command "--list")
 ;;
 ;;;
@@ -695,9 +698,6 @@
 ;; (require 'epresent)
 ;; (global-set-key (kbd "<f6>") 'epresent-run)
 
-;;; ** Weekly time tracking
-(global-set-key (kbd "<f7>") (lambda() (interactive)(find-file "~/org-files/Weekly/2015-weekly.org")))
-
 ;;; ** arduino
 ;; (setq auto-mode-alist (cons '("\\.\\(pde\\|ino\\)$" . arduino-mode) auto-mode-alist))
 ;; (autoload 'arduino-mode "arduino-mode" "Arduino editing mode." t)
@@ -705,34 +705,33 @@
 ;;; ** perl
 (defalias 'perl-mode 'cperl-mode)
 
-;;; ** psvn and framepop
-(add-to-list 'vc-handled-backends 'SVN)
-(require 'psvn)
-(require 'framepop)
+;; ;;; ** psvn and framepop
+;; (add-to-list 'vc-handled-backends 'SVN)
+;; (require 'psvn)
+;; (require 'framepop)
 
 ;;; ** TAGS
-(visit-tags-table "~/Projects/git/TAGS")
-(setq tags-table-list
-      '("~/Projects/git/"))
+;; (visit-tags-table "~/Projects/git/TAGS")
+;; (setq tags-table-list
+;;       '("~/Projects/git/"))
 
-;;; ** Fill-Column-Indicator
+;; ;;; ** Fill-Column-Indicator
 ;; Disable this vertical line for e.g. presentations.
 (require 'fill-column-indicator)
 (setq-default fci-rule-column 80)
-(setq-default fci-rule-image-format 'pbm)
-;;(setq-default fci-rule-image-format 'xpm)
-;;(setq fci-rule-color "darkblue")
-;;(setq fci-rule-bg-color "red")
-(setq fci-handle-truncate-lines nil)
-;; comment below if you want to use the image option.
-;; (setq fci-always-use-textual-rule "yes")
-(define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode 1)))
-(global-fci-mode 1)
+;; (setq-default fci-rule-image-format 'pbm)
+;; ;;(setq-default fci-rule-image-format 'xpsm)
+;; (setq fci-handle-truncate-lines nil)
+;; ;; comment below if you want to use the image option.
+;; ;; (setq fci-always-use-textual-rule "yes")
+;; (define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode 1)))
+;; (global-fci-mode 1)
 (defun auto-fci-mode (&optional unused)
-  (if (> (window-width) fci-rule-column)
-      (fci-mode 1)
-      (fci-mode 0))
-  )
+  (if (window-system)
+      (if (> (window-width) fci-rule-column)
+	  (fci-mode 1)
+	(fci-mode 0))
+    ))
 (add-hook 'after-change-major-mode-hook 'auto-fci-mode)
 (add-hook 'window-configuration-change-hook 'auto-fci-mode)
 
@@ -755,21 +754,6 @@
 ;; Turn on helm by default
 (helm-mode 1)
 
-;;; ** powerline
-;; The fancy modeline at the bottom.
-;; (require 'powerline)
-;; (powerline-default-theme)
-;; ;; (powerline-center-theme)
-;; ;; (powerline-center-evil-theme)
-;; ;; (powerline-vim-theme)
-;; ;; (powerline-nano-theme)
-;; ;; (setq powerline-arrow-shape 'arrow)
-;; (setq powerline-default-separator 'utf-8)
-;; (setq powerline-display-buffer-size nil)
-;; (setq powerline-display-buffer-size-suffix nil)
-;; (setq powerline-display-mule-info t)
-;; (setq powerline-display-hud t)
-
 ;;; * Unsorted other settings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -781,6 +765,9 @@
 (show-paren-mode 1)
 (setq-default show-paren-mode t)		; match parenthesis
 (setq-default tool-bar-mode nil)		; hide the button/menu bar
+;;(setq auto-fill-mode -1)
+;;(setq-default fill-column 99999) ;; if everything else fails
+;;(setq fill-column 99999)         ;; if everything else fails
 (add-hook 'text-mode-hook 'turn-on-auto-fill) ; wrap long lines in text mode
 (setq-default fill-column 80)
 ;; Prevent line breaks in markdown code ``` definition.
@@ -790,7 +777,6 @@
     (move-beginning-of-line 1)
     (and (looking-at-p markdown-regex-gfm-code-block-open))))
 (add-hook 'fill-nobreak-predicate #'markdown-line-is-code-block-p)
-;;(remove-hook 'text-mode-hook 'turn-on-auto-fill)
 ;; show line numbers by default. use "M-x linum-mode" to toggle
 ;;(global-linum-mode nil)
 (setq make-backup-files nil)
@@ -823,46 +809,6 @@
 (exec-path-from-shell-copy-env "MYSQL_USER")
 (exec-path-from-shell-copy-env "MYSQL_PASS")
 ;;
-;;;;;;;;;;;;;;;;;;;;;;;;
-;; other stuff
-;;
-;; itunes control...
-;; (load "osx-itunes")
-;; frame commands: cool stuff to increase/decrease frames
-;; (load "frame-cmds")
-;; incrementally resizing frame
-;; (global-set-key [(control meta down)]          'enlarge-frame)
-;; (global-set-key [(control meta right)]         'enlarge-frame-horizontally)
-;; (global-set-key [(control meta up)]            'shrink-frame)
-;; (global-set-key [(control meta left)]          'shrink-frame-horizontally)
-;; positioning of frame
-;; (global-set-key [(control meta shift right)]   'move-frame-to-screen-right)    ; like `C-next'
-;; (global-set-key [(control meta shift left)]    'move-frame-to-screen-left)     ; like `C-prior'
-;; (global-set-key [(control meta shift up)]      'move-frame-to-screen-top)    ; like `C-next'
-;; (global-set-key [(control meta shift down)]    'move-frame-to-screen-bottom)     ; like `C-prior'
-;; maximize frame
-;; (global-set-key [(control meta +)]             'toggle-max-frame-vertically)
-;; (global-set-key [(control meta -)]             'toggle-max-frame-horizontally)
-;; tile frames
-;; (global-set-key [(control meta .)]             'tile-frames-horizontally)
-;;;; weather forecast from met.no
-;; see https://github.com/ruediger/weather-metno-el
-;; call "M-x weather-metno-forecast-location
-;; or add %%(org-weather-metno) to agenda files.
-;(load "weather-metno")
-;(load "org-weather-metno")
-;(load "weather-metno-mode-line")
-;(load "weather-metno-query")
-;(setq weather-metno-location-name "Innsbruck, Austria"
-;    weather-metno-location-latitude 47.2
-;    weather-metno-location-longitude 11.4)
-;(setq weather-metno-location-name "Meran, Italy"
-;    weather-metno-location-latitude 46.6
-;    weather-metno-location-longitude 11.1)
-
-;;;;
-;;(setq spacemacs-start-directory "~/tmp/spacemacs/.emacs.d/")
-;;(load-file (concat spacemacs-start-directory "init.el"))
 
 ;;;;
 ;; eimp
@@ -899,12 +845,12 @@
 ;; (kbd "<S-down-mouse-1>") 'eimp-mouse-resize-image-preserve-aspect
 ;; (kbd "C-c C-k") 'eimp-stop-all
 
-;;;;
-;; windmove
-(global-set-key (kbd "C-c <left>") 'windmove-left)
-(global-set-key (kbd "C-c <right>") 'windmove-right)
-(global-set-key (kbd "C-c <up>") 'windmove-up)
-(global-set-key (kbd "C-c <down>") 'windmove-down)
+;; ;;;;
+;; ;; windmove
+;; (global-set-key (kbd "C-c <left>") 'windmove-left)
+;; (global-set-key (kbd "C-c <right>") 'windmove-right)
+;; (global-set-key (kbd "C-c <up>") 'windmove-up)
+;; (global-set-key (kbd "C-c <down>") 'windmove-down)
 
 ;;;;
 ;; Org mode inline image size.
@@ -924,6 +870,10 @@
   )
 (add-hook 'window-configuration-change-hook #'org-inline-image-resize)
 
+(add-to-list 'auto-mode-alist '("\\.[Cc][Ss][Vv]\\'" . csv-mode))
+ (autoload 'csv-mode "csv-mode"
+   "Major mode for editing comma-separated value files." t)
+
 ;;;;
 ;; imenu-list
 (require 'imenu-list)
@@ -932,3 +882,7 @@
 ;;(setq imenu-list-auto-resize t)
 ;;
 ;;;;
+;;(require 'imenu+)
+
+;; (require 'macbook-keyboard-fix)
+
