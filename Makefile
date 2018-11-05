@@ -23,6 +23,7 @@ AUCTEX=src/auctex-11.87
 AUTOLANG=tmp/auto-lang
 ASYNC=tmp/emacs-async
 DASH=tmp/dash.el
+EDITORCONF=tmp/editorconfig-emacs
 ESS=tmp/ESS
 EXECPATH=tmp/exec-path-from-shell
 EPRESENT=tmp/epresent
@@ -157,6 +158,11 @@ ess :
 	cd ${ESS} && git checkout master
 	@echo ----- Done making ESS
 
+editorconfig:
+	@echo ----- Making editorconfig
+	cp ${EDITORCONF}/*.el ${LISPDIR}
+	@echo ----- Done.
+
 epresent:
 	@echo ----- Making epresent
 	cp ${EPRESENT}/*.el ${LISPDIR}
@@ -192,6 +198,8 @@ fetch :
 	cd ${COMPMODE} && git pull
 	if [ ! -d ${DASH} ]; then cd tmp && git clone https://github.com/magnars/dash.el.git; fi
 	cd ${DASH} && git pull
+	if [ ! -d ${EDITORCONF} ]; then cd tmp && git clone https://github.com/editorconfig/editorconfig-emacs; fi
+	cd ${EDITORCONF} && git pull
 	if [ ! -d ${ESS} ]; then cd tmp && git clone --depth 300 https://github.com/emacs-ess/ESS; fi
 	cd ${ESS} && git checkout master && git pull
 	if [ ! -d ${EPRESENT} ]; then cd tmp && git clone https://github.com/eschulte/epresent.git; fi
@@ -251,15 +259,15 @@ fetch :
 	if [ ! -d ${ARDUINO} ]; then cd tmp && git clone https://github.com/bookest/arduino-mode.git; fi
 	cd ${ARDUINO} && git pull
 	if [ ! -d ${POLY} ]; then cd tmp && git clone https://github.com/polymode/polymode.git; fi
-	cd ${POLY} && git pull
+	cd ${POLY} && git checkout master && git pull
 	if [ ! -d ${POLYR} ]; then cd tmp && git clone https://github.com/polymode/poly-R; fi
-	cd ${POLYR} && git pull
+	cd ${POLYR} && git checkout master && git pull
 	if [ ! -d ${POLYMARK} ]; then cd tmp && git clone https://github.com/polymode/poly-markdown; fi
-	cd ${POLYMARK} && git pull
+	cd ${POLYMARK} && git checkout master && git pull
 	if [ ! -d ${POLYORG} ]; then cd tmp && git clone https://github.com/polymode/poly-org; fi
-	cd ${POLYORG} && git pull
+	cd ${POLYORG} && git checkout master && git pull
 	if [ ! -d ${POLYNW} ]; then cd tmp && git clone https://github.com/polymode/poly-noweb; fi
-	cd ${POLYNW} && git pull
+	cd ${POLYNW} && git checkout master && git pull
 	if [ ! -d ${JULIA} ]; then cd tmp && git clone https://github.com/JuliaLang/julia.git; fi
 	cd ${JULIA} && git pull
 	if [ ! -d ${S} ]; then cd tmp && git clone https://github.com/magnars/s.el.git; fi
@@ -457,6 +465,11 @@ other :
 
 poly:
 	@echo ----- Making polymode...
+	cd ${POLY} && git checkout ${polymode_release}
+	cd ${POLYR} && git checkout ${polymode_release}
+	cd ${POLYMARK} && git checkout ${polymode_release}
+	cd ${POLYORG} && git checkout ${polymode_release}
+	cd ${POLYNW} && git checkout ${polymode_release}
 	if [ ! -d ${PREFIX}/site-lisp/polymode ]; then mkdir ${PREFIX}/site-lisp/polymode; fi
 	if [ ! -d ${PREFIX}/site-lisp/poly-R ]; then mkdir ${PREFIX}/site-lisp/poly-R; fi
 	if [ ! -d ${PREFIX}/site-lisp/poly-markdown ]; then mkdir ${PREFIX}/site-lisp/poly-markdown; fi

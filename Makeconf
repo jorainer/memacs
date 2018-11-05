@@ -27,3 +27,7 @@ ess_release=v17.11
 ## markdown
 ##markdown_release=v2.3
 markdown_release=master
+
+#######
+## polymode
+polymode_release=v0.1.5
