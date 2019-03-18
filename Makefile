@@ -36,6 +36,7 @@ GHUBPLUS=tmp/ghub-plus
 GRAPHQL=tmp/graphql.el
 HELM=tmp/helm
 HELMCOMP=tmp/helm-company
+HYDRA=tmp/hydra
 ILIST=tmp/imenu-list
 IOSLIDE=tmp/org-ioslide
 JULIA=tmp/julia
@@ -59,6 +60,7 @@ POLYNW=tmp/poly-noweb
 POPUP=tmp/popup-el
 POWERLINE=tmp/powerline
 S=tmp/s.el
+TRANSIENT=tmp/transient
 TREEPY=tmp/treepy.el
 WEATHER=weather-metno-20121023
 WITHED=tmp/with-editor
@@ -69,7 +71,7 @@ all : createdirs fetch emacs
 
 emacs : core addons
 
-core : createdirs auctex ess org-async org dash execpath md poly treepy graphql git-modes with-editor ghub apiwrap ghub-plus magit-popup magit magithub fci ilist
+core : createdirs auctex ess org-async org dash execpath md poly treepy graphql hydra git-modes with-editor ghub apiwrap ghub-plus transient magit-popup magit magithub fci ilist editorconfig
 
 addons : createdirs fuzzy popup company-mode helm-company auto-lang other magit-svn org-bullets arduino ravel org-journal s f ioslide org-tree-slide epresent org-sync async helm powerline autothemer macfix
 
@@ -147,15 +149,16 @@ ess :
 	@echo ----- Making ESS...
 	if [ ! -d ${JULIA} ]; then echo "Need Julia! Call make fetch or make all first!" && exit 1; fi
 	rm -df -R -v ${LISPDIR}/ess
-	cd ${ESS} && make clean
+	cd ${ESS} && make clean distclean
 	cd ${ESS} && git checkout ${ess_release}
 # cp ${JULIA}/contrib/julia-mode.el ${ESS}/lisp
-	${MAKE} EMACS=${EMACS} -C ${ESS} all
+#	${MAKE} EMACS=${EMACS} -C ${ESS} all
+	${MAKE} EMACS=${EMACS} -C ${ESS} lisp
 	${MAKE} DESTDIR=${DESTDIR} LISPDIR=${LISPDIR}/ess \
 	        ETCDIR=${ETCDIR}/ess DOCDIR=${DOCDIR}/ess \
 	        INFODIR=${INFODIR} SITELISP=${LISPDIR} -C ${ESS} install
-	cd ${ESS} && make clean
-	cd ${ESS} && git checkout master
+	cd ${ESS} && make clean distclean
+#	cd ${ESS} && git checkout master
 	@echo ----- Done making ESS
 
 editorconfig:
@@ -228,6 +231,8 @@ fetch :
 	cd ${HELM} && git pull
 	if [ ! -d ${HELMCOMP} ]; then cd tmp && git clone https://github.com/Sodel-the-Vociferous/helm-company.git; fi
 	cd ${HELMCOMP} && git pull
+	if [ ! -d ${HYDRA} ]; then cd tmp && git clone https://github.com/abo-abo/hydra; fi
+	cd ${HYDRA} && git pull
 	if [ ! -d ${MAGIT} ]; then cd tmp && git clone http://github.com/magit/magit; fi
 	cd ${MAGIT} && git pull
 	if [ ! -d ${MAGITPOPUP} ]; then cd tmp && git clone https://github.com/magit/magit-popup.git; fi
@@ -272,6 +277,8 @@ fetch :
 	cd ${JULIA} && git pull
 	if [ ! -d ${S} ]; then cd tmp && git clone https://github.com/magnars/s.el.git; fi
 	cd ${S} && git pull
+	if [ ! -d ${TRANSIENT} ]; then cd tmp && git clone https://github.com/magit/transient; fi
+	cd ${TRANSIENT} && git pull
 	if [ ! -d ${TREEPY} ]; then cd tmp && git clone https://github.com/volrath/treepy.el; fi
 	cd ${TREEPY} && git pull
 	if [ ! -d ${WITHED} ]; then cd tmp && git clone https://github.com/magit/with-editor.git; fi
@@ -327,6 +334,11 @@ helm:
 helm-company:
 	@echo ----- Making helm-company...
 	cp -p ${HELMCOMP}/*.el ${LISPDIR}
+	@echo ----- Done.
+
+hydra:
+	@echo ----- Making hydra...
+	cp -p ${HYDRA}/*.el ${LISPDIR}
 	@echo ----- Done.
 
 ilist:
@@ -497,6 +509,11 @@ s:
 	@echo ----- Making s
 	${EMACS} -Q -L ${S} -batch -f batch-byte-compile ${S}/*.el
 	mv ${S}/*.elc ${LISPDIR}/
+	@echo ----- Done.
+
+transient:
+	@echo ----- Making transient
+	cp ${TRANSIENT}/lisp/*.el ${LISPDIR}
 	@echo ----- Done.
 
 treepy:

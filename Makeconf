@@ -18,10 +18,15 @@ ELCC=${EMACS} --batch -q --no-site-file --no-init-file
 ## Define the release that should be checked out and used.
 ## can also be master.
 org_release_async=release_8.3.6
-org_release=release_9.1.14
+org_release=release_9.2
 ########
 ## ESS
-ess_release=v17.11
+##ess_release=v17.11
+##ess_release=v17.11.999
+##ess_release=v18.10
+##ess_release=v18.10.2
+##ess_release=ESSRv1.4
+ess_release=master
 
 ########
 ## markdown
