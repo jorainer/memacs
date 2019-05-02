@@ -27,6 +27,7 @@ FLATJO=tmp/flatui-emacs
 KAOLIN=tmp/emacs-kaolin-themes
 MATERIAL=tmp/emacs-material-theme
 MONOKAI=tmp/monokai-emacs
+SANITYINC=tmp/color-theme-sanityinc-tomorrow
 TANGOTANGO=tmp/color-theme-tangotango
 TANGOPLUS=tmp/tango-plus-theme
 GITHUB=tmp/color-theme-github
@@ -35,11 +36,12 @@ DRACULA=tmp/dracula-theme
 GRUVBOX=tmp/gruvbox-emacs
 AMPLE=tmp/ample-theme
 CREAMSODY=tmp/emacs-theme-creamsody
+ONE=tmp/emacs-one-themes
 ##HIGHCONTRAST=tmp/replace-colorthemes
 
-all : anti-zenburn emacs-leuven-theme noctilux-theme soft-morning-theme solarized-emacs zenburn-emacs emacs-professional moe-theme flatui-emacs monokai tangotango tangoplus github atom-one-dark-theme gruvbox ample creamsody material kaolin
+all : anti-zenburn emacs-leuven-theme noctilux-theme soft-morning-theme solarized-emacs zenburn-emacs emacs-professional moe-theme flatui-emacs monokai tangotango tangoplus github atom-one-dark-theme gruvbox ample creamsody material kaolin one sanityinc
 
-goodones : anti-zenburn noctilux-theme solarized-emacs zenburn-emacs flatui-emacs monokai gruvbox kaolin
+goodones : anti-zenburn noctilux-theme solarized-emacs zenburn-emacs flatui-emacs monokai gruvbox kaolin one
 
 .PHONY : anti-zenburn clean emacs-leuven-theme noctilux-theme soft-morning-theme solarized-emacs zenburn-emacs flatui-emacs monokai tangotango tangoplus github
 
@@ -197,6 +199,14 @@ noctilux-theme :
 	cp -p ${NOCTILUX}/*.el ${DESTDIR}
 	@echo ----- Done.
 
+one :
+	@echo ----- installing one...
+	if [ ! -d ${DESTDIR} ]; then mkdir ${DESTDIR}; fi
+	if [ ! -d tmp ]; then mkdir tmp; fi
+	if [ ! -d ${ONE} ]; then cd tmp && git clone https://github.com/balajisivaraman/emacs-one-themes; fi
+	cd ${ONE} && git pull
+	cp -p ${ONE}/*.el ${DESTDIR}
+	@echo ----- Done.
 
 
 soft-morning-theme :
@@ -220,6 +230,15 @@ solarized-emacs :
 	cp -p ${SOLARIZED}/*.el ${DESTDIR}
 #	${EMACS} -Q -L ${SOLARIZED} -batch -f batch-byte-compile ${SOLARIZED}/*.el
 #	mv ${SOLARIZED}/*.elc ${DESTDIR}
+	@echo ----- Done.
+
+sanityinc :
+	@echo ----- installing sanityinc...
+	if [ ! -d ${DESTDIR} ]; then mkdir ${DESTDIR}; fi
+	if [ ! -d tmp ]; then mkdir tmp; fi
+	if [ ! -d ${SANITYINC} ]; then cd tmp && git clone https://github.com/purcell/color-theme-sanityinc-tomorrow; fi
+	cd ${SANITYINC} && git pull
+	cp -p ${SANITYINC}/*.el ${DESTDIR}
 	@echo ----- Done.
 
 tangoplus :

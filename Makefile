@@ -46,6 +46,7 @@ MAGITHUB=tmp/magithub
 MAGITPOPUP=tmp/magit-popup
 MD=tmp/markdown-mode
 MF=tmp/macbook-keyboard-fix.el
+NYANMODE=tmp/nyan-mode
 OBULLETS=tmp/org-bullets
 ORG=tmp/org-mode
 ORGACC=tmp/orgmode-accessories
@@ -60,6 +61,7 @@ POLYNW=tmp/poly-noweb
 POPUP=tmp/popup-el
 POWERLINE=tmp/powerline
 S=tmp/s.el
+SPACELINE=tmp/spaceline
 TRANSIENT=tmp/transient
 TREEPY=tmp/treepy.el
 WEATHER=weather-metno-20121023
@@ -71,9 +73,9 @@ all : createdirs fetch emacs
 
 emacs : core addons
 
-core : createdirs auctex ess org-async org dash execpath md poly treepy graphql hydra git-modes with-editor ghub apiwrap ghub-plus transient magit-popup magit magithub fci ilist editorconfig
+core : createdirs auctex ess org-async org dash execpath md poly treepy graphql hydra git-modes with-editor ghub apiwrap ghub-plus transient fci ilist editorconfig
 
-addons : createdirs fuzzy popup company-mode helm-company auto-lang other magit-svn org-bullets arduino ravel org-journal s f ioslide org-tree-slide epresent org-sync async helm powerline autothemer macfix
+addons : createdirs fuzzy popup company-mode helm-company auto-lang other org-bullets arduino ravel org-journal s f ioslide org-tree-slide epresent org-sync async helm powerline autothemer macfix spaceline nyan-mode
 
 ###############
 arduino :
@@ -245,6 +247,8 @@ fetch :
 	cd ${MF} && git pull
 	if [ ! -d ${MAGITHUB} ]; then cd tmp && git clone https://github.com/vermiculus/magithub.git; fi
 	cd ${MAGITHUB} && git pull
+	if [ ! -d ${NYANMODE} ]; then cd tmp && git clone https://github.com/TeMPOraL/nyan-mode; fi
+	cd ${NYANMODE} && git pull
 	if [ ! -d ${OBULLETS} ]; then cd tmp && git clone https://github.com/sabof/org-bullets.git; fi
 	cd ${OBULLETS} && git pull
 	if [ ! -d ${ORG} ]; then cd tmp && git clone https://code.orgmode.org/bzg/org-mode.git; fi
@@ -277,6 +281,8 @@ fetch :
 	cd ${JULIA} && git pull
 	if [ ! -d ${S} ]; then cd tmp && git clone https://github.com/magnars/s.el.git; fi
 	cd ${S} && git pull
+	if [ ! -d ${SPACELINE} ]; then cd tmp && git clone https://github.com/TheBB/spaceline; fi
+	cd ${SPACELINE} && git pull
 	if [ ! -d ${TRANSIENT} ]; then cd tmp && git clone https://github.com/magit/transient; fi
 	cd ${TRANSIENT} && git pull
 	if [ ! -d ${TREEPY} ]; then cd tmp && git clone https://github.com/volrath/treepy.el; fi
@@ -394,6 +400,11 @@ macfix:
 	mv ${MF}/*.elc ${LISPDIR}
 	@echo ----- Done.
 
+nyan-mode:
+	@echo ----- Making nyan-mode...
+	cp -r ${NYANMODE}/*.el ${LISPDIR}
+	@echo ----- Done.
+
 org-tree-slide:
 	@echo ----- Making org-tree-slide...
 	cp -r ${ORGTREESLIDE}/*.el ${LISPDIR}
@@ -509,6 +520,11 @@ s:
 	@echo ----- Making s
 	${EMACS} -Q -L ${S} -batch -f batch-byte-compile ${S}/*.el
 	mv ${S}/*.elc ${LISPDIR}/
+	@echo ----- Done.
+
+spaceline:
+	@echo ----- Making spaceline
+	cp ${SPACELINE}/*.el ${LISPDIR}
 	@echo ----- Done.
 
 transient:
