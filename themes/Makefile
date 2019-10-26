@@ -37,11 +37,12 @@ GRUVBOX=tmp/gruvbox-emacs
 AMPLE=tmp/ample-theme
 CREAMSODY=tmp/emacs-theme-creamsody
 ONE=tmp/emacs-one-themes
+SPACEMACS=tmp/spacemacs-theme
 ##HIGHCONTRAST=tmp/replace-colorthemes
 
-all : anti-zenburn emacs-leuven-theme noctilux-theme soft-morning-theme solarized-emacs zenburn-emacs emacs-professional moe-theme flatui-emacs monokai tangotango tangoplus github atom-one-dark-theme gruvbox ample creamsody material kaolin one sanityinc
+all : anti-zenburn emacs-leuven-theme noctilux-theme soft-morning-theme solarized-emacs zenburn-emacs emacs-professional moe-theme flatui-emacs monokai tangotango tangoplus github atom-one-dark-theme gruvbox ample creamsody material kaolin one sanityinc spacemacs
 
-goodones : anti-zenburn noctilux-theme solarized-emacs zenburn-emacs flatui-emacs monokai gruvbox kaolin one
+goodones : anti-zenburn noctilux-theme solarized-emacs zenburn-emacs flatui-emacs monokai gruvbox kaolin one spacemacs
 
 .PHONY : anti-zenburn clean emacs-leuven-theme noctilux-theme soft-morning-theme solarized-emacs zenburn-emacs flatui-emacs monokai tangotango tangoplus github
 
@@ -239,6 +240,15 @@ sanityinc :
 	if [ ! -d ${SANITYINC} ]; then cd tmp && git clone https://github.com/purcell/color-theme-sanityinc-tomorrow; fi
 	cd ${SANITYINC} && git pull
 	cp -p ${SANITYINC}/*.el ${DESTDIR}
+	@echo ----- Done.
+
+spacemacs :
+	@echo ----- installing spacemacs
+	if [ ! -d ${DESTDIR} ]; then mkdir ${DESTDIR}; fi
+	if [ ! -d tmp ]; then mkdir tmp; fi
+	if [ ! -d ${SPACEMACS} ]; then cd tmp && git clone https://github.com/nashamri/spacemacs-theme; fi
+	cd ${SPACEMACS} && git pull
+	cp -p ${SPACEMACS}/*.el ${DESTDIR}
 	@echo ----- Done.
 
 tangoplus :
