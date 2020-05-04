@@ -40,6 +40,7 @@ HYDRA=tmp/hydra
 ILIST=tmp/imenu-list
 IOSLIDE=tmp/org-ioslide
 JULIA=tmp/julia
+JEMACS=tmp/julia-emacs
 MAGITSVN=tmp/magit-svn
 MAGIT=tmp/magit
 MAGITHUB=tmp/magithub
@@ -62,6 +63,7 @@ POPUP=tmp/popup-el
 POWERLINE=tmp/powerline
 S=tmp/s.el
 SPACELINE=tmp/spaceline
+THEMECHANGER=tmp/theme-changer
 TRANSIENT=tmp/transient
 TREEPY=tmp/treepy.el
 WEATHER=weather-metno-20121023
@@ -73,9 +75,9 @@ all : createdirs fetch emacs
 
 emacs : core addons
 
-core : createdirs auctex ess org-async org dash execpath md poly treepy graphql hydra git-modes with-editor ghub apiwrap ghub-plus transient fci ilist editorconfig
+core : createdirs auctex org-async org dash execpath md poly treepy graphql hydra git-modes with-editor ghub apiwrap ghub-plus transient fci ilist editorconfig
 
-addons : createdirs fuzzy popup company-mode helm-company auto-lang other org-bullets arduino ravel org-journal s f ioslide org-tree-slide epresent org-sync async helm powerline autothemer macfix spaceline nyan-mode
+addons : createdirs fuzzy popup company-mode helm-company auto-lang other org-bullets arduino ravel org-journal s f ioslide org-tree-slide epresent org-sync async helm powerline autothemer macfix spaceline nyan-mode theme-changer julia-emacs
 
 ###############
 arduino :
@@ -205,15 +207,15 @@ fetch :
 	cd ${DASH} && git pull
 	if [ ! -d ${EDITORCONF} ]; then cd tmp && git clone https://github.com/editorconfig/editorconfig-emacs; fi
 	cd ${EDITORCONF} && git pull
-	if [ ! -d ${ESS} ]; then cd tmp && git clone --depth 300 https://github.com/emacs-ess/ESS; fi
-	cd ${ESS} && git checkout master && git pull
+	# if [ ! -d ${ESS} ]; then cd tmp && git clone --depth 300 https://github.com/emacs-ess/ESS; fi
+	# cd ${ESS} && git checkout master && git pull
 	if [ ! -d ${EPRESENT} ]; then cd tmp && git clone https://github.com/eschulte/epresent.git; fi
 	cd ${EPRESENT} && git pull
 	if [ ! -d ${EXECPATH} ]; then cd tmp && git clone https://github.com/purcell/exec-path-from-shell.git; fi
 	cd ${EXECPATH} && git pull
 	if [ ! -d ${F} ]; then cd tmp && git clone https://github.com/rejeep/f.el.git; fi
 	cd ${F} && git pull
-	if [ ! -d ${FCI} ]; then cd tmp && git clone https://github.com/jotsetung/Fill-Column-Indicator.git; fi
+	if [ ! -d ${FCI} ]; then cd tmp && git clone https://github.com/jorainer/Fill-Column-Indicator.git; fi
 	cd ${FCI} && git pull
 	if [ ! -d ${FUZZY} ]; then cd tmp && git clone https://github.com/auto-complete/fuzzy-el.git; fi
 	cd ${FUZZY} && git pull
@@ -243,7 +245,7 @@ fetch :
 	cd ${MAGITSVN} && git pull
 	if [ ! -d ${MD} ]; then cd tmp && git clone https://github.com/jrblevin/markdown-mode.git; fi
 	cd ${MD} && git checkout master && git pull
-	if [ ! -d ${MF} ]; then cd tmp && git clone https://github.com/jotsetung/macbook-keyboard-fix.el; fi
+	if [ ! -d ${MF} ]; then cd tmp && git clone https://github.com/jorainer/macbook-keyboard-fix.el; fi
 	cd ${MF} && git pull
 	if [ ! -d ${MAGITHUB} ]; then cd tmp && git clone https://github.com/vermiculus/magithub.git; fi
 	cd ${MAGITHUB} && git pull
@@ -279,10 +281,14 @@ fetch :
 	cd ${POLYNW} && git checkout master && git pull
 	if [ ! -d ${JULIA} ]; then cd tmp && git clone https://github.com/JuliaLang/julia.git; fi
 	cd ${JULIA} && git pull
+	if [ ! -d ${JEMACS} ]; then cd tmp && git clone https://github.com/JuliaEditorSupport/julia-emacs; fi
+	cd ${JEMACS} && git pull
 	if [ ! -d ${S} ]; then cd tmp && git clone https://github.com/magnars/s.el.git; fi
 	cd ${S} && git pull
 	if [ ! -d ${SPACELINE} ]; then cd tmp && git clone https://github.com/TheBB/spaceline; fi
 	cd ${SPACELINE} && git pull
+	if [ ! -d ${THEMECHANGER} ]; then cd tmp && git clone https://github.com/hadronzoo/theme-changer; fi
+	cd ${THEMECHANGER} && git pull
 	if [ ! -d ${TRANSIENT} ]; then cd tmp && git clone https://github.com/magit/transient; fi
 	cd ${TRANSIENT} && git pull
 	if [ ! -d ${TREEPY} ]; then cd tmp && git clone https://github.com/volrath/treepy.el; fi
@@ -356,6 +362,11 @@ ioslide:
 	@echo ----- Making ioslide...
 	if [ ! -d ${PREFIX}/site-lisp/org-ioslide ]; then mkdir ${PREFIX}/site-lisp/org-ioslide; fi
 	cp -r ${IOSLIDE}/* ${PREFIX}/site-lisp/org-ioslide
+	@echo ----- Done.
+
+julia-emacs:
+	@echo ----- Making julia-emacs...
+	cp -r ${JEMACS}/*.el ${LISPDIR}
 	@echo ----- Done.
 
 magit :
@@ -525,6 +536,11 @@ s:
 spaceline:
 	@echo ----- Making spaceline
 	cp ${SPACELINE}/*.el ${LISPDIR}
+	@echo ----- Done.
+
+theme-changer:
+	@echo ----- Making theme-changer
+	cp ${THEMECHANGER}/*.el ${LISPDIR}
 	@echo ----- Done.
 
 transient:

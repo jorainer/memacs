@@ -34,16 +34,18 @@ GITHUB=tmp/color-theme-github
 ATOMONE=tmp/atom-one-dark-theme
 DRACULA=tmp/dracula-theme
 GRUVBOX=tmp/gruvbox-emacs
+GRUVBOX2=tmp/emacs-theme-gruvbox
 AMPLE=tmp/ample-theme
 CREAMSODY=tmp/emacs-theme-creamsody
 ONE=tmp/emacs-one-themes
+SPACEMACS=tmp/spacemacs-theme
 ##HIGHCONTRAST=tmp/replace-colorthemes
 
-all : anti-zenburn emacs-leuven-theme noctilux-theme soft-morning-theme solarized-emacs zenburn-emacs emacs-professional moe-theme flatui-emacs monokai tangotango tangoplus github atom-one-dark-theme gruvbox ample creamsody material kaolin one sanityinc
+all : anti-zenburn emacs-leuven-theme noctilux-theme soft-morning-theme solarized-emacs zenburn-emacs emacs-professional moe-theme flatui-emacs monokai tangotango tangoplus github atom-one-dark-theme gruvbox ample creamsody material kaolin one sanityinc spacemacs gruvbox2 melpa
 
-goodones : anti-zenburn noctilux-theme solarized-emacs zenburn-emacs flatui-emacs monokai gruvbox kaolin one
+goodones : anti-zenburn noctilux-theme solarized-emacs zenburn-emacs flatui-emacs monokai gruvbox kaolin one spacemacs gruvbox2
 
-.PHONY : anti-zenburn clean emacs-leuven-theme noctilux-theme soft-morning-theme solarized-emacs zenburn-emacs flatui-emacs monokai tangotango tangoplus github
+.PHONY : anti-zenburn clean emacs-leuven-theme noctilux-theme soft-morning-theme solarized-emacs zenburn-emacs flatui-emacs monokai tangotango tangoplus github gruvbox2
 
 ample :
 	@echo ----- installing ample-theme...
@@ -87,7 +89,7 @@ creamsody :
 	@echo ----- installing creamsody...
 	if [ ! -d ${DESTDIR} ]; then mkdir ${DESTDIR}; fi
 	if [ ! -d tmp ]; then mkdir tmp; fi
-	if [ ! -d ${CREAMSODY} ]; then cd tmp && git clone https://github.com/jotsetung/emacs-theme-creamsody.git; fi
+	if [ ! -d ${CREAMSODY} ]; then cd tmp && git clone https://github.com/jorainer/emacs-theme-creamsody.git; fi
 	cd ${CREAMSODY} && git pull
 	cp -p ${CREAMSODY}/*.el ${DESTDIR}
 	@echo ----- Done.
@@ -96,7 +98,7 @@ emacs-leuven-theme :
 	@echo ----- installing emacs-leuven-theme...
 	if [ ! -d ${DESTDIR} ]; then mkdir ${DESTDIR}; fi
 	if [ ! -d tmp ]; then mkdir tmp; fi
-	if [ ! -d ${LEUVEN} ]; then cd tmp && git clone https://github.com/jotsetung/emacs-leuven-theme; fi
+	if [ ! -d ${LEUVEN} ]; then cd tmp && git clone https://github.com/jorainer/emacs-leuven-theme; fi
 	cd ${LEUVEN} && git pull
 #	${EMACS} -Q -L ${LEUVEN} -batch -f batch-byte-compile ${LEUVEN}/*.el
 #	mv ${LEUVEN}/*.elc ${DESTDIR}
@@ -126,7 +128,7 @@ flatui-emacs :
 #	dash it, I need dash!
 	if [ ! -d ${DESTDIR} ]; then mkdir ${DESTDIR}; fi
 	if [ ! -d tmp ]; then mkdir tmp; fi
-	if [ ! -d ${FLATJO} ]; then cd tmp && git clone https://github.com/jotsetung/flatui-emacs.git; fi
+	if [ ! -d ${FLATJO} ]; then cd tmp && git clone https://github.com/jorainer/flatui-emacs.git; fi
 	cd ${FLATJO} && git pull
 	cp -p ${FLATJO}/*.el ${DESTDIR}
 #	${EMACS} -Q -L ${FLATJO} -batch -f batch-byte-compile ${FLATJO}/*.el
@@ -146,9 +148,18 @@ gruvbox :
 	@echo ----- installing gruvbox...
 	if [ ! -d ${DESTDIR} ]; then mkdir ${DESTDIR}; fi
 	if [ ! -d tmp]; then mkdir tmp; fi
-	if [ ! -d ${GRUVBOX} ]; then cd tmp && git clone https://github.com/jotsetung/gruvbox-emacs; fi
+	if [ ! -d ${GRUVBOX} ]; then cd tmp && git clone https://github.com/jorainer/gruvbox-emacs; fi
 	cd ${GRUVBOX} && git pull
 	cp -p ${GRUVBOX}/*.el ${DESTDIR}
+	@echo ----- Done.
+
+gruvbox2 :
+	@echo ----- installing gruvbox...
+	if [ ! -d ${DESTDIR}/gruvbox2 ]; then mkdir ${DESTDIR}/gruvbox2; fi
+	if [ ! -d tmp]; then mkdir tmp; fi
+	if [ ! -d ${GRUVBOX2} ]; then cd tmp && git clone https://github.com/Greduan/emacs-theme-gruvbox; fi
+	cd ${GRUVBOX2} && git pull
+	cp -p ${GRUVBOX2}/*.el ${DESTDIR}/gruvbox2
 	@echo ----- Done.
 
 kaolin :
@@ -169,6 +180,10 @@ material :
 	cd ${MATERIAL} && git pull
 	cp -p ${MATERIAL}/*.el ${DESTDIR}
 	@echo ----- Done.
+
+melpa :
+	@echo "\n\nPlease install the following theme(s) manually using melpa (M-x list-packages):"
+	@echo " - doom-themes"
 
 moe-theme :
 	@echo ----- installing moe-theme...
@@ -225,7 +240,7 @@ solarized-emacs :
 #	dash it, I need dash!
 	if [ ! -d ${DESTDIR} ]; then mkdir ${DESTDIR}; fi
 	if [ ! -d tmp ]; then mkdir tmp; fi
-	if [ ! -d ${SOLARIZED} ]; then cd tmp && git clone https://github.com/jotsetung/solarized-emacs.git; fi
+	if [ ! -d ${SOLARIZED} ]; then cd tmp && git clone https://github.com/jorainer/solarized-emacs.git; fi
 	cd ${SOLARIZED} && git pull
 	cp -p ${SOLARIZED}/*.el ${DESTDIR}
 #	${EMACS} -Q -L ${SOLARIZED} -batch -f batch-byte-compile ${SOLARIZED}/*.el
@@ -239,6 +254,15 @@ sanityinc :
 	if [ ! -d ${SANITYINC} ]; then cd tmp && git clone https://github.com/purcell/color-theme-sanityinc-tomorrow; fi
 	cd ${SANITYINC} && git pull
 	cp -p ${SANITYINC}/*.el ${DESTDIR}
+	@echo ----- Done.
+
+spacemacs :
+	@echo ----- installing spacemacs
+	if [ ! -d ${DESTDIR} ]; then mkdir ${DESTDIR}; fi
+	if [ ! -d tmp ]; then mkdir tmp; fi
+	if [ ! -d ${SPACEMACS} ]; then cd tmp && git clone https://github.com/nashamri/spacemacs-theme; fi
+	cd ${SPACEMACS} && git pull
+	cp -p ${SPACEMACS}/*.el ${DESTDIR}
 	@echo ----- Done.
 
 tangoplus :
