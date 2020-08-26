@@ -2,8 +2,6 @@
 ;; We're adding our own set of of extensions and are in addition
 ;; overwriting the org-mode that comes with Emacs.
 
-;;(package-initialize)
-
 ;;; * Font
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -20,25 +18,22 @@
 ;; (set-face-attribute 'variable-pitch nil :font "-*-Hack-normal-normal-normal-*-10-*-*-*-m-0-iso10646-1")
 
 ;; inconsolata.
-;; (set-default-font "Inconsolata-dz for Powerline")
-;; (add-to-list 'default-frame-alist '(font . "Inconsolata-dz for Powerline-13"))
-;; (set-face-attribute 'default t :font "Inconsolata-dz for Powerline-13")
-;; (set-default-font "-*-Inconsolata-normal-normal-normal-*-13-*-*-*-m-0-iso10646-1")
-;; (set-face-attribute 'default nil :font "-*-Inconsolata-normal-normal-normal-*-13-*-*-*-m-0-iso10646-1")
-;; (set-face-attribute 'default nil :font "-*-Inconsolata-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
+;; (add-to-list 'default-frame-alist '(font . "Inconsolata-14"))
+;; (set-face-attribute 'default t :font "Inconsolata-14")
 ;; have to set the following two, in order to
 ;;(set-face-attribute 'fixed-pitch nil :font "-*-Inconsolata-normal-normal-normal-*-11-*-*-*-m-0-iso10646-1")
 ;;(set-face-attribute 'variable-pitch nil :font "-*-Inconsolata-normal-normal-normal-*-11-*-*-*-m-0-iso10646-1")
 
 ;; Source Code Pro
-;; (set-default-font "Source Code Pro for Powerline")
-;; (add-to-list 'default-frame-alist '(font . "Source Code Pro for Powerline-12"))
-;; (set-face-attribute 'default t :font "Source Code Pro for Powerline-12")
+;;(set-default-font "Source Code Pro for Powerline")
+(add-to-list 'default-frame-alist '(font . "Source Code Pro-14"))
+(set-face-attribute 'default t :font "Source Code Pro-14")
 
 ;; Apple SF font
-;; (set-default-font "SF Mono")
-;; (add-to-list 'default-frame-alist '(font . "SF Mono-14"))
-;; (set-face-attribute 'default t :font "SF Mono-14")
+;; (set-default-font "SF Mono-14")
+;;* (add-to-list 'default-frame-alist '(font . "SF Mono-14"))
+;;* (set-frame-font "SF Mono-14" nil t)
+;;(set-face-attribute 'default t :font "SF Mono-14")
 ;;(set-default-font "-*-SF Mono-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
 ;;(set-face-attribute 'default nil :font "-*-SF Mono-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
 
@@ -62,9 +57,12 @@
 ;;
 ;; manually specify the path!
 (setenv "PATH"
-	(concat ":~/bin:/usr/local/bin:/usr/bin:/bin"
+	(concat ":/Users/jo/bin:/usr/local/bin:/usr/bin:/bin"
 	(getenv "PATH"))
 	)
+(add-to-list 'exec-path "/Users/jo/bin/")
+(add-to-list 'exec-path "/usr/local/bin")
+(add-to-list 'exec-path "/usr/bin")
 
 ;; This is from https://gist.github.com/railwaycat/3498096
 ;; Keybonds
@@ -103,6 +101,7 @@
 ;(setq mouse-drag-copy-region nil)  ; stops selection with a mouse being immediately injected to the kill ring
 ;(mouse-wheel-mode t)			; activate mouse scrolling
 (global-font-lock-mode t)		; syntax highlighting
+(setq global-visual-line-mode t)	; soft-wrapping of long lines
 ;(setq font-lock-global-modes '(not ESS))
 (transient-mark-mode t)			; sane select (mark) mode
 ;(delete-selection-mode t)		; entry deletes marked text
@@ -120,163 +119,101 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-color-faces-vector
+   [default bold shadow italic underline bold bold-italic bold])
+ '(ansi-color-names-vector
+   (vector "#1d1f21" "#cc6666" "#b5bd68" "#f0c674" "#81a2be" "#b294bb" "#8abeb7" "#c5c8c6"))
+ '(beacon-color "#cc6666")
  '(custom-safe-themes
-   (quote
-    ("7f407534aa429959f17e4d48a57c7b7c50a5c888e76cd13acae3907076d5ca72" "36ca8f60565af20ef4f30783aa16a26d96c02df7b4e54e9900a5138fb33808da" "781fdddfda7b27fbdc9a67c502496db0c34e48ea49d0cece3612c6cba0d89451" "809cd3e553d4a7150794c7cc7ddaf6b74f835aa0b21786b8ddfe35f837761013" "ed317c0a3387be628a48c4bbdb316b4fa645a414838149069210b66dd521733f" "da0468f37373855e845e7ebfd7cdc334e0ea92de4dcf6695a4eefd1dc884410d" "c924950f6b5b92a064c5ad7063bb34fd3facead47cd0d761a31e7e76252996f7" "d793919bc252952ebea0cdfaa2241b8a5e83f581123f7752f1c68554a2c867fd" "34af76ab5d1369a18a77174c3b8a450820900211d92106aa846a7853f8c16440" "5eb44a5d38e3c273d8a10bb03fac0ad4533debd39819b8a7a2ba283a52cf4527" "86446384ca324dd3154d71fe97894dfb5d046913ae43aa4ffabd8228794f0fa1" "449c37535e8713dd431496870595f998c5c1b8075319843b7336707749ffef1d" "283ec00760b8fedc4add974c22846dda6235d5fbce59c9446940686bf0ebe5b4" "c0dd134ecd6ede6508c30f7d4ac92334229531df62284fc6572f65b4d0cde43f" "da74e98149367c52e54949a324d80cad17807083fb88c6af318330a91fbccd90" "aa085c92f21f5aef333a4e26980331d0b5f2bae7c4053558a90ed7229f165139" "2e635a764137174fc9fedb7cf700848ce7fea482cc26f9b87b09272d499860da" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "5f8018b6f2e39e6de7d38fc5677d47e68aedbb18efe3660aa8043bc8784fb5af" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "2acad40240f9de1d74378f49c74d8ff03d0499bdbced4b1a79692e9cb298d3f9" default)))
+   '("a06658a45f043cd95549d6845454ad1c1d6e24a99271676ae56157619952394a" default))
+ '(flycheck-color-mode-line-face-to-color 'mode-line-buffer-id)
+ '(frame-background-mode 'dark)
+ '(helm-completion-style 'emacs)
  '(magit-diff-use-overlays nil)
  '(magit-use-overlays nil)
- '(tool-bar-mode nil))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-;;
-;;;;
-
-
-;;; * Themes
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;; Themes, load with "M-x load-theme"
-(add-to-list 'load-path "~/.emacs.d/site-lisp/")
-(add-to-list 'load-path "~/.emacs.d/themes/")
-(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
-;(load-theme 'zenburn t)
-;(load-theme 'leuven t)
-;(load-theme 'mccarthy t)
-;; solarized customization
-;; make the fringe stand out from the background
-;(setq solarized-distinct-fringe-background t)
-;; make the modeline high contrast
-;;(setq solarized-high-contrast-mode-line t)
-;;;;;;;;;;;;;
-;;
-;; flatui:
-;; (setq flatui-high-contrast-mode-line t)
-;; (setq flatui-high-contrast-mode-line nil)
-;; ;; (setq flatui-use-variable-pitch nil)
-;; (setq flatui-scale-org-headlines t)
-;; (setq flatui-height-plus-1 1.07)
-;; (setq flatui-height-plus-2 1.12)
-;; (setq flatui-height-plus-3 1.16)
-;; (setq flatui-height-plus-4 1.22)
-;; presentation mode:
-;; (setq flatui-height-plus-1 1.12)
-;; (setq flatui-height-plus-2 1.16)
-;; (setq flatui-height-plus-3 1.22)
-;; (setq flatui-height-plus-4 1.30)
-;; ;; Use high contrast code block header background (or not)
-;; (setq flatui-high-contrast-code-block-header t)  ;; not for presentation
-;; (load-theme 'flatui-light t)
-;; (load-theme 'flatui-dark t)
-;;
-;; gruvbox
-;;(setq gruvbox-high-contrast-mode-line t)
-;; (setq gruvbox-high-contrast-code-block-header t)
-;;(setq gruvbox-use-variable-pitch nil)
-;; (setq gruvbox-scale-org-headlines t)
-;; (setq gruvbox-height-plus-1 1.07)
-;; (setq gruvbox-height-plus-2 1.12)
-;; (setq gruvbox-height-plus-3 1.16)
-;; (setq gruvbox-height-plus-4 1.22)
-;; (load-theme 'gruvbox-dark t)
-;;
-;; atom-one-dark
-;; (load-theme 'atom-one-dark t)
-;;
-;; creamsody
-(load-theme 'creamsody t)
-(creamsody-modeline-four)
-;;
-;;;;
-
-
+ '(package-selected-packages
+   '(helm-bibtex bibtex-completion exec-path-from-shell auto-dictionary spaceline editorconfig imenu-list magit poly-R poly-markdown polymode markdown-preview-mode markdown-mode ess company-rtags company-ctags helm-company helm org-bullets org-plus-contrib))
+ '(spaceline-helm-mode t)
+ '(tool-bar-mode nil)
+ '(vc-annotate-background nil)
+ '(vc-annotate-color-map
+   '((20 . "#cc6666")
+     (40 . "#de935f")
+     (60 . "#f0c674")
+     (80 . "#b5bd68")
+     (100 . "#8abeb7")
+     (120 . "#81a2be")
+     (140 . "#b294bb")
+     (160 . "#cc6666")
+     (180 . "#de935f")
+     (200 . "#f0c674")
+     (220 . "#b5bd68")
+     (240 . "#8abeb7")
+     (260 . "#81a2be")
+     (280 . "#b294bb")
+     (300 . "#cc6666")
+     (320 . "#de935f")
+     (340 . "#f0c674")
+     (360 . "#b5bd68")))
+ '(vc-annotate-very-old-color nil)
+ '(window-divider-mode nil))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;; Packages and stuff
-
-
-;;; * AUCTex
-;;;;;;;;;;;;;;;;;;;;;;;;
-;;
-;; AUCTex
-;;
-;; path where auctex has been installed...
-(add-to-list 'load-path "~/.emacs.d/site-lisp")
-(load "auctex.el" nil t t)
-;; Add standard Sweave file extensions to the list of files recognized
-;; by AUCTeX.
-(setq TeX-file-extensions
-      '("Rnw" "rnw" "Snw" "snw" "tex" "sty" "cls" "ltx" "texi" "texinfo" "dtx"))
-;;
-;;;;
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+(add-to-list 'package-archives
+	     '("org" . "https://orgmode.org/elpa/") t)
+(package-initialize)
+;; (add-to-list 'package-archives
+;;              '("melpa" . "https://melpa.org/packages/") t)
 
 ;;; * company-mode
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;; company-mode
-;; (load "company.el")
-;; Config comes from https://github.com/izahn/dotemacs/blob/master/init.el
 (require 'company)
+(require 'company-rtags)
 ;; cancel if input doesn't match, be patient, and don't complete automatically.
 ;; set company-idle-delay nil for no automatic matching.
 (setq company-require-match nil
       company-async-timeout 6
       company-idle-delay 1)
-;; complete using C-tab
-;; (global-set-key (kbd "<C-tab>") 'counsel-company)
-;; use C-n and C-p to cycle through completions
-;; (define-key company-mode-map (kbd "<C-tab>") 'company-complete)
-;; (define-key company-active-map (kbd "C-n") 'company-select-next)
-;; (define-key company-active-map (kbd "<tab>") 'company-complete-common)
-;; (define-key company-active-map (kbd "C-p") 'company-select-previous)
-;; (define-key company-active-map (kbd "<backtab>") 'company-select-previous)
-;;
-(require 'company-capf)
-;; put company-capf and company-files at the beginning of the list
-;; (setq company-backends
-;;       '(company-files company-capf company-nxml company-css company-cmake company-semantic company-clang company-xcode company-eclim))
-;; (setq-default company-backends
-;;               '(company-files company-capf company-nxml company-css company-cmake company-semantic company-clang company-xcode company-eclim))
-;; put company-capf and company-files at the beginning of the list
 (setq company-backends
-      '(company-files company-capf company-gtags company-ispell company-nxml company-css company-cmake company-semantic))
+      '(company-files company-capf company-gtags company-rtags company-ispell company-nxml
+		      company-css company-cmake company-semantic))
 (setq-default company-backends
-              '(company-files company-capf company-gtags company-ispell company-nxml company-css company-cmake company-semantic))
-;;
-(defun my-company-indent-or-complete-common ()
-  "Indent the current line or region, or complete the common part."
-  (interactive)
-  (cond
-   ((use-region-p)
-    (indent-region (region-beginning) (region-end)))
-   ((and (not (looking-at "\\w\\|\\s_"))
-         (memq indent-line-function
-               '(indent-relative indent-relative-maybe)))
-    (company-complete-common))
-   ((let ((old-point (point))
-          (old-tick (buffer-chars-modified-tick))
-          (tab-always-indent t))
-      (call-interactively #'indent-for-tab-command)
-      (when (and (eq old-point (point))
-                 (eq old-tick (buffer-chars-modified-tick))
-                 (not (looking-at "\\w\\|\\s_")))
-        (company-complete-common))))))
-
-;; (define-key company-mode-map (kbd "<tab>") 'my-company-indent-or-complete-common)
-;;
+              '(company-files company-capf company-rtags company-gtags company-ispell
+			      company-nxml company-css company-cmake company-semantic))
 (add-hook 'after-init-hook 'global-company-mode)
 ;;
 ;;;;
 
+;;; * helm
+;;;;;;;;;;;;;;;;;;;;;;;
+;;
+(require 'helm-config)
+(require 'helm)
+;; Overwrite key bindings
+(global-set-key (kbd "M-x") 'helm-M-x)
+;;(global-set-key (kbd "C-x b") 'helm-buffer-list)
+(global-set-key (kbd "C-x r b") 'helm-filtered-bookmarks)
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
+(global-set-key (kbd "M-y") 'helm-show-kill-ring)
+;; bind also cmd-v to that
+;;(global-set-key (kbd "s-v") 'helm-show-kill-ring)
+;; rebind <tab> to run persistent action
+(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
+;; open helm buffer inside current window
+(setq helm-split-window-in-side-p t)
+;; Turn on helm by default
+(helm-mode 1)
+
 ;;; * helm-complete
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;;
-;; helm-complete
-(autoload 'helm-company "helm-company") ;; Not necessary if using ELPA package
 (eval-after-load 'company
   '(progn
      (define-key company-mode-map (kbd "C-:") 'helm-company)
@@ -286,20 +223,29 @@
 ;;
 ;;;;
 
+;;;;
+;; helm-bibtex
+;; https://github.com/tmalsburg/helm-bibtex 
+;; Install via melpa with package-install
+(require 'helm-bibtex)
+(setq bibtex-completion-bibliography
+      '("/Users/jo/ownCloud/bib/references_all.bib"))
+
+
 ;;; * ESS
 ;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;; ESS
 ;;
-(add-to-list 'load-path "~/.emacs.d/site-lisp/ess")
-;; (load "ess-site")
-(require 'ess-site)
+(setq ess-r-versions '("R" "R-3" "R-"))
+(load "ess-site")
+;; (require 'ess-r-mode)
 (add-to-list 'auto-mode-alist '("\\.R$" . R-mode))
 ;;? (setq eldoc-echo-area-use-multiline-p t)
 ;; Don't use a R history file.
 (setq ess-history-file nil)
 ;; Uncomment below if we're getting problems doing an ediff on an R-file with magit. merge conflict
-;;(add-to-list 'auto-mode-alist '("\\.R" . ess-mode))
+;; (add-to-list 'auto-mode-alist '("\\.R" . ess-mode))
 (add-to-list 'auto-mode-alist '("NAMESPACE" . ess-mode))
 ;;(require 'ess-custom)
 ;; Somehow that sucker seems to be missing...
@@ -315,44 +261,6 @@
             (setq ess-ask-for-ess-directory t)
                 (setq ess-ask-for-ess-directory nil)))
 (ess-toggle-underscore nil)
-;;
-;; Code indenting etc.
-;; (add-hook 'ess-mode-hook
-;;           (lambda ()
-;;             (ess-set-style 'C++ 'quiet)
-;;             ;; Because
-;;             ;;                                 DEF GNU BSD K&R C++
-;;             ;; ess-indent-level                  2   2   8   5   4
-;;             ;; ess-continued-statement-offset    2   2   8   5   4
-;;             ;; ess-brace-offset                  0   0  -8  -5  -4
-;;             ;; ess-arg-function-offset           2   4   0   0   0
-;;             ;; ess-expression-offset             4   2   8   5   4
-;;             ;; ess-else-offset                   0   0   0   0   0
-;;             ;; ess-close-brace-offset            0   0   0   0   0
-;;             (add-hook 'local-write-file-hooks
-;;                       (lambda ()
-;;                         (ess-nuke-trailing-whitespace)))))
-;; (setq ess-nuke-trailing-whitespace-p 'ask)
-;; (setq c-default-style "bsd"
-;;       c-basic-offset 4)
-;;
-;;;;
-
-
-;;; * tramp
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; tramp for remote ssh/files etc.
-;;
-;; tramp (transparent remote ...)
-(require 'tramp)
-(setq tramp-default-method "ssh")
-;(setq tramp-chunksize 500)
-;(eval-after-load 'tramp '(setenv "SHELL" "/bin/bash"))
-;(setq tramp-debug-buffer t)
-;(setq tramp-verbose 10)
-;;
-;;;;
-
 
 ;;; * org-mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -365,8 +273,6 @@
 ;; load a separately installed org
 ;; (add-to-list 'load-path "/Applications/Emacs.app/Contents/Resources/lisp/org")
 ;; Configuring org mode to know about R and set some reasonable default behavior
-(add-to-list 'load-path "~/.emacs.d/site-lisp/org")
-;; (require 'ess-site)
 ;(require 'org-install)
 (require 'ob-tangle)
 (require 'ob-latex)
@@ -377,10 +283,6 @@
 (require 'ox-html)
 (require 'ox-beamer)
 (require 'ox-md)
-;;(require 'ox-bibtex)
-;2(require 'org-eval)
-;; enable fontify:
-;2(setq org-src-fontify-natively t)
 ;(setq org-startup-indented t)  ;; automatic indentation and hiding of **
 ;; bullets for TODO items
 (require 'org-bullets)
@@ -451,7 +353,7 @@
 ))
 ;; define custom TODO keywords.
 (setq org-todo-keywords
-       '((sequence "TODO(t)" "WAIT(w@/!)" "VERIFY(v@)" "REDO(r@/!)" "|" "DONE(d!)" "CANCELED(c@)")))
+       '((sequence "TODO(t)" "WAIT(w@/!)" "IN PROGRESS(i@)" "REDO(r@/!)" "|" "DONE(d!)" "CANCELED(c@)")))
 (setq org-todo-keyword-faces
 ;	'(("TODO" . (:foreground "DeepPink1" :weight bold :slant italic :underline t))
 	'(("TODO" . (:foreground "#f39c12" :weight bold :slant italic :underline t))
@@ -459,20 +361,11 @@
 	("DONE" . (:foreground "#27ae60" :slant italic :undeline t))
 	("CANCELED" . (:foreground "#9b59b6" :weight bold :slant italic :underline t))
 	("REDO" . (:foreground "#e74c3c" :weight bold :slant italic :underline t))
-	("VERIFY" . (:foreground "#e74c3c" :weight bold :slant italic :underline t))
+	("IN PROGRESS" . (:foreground "#e74c3c" :weight bold :slant italic :underline t))
 	))
 ;; we don't want to always say "yes" please execute code...
 (setq org-confirm-babel-evaluate nil)
-;; define a org-to-latex template
-;;(setq org-export-latex-listings t)
-;;(setq org-export-latex-listings 'minted)
-
 (setq org-latex-listings 'minted)
-;(setq org-latex-custom-lang-environments
-;       '(
-;	(R "Rcode")
-;	))
-
 ;; modify the pdf process. (idea: call latexmk -C %f afterwards?)
 (setq org-latex-pdf-process (quote ("latexmk -pdflatex='pdflatex --shell-escape' -latex='latex --shell-escape' -gg -f -cd -pdf %f")))
 (setq org-latex-listings 'minted
@@ -493,23 +386,6 @@
 ;; place captions below tables, not above
 (setq org-latex-caption-above nil)
 (setq org-export-latex-table-caption-above nil)
-;; these custom agenda views will be displayed in the org-mobile app
-(setq org-tag-alist '(("analysis" . ?n) ("ageing" . ?A) ("collab" . ?c) ("EURAC" . ?E)
-		      ("EURA-K" . ?K) ("noexport" . ?N) ("paper" . ?a) ("private" . ?p)
-		      ("project" . ?P) ("review" . ?r) ("work" . ?w) ))
-(setq org-agenda-custom-commands
-      '(("p" "Private TODOs"
-	 ((tags-todo "private")
-	  ))
-	("w" "Work related TODOs"
-	 (
-	  (tags-todo "work+analysis")
-	  (tags-todo "work+project")
-	  (tags-todo "work+paper")
-	  (tags-todo "work+collab")
-	  (tags-todo "work-analysis-project-paper-collab")
-	  ))
-	))
 ;; org-export settings:
 ;; allows to define a init file other than the default one, specifically
 ;; useful if async export yields e.g. an error complaining that the font
@@ -517,43 +393,6 @@
 (setq org-export-async-init-file "/Users/jo/.emacs-async-init.el")
 ;; try this for gplots evaluation
 (setq org-babel-use-quick-and-dirty-noweb-expansion t)
-;; org-journal settings:
-;2(require 'org-journal)
-;2(setq org-journal-dir "/Users/jo/org-files/journal/")
-;2(global-set-key (kbd "C-c C-n") 'org-journal-new-entry)
-;;
-;; For update to orgmode 9.0
-(defun org-repair-export-blocks ()
-  "Repair export blocks and INCLUDE keywords in current buffer."
-  (interactive)
-  (when (eq major-mode 'org-mode)
-    (let ((case-fold-search t)
-          (back-end-re (regexp-opt
-                        '("HTML" "ASCII" "LATEX" "ODT" "MARKDOWN" "MD" "ORG"
-                          "MAN" "BEAMER" "TEXINFO" "GROFF" "KOMA-LETTER")
-                        t)))
-      (org-with-wide-buffer
-       (goto-char (point-min))
-       (let ((block-re (concat "^[ \t]*#\\+BEGIN_" back-end-re)))
-         (save-excursion
-           (while (re-search-forward block-re nil t)
-             (let ((element (save-match-data (org-element-at-point))))
-               (when (eq (org-element-type element) 'special-block)
-                 (save-excursion
-                   (goto-char (org-element-property :end element))
-                   (save-match-data (search-backward "_"))
-                   (forward-char)
-                   (insert "EXPORT")
-                   (delete-region (point) (line-end-position)))
-                 (replace-match "EXPORT \\1" nil nil nil 1))))))
-       (let ((include-re
-              (format "^[ \t]*#\\+INCLUDE: .*?%s[ \t]*$" back-end-re)))
-         (while (re-search-forward include-re nil t)
-           (let ((element (save-match-data (org-element-at-point))))
-             (when (and (eq (org-element-type element) 'keyword)
-                        (string= (org-element-property :key element) "INCLUDE"))
-               (replace-match "EXPORT \\1" nil nil nil 1)))))))))
-;;
 ;; Disable company mode in org buffers
 (add-hook 'org-mode-hook (lambda() (company-mode -1)))
 ;;
@@ -569,9 +408,6 @@
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 (setq markdown-header-scaling t)
 (setq markdown-hide-markup nil)
-;;(autoload 'gfm-mode "markdown-mode"
-;;   "Major mode for editing GitHub Flavored Markdown files" t)
-;;(add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
 
 ;;; * polymode
 ;;;;;;;;;;;;;;;;;;;;;;;;
@@ -587,45 +423,18 @@
 (require 'poly-R)
 (require 'poly-markdown)
 ;; (require 'poly-noweb)
-;;(require 'poly-C)
+;; (require 'poly-C)
 ;; (require 'poly-slim)
 ;; (require 'poly-erb)
-;;(require 'poly-org)
+;; (require 'poly-org)
 
 ;;; * magit
 ;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Magit, git control
 ;;
-(add-to-list 'load-path "~/.emacs.d/site-lisp/magit")
+;; (add-to-list 'load-path "~/.emacs.d/site-lisp/magit")
 (require 'magit)
-;; (require 'magit-svn)
-(setq magit-repo-dirs-depth 4)
-;;
-;;;;
-
-;;; * magithub
-;;;;;;;;;;;;;;;;;;;;;;;;
-;; Magit + github
-;;
-(require 'magithub)
-(setq magithub-feature-autoinject t)
-;;
-;;;;
-
-;;; * ox-ravel
-;;;;
-;; the ox-ravel Sweave export module
-(require 'ox-ravel)
-;;
-;;;;
-
-;;; * ssh
-;;;;;;;;;;;;;;;;;;;;;;;;;
-;; ssh
-;;
-(require 'ssh)
-(setq ssh-display-follow-current-frame t)
-(setq ssh-explicit-args '("-Y"))
+;; (setq magit-repo-dirs-depth 4)
 ;;
 ;;;;
 
@@ -661,59 +470,13 @@
 ;;
 ;;;
 
-;;; ** auto-lang
-;;;;;;;;;;;;;;;;;;;;;;;;;
-;; auto-lang to automatically set the language for ispell.
-;;
-(require 'auto-lang)
-(defun fd-switch-dictionary()
-  (interactive)
-  (let* ((dic ispell-current-dictionary)
-    	 (change (if (string= dic "deutsch8") "english" "deutsch8")))
-    (ispell-change-dictionary change)
-    (message "Dictionary switched from %s to %s" dic change)
-    ))
-
-(global-set-key (kbd "<f8>")   'fd-switch-dictionary)
-;;
-;;;;
-
-
-;;; * Other sorted and unsorted settings
-;;; ** zoom-frame
-(require 'zoom-frm)
-(global-set-key (kbd "C-x C-+") 'zoom-in)
-(global-set-key (kbd "C-x C--") 'zoom-out)
-
-;;; ** org-ioslide
-;; (add-to-list 'load-path "~/.emacs.d/site-lisp/org-ioslide")
-;; (require 'ox-ioslide)
-
-;;; ** org-tree-slide
-;; (require 'org-tree-slide)
-;; (global-set-key (kbd "<f9>") 'org-tree-slide-mode)
-;; (global-set-key (kbd "S-<f9>") 'org-tree-slide-skip-done-toggle)
-
-;;; ** epresent
-;; (require 'epresent)
-;; (global-set-key (kbd "<f6>") 'epresent-run)
-
-;;; ** arduino
-;; (setq auto-mode-alist (cons '("\\.\\(pde\\|ino\\)$" . arduino-mode) auto-mode-alist))
-;; (autoload 'arduino-mode "arduino-mode" "Arduino editing mode." t)
-
 ;;; ** perl
 (defalias 'perl-mode 'cperl-mode)
 
-;; ;;; ** psvn and framepop
-;; (add-to-list 'vc-handled-backends 'SVN)
-;; (require 'psvn)
-;; (require 'framepop)
-
 ;;; ** TAGS
-;; (visit-tags-table "~/Projects/git/TAGS")
-;; (setq tags-table-list
-;;       '("~/Projects/git/"))
+(visit-tags-table "/Users/jo/Projects/git/TAGS")
+(setq tags-table-list
+      '("/Users/jo/Projects/git/"))
 
 ;; ;;; ** Fill-Column-Indicator
 ;; Disable this vertical line for e.g. presentations.
@@ -735,24 +498,12 @@
 (add-hook 'after-change-major-mode-hook 'auto-fci-mode)
 (add-hook 'window-configuration-change-hook 'auto-fci-mode)
 
-;;; ** helm
-(add-to-list 'load-path "~/.emacs.d/site-lisp/helm")
-(require 'helm-config)
-(require 'helm)
-;; Overwrite key bindings
-(global-set-key (kbd "M-x") 'helm-M-x)
-;;(global-set-key (kbd "C-x b") 'helm-buffer-list)
-(global-set-key (kbd "C-x r b") 'helm-filtered-bookmarks)
-(global-set-key (kbd "C-x C-f") 'helm-find-files)
-(global-set-key (kbd "M-y") 'helm-show-kill-ring)
-;; bind also cmd-v to that
-;;(global-set-key (kbd "s-v") 'helm-show-kill-ring)
-;; rebind <tab> to run persistent action
-(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
-;; open helm buffer inside current window
-(setq helm-split-window-in-side-p t)
-;; Turn on helm by default
-(helm-mode 1)
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
 
 ;;; * Unsorted other settings
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -808,49 +559,10 @@
 (exec-path-from-shell-copy-env "MYSQL_HOST")
 (exec-path-from-shell-copy-env "MYSQL_USER")
 (exec-path-from-shell-copy-env "MYSQL_PASS")
+(exec-path-from-shell-copy-env "SHELL_MYSQL_HOST")
+(exec-path-from-shell-copy-env "SHELL_MYSQL_USER")
+(exec-path-from-shell-copy-env "SHELL_MYSQL_PASS")
 ;;
-
-;;;;
-;; eimp
-(require 'eimp)
-(add-hook 'image-mode-hook 'eimp-mode)
-;; (kbd "+") 'eimp-increase-image-size
-;; (kbd "-") 'eimp-decrease-image-size
-;; (kbd "<") 'eimp-rotate-image-anticlockwise
-;; (kbd ">") 'eimp-rotate-image-clockwise
-;; (kbd "B +") 'eimp-blur-image
-;; (kbd "B -") 'eimp-sharpen-image
-;; (kbd "B E") 'eimp-emboss-image
-;; (kbd "B G") 'eimp-gaussian-blur-image
-;; (kbd "B R") 'eimp-radial-blur-image
-;; (kbd "C B +") 'eimp-increase-image-brightness
-;; (kbd "C B -") 'eimp-decrease-image-brightness
-;; (kbd "C C +") 'eimp-increase-image-contrast
-;; (kbd "C C -") 'eimp-decrease-image-contrast
-;; (kbd "F ^") 'eimp-flip-image
-;; (kbd "F >") 'eimp-flop-image
-;; (kbd "F <") 'eimp-flop-image
-;; (kbd "N") 'eimp-negate-image
-
-;; ; Commands most relevant to you:
-;; (kbd "S f") 'eimp-fit-image-to-window
-;; (kbd "S h") 'eimp-fit-image-height-to-window
-;; (kbd "S w") 'eimp-fit-image-width-to-window
-
-;; (kbd "<right>") 'eimp-roll-image-right
-;; (kbd "<left>") 'eimp-roll-image-left
-;; (kbd "<up>") 'eimp-roll-image-up
-;; (kbd "<down>") 'eimp-roll-image-down
-;; (kbd "<down-mouse-1>") 'eimp-mouse-resize-image
-;; (kbd "<S-down-mouse-1>") 'eimp-mouse-resize-image-preserve-aspect
-;; (kbd "C-c C-k") 'eimp-stop-all
-
-;; ;;;;
-;; ;; windmove
-;; (global-set-key (kbd "C-c <left>") 'windmove-left)
-;; (global-set-key (kbd "C-c <right>") 'windmove-right)
-;; (global-set-key (kbd "C-c <up>") 'windmove-up)
-;; (global-set-key (kbd "C-c <down>") 'windmove-down)
 
 ;;;;
 ;; Org mode inline image size.
@@ -884,5 +596,99 @@
 ;;;;
 ;;(require 'imenu+)
 
-;; (require 'macbook-keyboard-fix)
+;;;;
+;; editorconfig
+(require 'editorconfig)
+(editorconfig-mode 1)
 
+;;;;
+;; spaceline
+(require 'spaceline-config)
+;;(spaceline-spacemacs-theme)
+(spaceline-emacs-theme)
+
+;;; ** zoom-frame
+(require 'zoom-frm)
+(add-to-list 'load-path "~/.emacs.d/site-lisp/")
+(global-set-key (kbd "C-x C-+") 'zoom-in)
+(global-set-key (kbd "C-x C--") 'zoom-out)
+
+;;; * Themes
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; Themes, load with "M-x load-theme"
+(add-to-list 'load-path "~/.emacs.d/themes/")
+(add-to-list 'load-path "~/.emacs.d/themes/gruvbox2/")
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/gruvbox2/")
+;(load-theme 'zenburn t)
+;(load-theme 'leuven t)
+;(load-theme 'mccarthy t)
+;; solarized customization
+;; make the fringe stand out from the background
+;(setq solarized-distinct-fringe-background t)
+;; make the modeline high contrast
+;;(setq solarized-high-contrast-mode-line t)
+;;;;;;;;;;;;;
+;;
+;; flatui:
+;; (setq flatui-high-contrast-mode-line t)
+;; (setq flatui-high-contrast-mode-line nil)
+;; ;; (setq flatui-use-variable-pitch nil)
+;; (setq flatui-scale-org-headlines t)
+;; (setq flatui-height-plus-1 1.07)
+;; (setq flatui-height-plus-2 1.12)
+;; (setq flatui-height-plus-3 1.16)
+;; (setq flatui-height-plus-4 1.22)
+;; presentation mode:
+;; (setq flatui-height-plus-1 1.12)
+;; (setq flatui-height-plus-2 1.16)
+;; (setq flatui-height-plus-3 1.22)
+;; (setq flatui-height-plus-4 1.30)
+;; ;; Use high contrast code block header background (or not)
+;; (setq flatui-high-contrast-code-block-header t)  ;; not for presentation
+;; (load-theme 'flatui-light t)
+;; (load-theme 'flatui-dark t)
+;;
+;; gruvbox
+(setq gruvbox-high-contrast-mode-line t)
+(setq gruvbox-high-contrast-code-block-header t)
+;; (setq gruvbox-use-variable-pitch nil)
+(setq gruvbox-scale-org-headlines t)
+(setq gruvbox-height-plus-1 1.12)
+(setq gruvbox-height-plus-2 1.16)
+(setq gruvbox-height-plus-3 1.22)
+(setq gruvbox-height-plus-4 1.30)
+(load-theme 'gruvbox-dark-medium t)
+;;
+;; atom-one-dark
+;; (load-theme 'atom-one-dark t)
+;;
+;; spacemacs-theme
+;; (load-theme 'spacemacs-dark t)
+;; 
+;; creamsody
+;; (load-theme 'creamsody t)
+;; (creamsody-modeline-four)
+;;;
+;;;;
+
+;;; * theme-changer
+;; (setq calendar-location-name "Brixen, It") 
+;; (setq calendar-latitude 46.71)
+;; (setq calendar-longitude 11.65)
+;; (require 'theme-changer)
+;; ;; (setq theme-changer-mode "color-theme")
+;; ;; (change-theme 'sanityinc-tomorrow-day 'sanityinc-tomorrow-eighties)
+;; (change-theme 'doom-nord-light 'doom-nord)
+;; ;; (change-theme 'flatui-light 'gruvbox-dark-medium)
+;; ;; dark: flatui-dark, gruvbox-dark-medium sanityinc-tomorrow-eighties
+;; ;; light: flatui-light, gruvbox-light-hard sanityinc-tomorrow-day
+
+;;; adapt theme to system settings (works only with emacs-plus
+(add-hook 'ns-system-appearance-change-functions
+          #'(lambda (appearance)
+              (mapc #'disable-theme custom-enabled-themes)
+              (pcase appearance
+                ('light (load-theme 'gruvbox-light-hard t))
+                ('dark (load-theme 'gruvbox-dark-medium t)))))
