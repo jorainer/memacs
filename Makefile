@@ -75,9 +75,11 @@ all : createdirs fetch emacs
 
 emacs : core addons
 
-core : createdirs auctex org-async org dash execpath md poly treepy graphql hydra git-modes with-editor ghub apiwrap ghub-plus transient fci ilist editorconfig
+core : createdirs org-async org dash execpath md poly treepy graphql hydra git-modes with-editor ghub apiwrap ghub-plus transient fci ilist editorconfig
 
 addons : createdirs fuzzy popup company-mode helm-company auto-lang other org-bullets arduino ravel org-journal s f ioslide org-tree-slide epresent org-sync async helm powerline autothemer macfix spaceline nyan-mode theme-changer julia-emacs
+
+obsolete : auctex
 
 ###############
 arduino :
@@ -487,7 +489,7 @@ other :
 	${ELCC} -f batch-byte-compile src/other/fixpath.el
 	${ELCC} -f batch-byte-compile src/other/frame-fns.el
 #	${ELCC} -batch -f batch-byte-compile other/frame-cmds.el
-	${ELCC} -f batch-byte-compile src/other/framepop.el
+#	${ELCC} -f batch-byte-compile src/other/framepop.el
 	${ELCC} -f batch-byte-compile src/other/import-env-from-shell.el
 #	${ELCC} -batch -f batch-byte-compile other/osx-itunes.el
 	${ELCC} -f batch-byte-compile src/other/psvn.el
