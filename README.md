@@ -16,9 +16,9 @@ installed with [homebrew](https://brew.sh/):
 
 ## Packages
 
-Manually copy *src/zoom-frm.el* to `~/.emacs.d/site-list`. All other packages
-are installed with `package-install` from ELPA/MELPA/ORG. To enable the required
-repositories put this into the `.emacs` file:
+Manually copy all files from the `src` directory to `~/.emacs.d/site-list`. All
+other packages are installed with `package-install` from ELPA/MELPA/ORG. To
+enable the required repositories put this into the `.emacs` file:
 
 ```
 (require 'package)

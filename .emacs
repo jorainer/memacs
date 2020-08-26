@@ -608,8 +608,8 @@
 (spaceline-emacs-theme)
 
 ;;; ** zoom-frame
-(require 'zoom-frm)
 (add-to-list 'load-path "~/.emacs.d/site-lisp/")
+(require 'zoom-frm)
 (global-set-key (kbd "C-x C-+") 'zoom-in)
 (global-set-key (kbd "C-x C--") 'zoom-out)
 
