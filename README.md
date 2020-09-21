@@ -38,6 +38,7 @@ The packages (ideally installed in that order):
 - `helm-company`
 - `helm-bibtex`
 - `ess`
+- `company-rtags`
 - `exec-path-from-shell`
 - `markdown-mode`
 - `markdown-preview-mode`
