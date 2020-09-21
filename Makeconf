@@ -1,0 +1,4 @@
+# Site specific configurations.
+
+# that's where we will install most of the packages (ess, etc)
+PREFIX=${HOME}/.emacs.d

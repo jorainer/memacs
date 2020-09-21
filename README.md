@@ -16,7 +16,7 @@ installed with [homebrew](https://brew.sh/):
 
 ## Packages
 
-Manually copy all files from the `src` directory to `~/.emacs.d/site-list`. All
+Manually copy all files from the `src` directory to `~/.emacs.d/site-lisp`. All
 other packages are installed with `package-install` from ELPA/MELPA/ORG. To
 enable the required repositories put this into the `.emacs` file:
 
