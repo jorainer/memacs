@@ -52,6 +52,8 @@ The packages (ideally installed in that order):
 - `spaceline`
 - `auto-dictionary`
 - `fill-column-indicator`
+- `yaml-mode`
+- `dockerfile-mode`
 
 
 ## Themes
