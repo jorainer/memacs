@@ -24,13 +24,12 @@ enable the required repositories put this into the `.emacs` file:
 (require 'package)
 (add-to-list 'package-archives
              '("melpa-stable" . "https://stable.melpa.org/packages/") t)
-(add-to-list 'package-archives
-	     '("org" . "https://orgmode.org/elpa/") t)
 (package-initialize)
 ```
 
 The packages (ideally installed in that order):
 
+- `use-package`
 - `org-plus-contrib`
 - `org-bullets`
 - `bibtex-completion`
